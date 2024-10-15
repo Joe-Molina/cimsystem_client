@@ -7,9 +7,9 @@ import { InfoFamilia } from "./components/InfoFamilia";
 
 export default async function SociosJunta({ params }: { params: { accion: string } }) {
   try {
-    const socios: Socio[] = (await axios.get('http://localhost:3000/socios')).data
+    const socios: Socio[] = (await axios.get('http://10.10.1.4:3000/socios')).data
 
-    const socio: infoSocios = (await axios.get(`http://localhost:3000/socios/info/${params.accion}`)).data
+    const socio: infoSocios = (await axios.get(`http://10.10.1.4:3000/socios/info/${params.accion}`)).data
 
     const sociosSin0 = socios.filter(i => i.accion !== "00000")
 

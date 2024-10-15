@@ -16,28 +16,6 @@ interface AlertDialogProps {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const PhotoFamiliar: React.FC<AlertDialogProps> = ({ familiar }) => {
 
-  // const [statusPhoto, setStatusPhoto] = useState(false)
-
-  // useEffect(() => {
-
-  //   async function call() {
-  //     const tumama = await fetch(`http://10.10.1.2:8080/images_socios/${familiar.ced_fam}.jpg`)
-
-  //     if (tumama) {
-  //       setStatusPhoto(true)
-  //     } else {
-  //       setStatusPhoto(false)
-  //     }
-
-  //     console.log(tumama)
-  //   }
-  //   call()
-
-  // }, [familiar.ced_fam])
-
-
-  // console.log(statusPhoto)
-
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
