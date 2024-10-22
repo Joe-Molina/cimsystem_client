@@ -38,14 +38,14 @@ export const Buscador: React.FC<BuscadorProps> = ({ socios }) => {
       <div className='h-full overflow-y-auto scrollbar '>
         {!stwich ?
           results.map((socio: Socio) => (
-            <Link className='flex flex-col p-2 border-y hover:bg-zinc-200 transition hover:text-zinc-950' href={`/socios-junta/${socio.accion}`} key={socio.accion} >
+            <Link className='flex flex-col p-2 border-y hover:bg-zinc-200 transition hover:text-zinc-950' href={`/informacion/socios/${socio.accion}`} key={socio.accion} >
               <p className='text-end'>{socio.accion}</p>
               <p className='text-xs'>{socio.nombre}</p>
             </Link>
           ))
           :
           resultsCodigo.map((socio: Socio) => (
-            <Link className='flex flex-col p-2 border-y hover:bg-zinc-200 transition hover:text-zinc-950' href={`/socios-junta/${socio.accion}`} key={socio.accion} >
+            <Link className='flex flex-col p-2 border-y hover:bg-zinc-200 transition hover:text-zinc-950' href={`/informacion/socios/${socio.accion}`} key={socio.accion} >
               <p className='text-end'>{socio.accion}</p>
               <p className='text-xs'>{socio.nombre}</p>
             </Link>

@@ -83,12 +83,12 @@ export function FormSession() {
           </CardHeader>
           <CardContent className="space-y-2">
             <div className="space-y-1">
-              <Label htmlFor="name">Username:</Label>
-              <Input id="name" placeholder="Username..." onChange={handleChangeUsername} />
+              <Label htmlFor="name">Usuario:</Label>
+              <Input id="name" placeholder="Usuario ..." onChange={handleChangeUsername} required />
             </div>
             <div className="space-y-1">
-              <Label htmlFor="password">Contraseña</Label>
-              <Input id="password" type="password" placeholder="contraseña..." onChange={handleChangePassword} />
+              <Label htmlFor="password">Contraseña:</Label>
+              <Input id="password" type="password" placeholder="contraseña ..." onChange={handleChangePassword} required />
             </div>
           </CardContent>
           <CardFooter>
@@ -106,16 +106,16 @@ export function FormSession() {
           </CardHeader>
           <CardContent className="space-y-2">
             <div className="space-y-1">
-              <Label htmlFor="current">ususario</Label>
-              <Input id="current" type="text" onChange={handleChangeUsername} />
+              <Label htmlFor="current">Usuario</Label>
+              <Input id="current" type="text" placeholder="Usuario ..." onChange={handleChangeUsername} required />
             </div>
             <div className="space-y-1">
-              <Label htmlFor="current2">email</Label>
-              <Input id="current2" type="email" onChange={handleChangeEmail} />
+              <Label htmlFor="current2">Email</Label>
+              <Input id="current2" type="email" placeholder="Email ..." onChange={handleChangeEmail} required />
             </div>
             <div className="space-y-1">
-              <Label htmlFor="new">contraseña</Label>
-              <Input id="new" type="password" onChange={handleChangePassword} />
+              <Label htmlFor="new">Contraseña</Label>
+              <Input id="new" type="password" placeholder="Contraseña ..." onChange={handleChangePassword} required />
             </div>
           </CardContent>
           <CardFooter>

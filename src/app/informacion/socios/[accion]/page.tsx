@@ -16,7 +16,7 @@ export default async function SociosJunta({ params }: { params: { accion: string
     console.log(socio)
 
     return (
-      <section className="flex flex-row h-full mx-5 my-5 border border-zinc-300 rounded-xl overflow-hidden">
+      <section className="flex flex-row h-full  border border-zinc-300 rounded-xl overflow-hidden bg-white">
         <article className="h-full flex  w-1/6 border-r border-zinc-300 rounded-l-xl overflow-hidden">
           <Buscador socios={sociosSin0} />
         </article>
