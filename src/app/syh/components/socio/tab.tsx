@@ -8,8 +8,8 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 import InfoSocios from "./tabSections/infoSocios"
-import InfoFamiliares from '@/syh/components/socio/tabSections/infoFamiliares'
-import Back from '@/syh/components/header/BackButton'
+import InfoFamiliares from '@/app/syh/components/socio/tabSections/infoFamiliares'
+import Back from '@/app/syh/components/header/BackButton'
 import Link from 'next/link'
 import { useState } from 'react'
 
@@ -34,7 +34,7 @@ export function TabsDemo({ familiares, socio }: any) {
           <div>
             <div className="flex justify-between">
               <Back />
-              <Link href={"/facturas/" + socio.codigo} className="px-4 py-1 text-zinc-500  rounded-md m-4 hover:scale-105 transition shadow-md border border-zinc-300" onClick={handleCLick2}>facturas</Link>
+              <Link href={"/syh/facturas/" + socio.codigo} className="px-4 py-1 text-zinc-500  rounded-md m-4 hover:scale-105 transition shadow-md border border-zinc-300" onClick={handleCLick2}>facturas</Link>
             </div>
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="Informacion personal">Informacion personal</TabsTrigger>

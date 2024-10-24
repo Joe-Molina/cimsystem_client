@@ -8,6 +8,11 @@ const nextConfig = {
         port: '8080',
         pathname: '/images_socios/**',
       },
+      {
+        protocol: 'http',
+        hostname: 'cimnet.com',
+        pathname: '/fotocarnet/**',
+      },
     ],
   },
 };

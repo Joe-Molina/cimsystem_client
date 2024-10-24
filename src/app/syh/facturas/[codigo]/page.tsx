@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import Back from '@/syh/components/header/BackButton'
+import Back from '@/app/syh/components/header/BackButton'
 
 async function FacturaSocioPage({ params: { codigo } }: { params: { codigo: string } }) {
 

@@ -1,4 +1,4 @@
-import { TabsDemo } from '@/syh/components/socio/tab'
+import { TabsDemo } from '@/app/syh/components/socio/tab'
 import React from 'react'
 
 async function socioPage({ params: { codigo } }: { params: { codigo: string } }) {
