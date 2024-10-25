@@ -1,29 +1,30 @@
-import Image from 'next/image';
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import './vista.css'
 import React from 'react';
 import { useIpContext } from '../inicio/hooks/useIp';
 
 
 const ImageOrVideo = ({ currentImage, fadeIn }: any) => {
-    const { IpState } = useIpContext()
+  const { IpState } = useIpContext()
 
-    if (currentImage.type === "img") {
-        return (
-            <div className='h-full'>
+  if (currentImage.type === "img") {
+    return (
+      <div className='h-full'>
 
-                <img
-                    src={IpState + '/fotos/' + currentImage.name}
-                    alt="Image"
-                    className={`h-full mx-auto  ${fadeIn}`}
-                    key={currentImage.name}
-                />
-            </div>
-        );
-    } else {
-        return (
-            <video src={IpState + '/fotos/' + currentImage.name} className={`h-full mx-auto ${fadeIn}`} muted autoPlay key={currentImage.name} />
-        );
-    }
+        <img
+          src={IpState + '/fotos/' + currentImage.name}
+          alt="Image"
+          className={`h-full mx-auto  ${fadeIn}`}
+          key={currentImage.name}
+        />
+      </div>
+    );
+  } else {
+    return (
+      <video src={IpState + '/fotos/' + currentImage.name} className={`h-full mx-auto ${fadeIn}`} muted autoPlay key={currentImage.name} />
+    );
+  }
 };
 
 export default ImageOrVideo;
