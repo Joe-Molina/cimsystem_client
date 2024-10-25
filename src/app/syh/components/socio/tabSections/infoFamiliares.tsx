@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 import {
   AlertDialog,
   AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
@@ -10,7 +10,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { Button } from "@/components/ui/button"
 import Image from 'next/image'
 
 const parentezco: any = {
@@ -55,6 +54,7 @@ const parentezco: any = {
 }
 
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const FamiliarCard = (data: any) => {
 
   const dataF = data.data
@@ -128,6 +128,7 @@ const FamiliarCard = (data: any) => {
 
 
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function InfoFamiliares(dataFamiliares: any) {
 
   const datosFamilia = dataFamiliares.dataFamiliares

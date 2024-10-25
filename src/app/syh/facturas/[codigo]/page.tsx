@@ -38,6 +38,7 @@ async function FacturaSocioPage({ params: { codigo } }: { params: { codigo: stri
         <TableBody>
 
           {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             facturas.map((dato: any, index: any) => (
               dato.tipodoc == "FAC" &&
               <TableRow key={index} className={dato.estatusdoc != 2 ? 'bg-red-700 hover:bg-red-800 text-white ' : ''}>
