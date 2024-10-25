@@ -12,7 +12,7 @@ import Back from '@/app/syh/components/header/BackButton'
 
 async function FacturaSocioPage({ params: { codigo } }: { params: { codigo: string } }) {
 
-  const data = await fetch(`http://localhost:3010/facturas/${codigo}`)
+  const data = await fetch(`http://10.10.1.4:3010/facturas/${codigo}`)
 
   const { facturas } = await data.json()
 
