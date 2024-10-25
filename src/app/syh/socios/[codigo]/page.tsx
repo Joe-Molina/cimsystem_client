@@ -4,7 +4,7 @@ import React from 'react'
 async function socioPage({ params: { codigo } }: { params: { codigo: string } }) {
 
 
-  const data = await fetch(`http://localhost:3002/socio/${codigo}`)
+  const data = await fetch(`http://localhost:3010/socio/${codigo}`)
 
   const { familiares, socio } = await data.json()
 
