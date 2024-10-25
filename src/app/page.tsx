@@ -34,7 +34,7 @@ export default function Home() {
         <LinkCard url='/informacion/socios/00001' img="/fotos/cim.jpg" nombre="informacion sobre socios" />
         <LinkCard url='/cumples' img="/fotos/cim.jpg" nombre="cumpleanos socios" />
         <LinkCard url='/cobranza' img="/fotos/cim.jpg" nombre="cobranza" />
-        <LinkCard url='/monitores' img="/fotos/cim.jpg" nombre="Monitores" />
+        <LinkCard url='/mediacim' img="/fotos/cim.jpg" nombre="Mediacim" />
       </article>
     </main>
 
