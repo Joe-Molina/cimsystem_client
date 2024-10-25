@@ -7,13 +7,12 @@ interface linkCard {
   img: string
 }
 
-function LinkCard({ url, img, nombre }: linkCard) {
+function LinkCard({ url, nombre }: linkCard) {
 
   return (
     <Link href={url} className="" >
-      <div className='flex flex-col h-72 w-56 items-center justify-between rounded-md shadow-xl  bg-stone-950 text-white hover:scale-105 transition' >
-        <div className="font-bold w-full flex justify-center items-center  h-1/6">{nombre}</div>
-        <Image src={img} alt={"logo"} width={400} height={400} className="w-full h-5/6 rounded-b-md " />
+      <div className='flex flex-col w-96 h-56 items-center justify-between rounded-md shadow-md  bg-gradient-to-br from-green-100 to-green-200 text-green-500 text-3xl font-thin hover:scale-105 transition' >
+        <div className="font-normal w-full flex p-5 items-center  h-1/6">{nombre}</div>
       </div>
     </Link>
   )
@@ -29,12 +28,13 @@ export default function Home() {
         <Image src={"/fotos/logocim.png"} alt={"logo"} width={50} height={50} className="ml-3" />
         <p className="font-bold text-2xl ml-3">CIMSystem</p>
       </header>
-      <article className="h-full p-5 flex justify-center mt-20 gap-7">
+      <article className="h-full p-5 flex flex-wrap justify-center mt-20 gap-10">
 
         <LinkCard url='/syh/socios' img="/fotos/cim.jpg" nombre="syh" />
-        <LinkCard url='/cumples' img="/fotos/cim.jpg" nombre="cumple" />
+        <LinkCard url='/informacion/socios/00001' img="/fotos/cim.jpg" nombre="informacion sobre socios" />
+        <LinkCard url='/cumples' img="/fotos/cim.jpg" nombre="cumpleanos socios" />
         <LinkCard url='/cobranza' img="/fotos/cim.jpg" nombre="cobranza" />
-        <LinkCard url='/otracosa' img="/fotos/cim.jpg" nombre="syh" />
+        <LinkCard url='/monitores' img="/fotos/cim.jpg" nombre="Monitores" />
       </article>
     </main>
 

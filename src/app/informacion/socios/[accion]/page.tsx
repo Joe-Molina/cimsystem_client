@@ -1,8 +1,8 @@
 import axios from "axios";
-import { Buscador } from "./components/buscarSocio"
+import { Buscador } from "../../components/buscarSocio"
 import { infoSocios, Socio } from "@/types";
-import { InfoSocio } from "./components/InfoSocio"
-import { InfoFamilia } from "./components/InfoFamilia";
+import { InfoSocio } from "../../components/InfoSocio"
+import { InfoFamilia } from "../../components/InfoFamilia";
 // import { InfoPersonal } from "./components/datosPersonales";
 
 export default async function SociosJunta({ params }: { params: { accion: string } }) {
