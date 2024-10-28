@@ -32,6 +32,7 @@ async function FacturaSocioPage({ params: { codigo } }: { params: { codigo: stri
             <TableHead>Proveedor</TableHead>
             <TableHead>cantidad</TableHead>
             <TableHead>emisor</TableHead>
+            <TableHead>nombre cli</TableHead>
             <TableHead className="text-right">Monto total</TableHead>
           </TableRow>
         </TableHeader>
@@ -49,6 +50,7 @@ async function FacturaSocioPage({ params: { codigo } }: { params: { codigo: stri
                 <TableCell>{dato.proveedor}</TableCell>
                 <TableCell>{dato.cantidad}</TableCell>
                 <TableCell >{dato.emisor}</TableCell>
+                <TableCell >{dato.nombrecli}</TableCell>
                 <TableCell className="text-right">{dato.montototal}</TableCell>
               </TableRow>
 

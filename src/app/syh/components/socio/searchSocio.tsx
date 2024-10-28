@@ -75,8 +75,12 @@ export const Buscador = ({ socios }: Socios) => {
                 :
                 resultsCodigo.map((socio: SocioSearch) => (
                   <Link className='flex my-2 ' href={`/syh/socios/${socio.codigo}`} key={socio.codigo} onClick={handleCLick2}>
-                    <p className='py-1 px-3 text-sm rounded-md mx-2 font-thin bg-zinc-600 text-zinc-100  w-24 text-center'>{socio.codigo}</p>
-                    <p className='py-1 px-3 text-sm rounded-md mx-2 shadow-sm hover:bg-gray-200 '>{socio.nombre}</p>
+                    <div className='flex flex-col w-72 h-24 justify-center rounded-md shadow-sm p-3 bg-white' >
+
+                      <div className=' text-sm rounded-md shadow-sm font-bold'>{socio.nombre}</div>
+                      <div className='w-28  px-3 text-sm rounded-md font-thin bg-gradient-to-r from-slate-700 to-slate-600 text-zinc-100 text-center'>{socio.codigo}</div>
+
+                    </div>
                   </Link>
                 ))
 
