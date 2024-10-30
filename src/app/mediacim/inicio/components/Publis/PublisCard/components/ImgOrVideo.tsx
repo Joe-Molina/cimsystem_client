@@ -6,12 +6,12 @@ import React from 'react'
 export const ImgOrVideo = ({ publi }: any) => {
   const { IpState } = useIpContext()
   return (
-    <div className='relative h-56 mx-auto bg-black overflow-hidden flex'>
+    <div className='relative h-full overflow-hidden flex'>
       {
         (publi.type !== "video") ?
-          <div className='h-56 w-40 mx-auto bg-black overflow-hidden flex'>
+          <div className=''>
             <a href={IpState + '/fotos/' + publi.name} target='_blank'>
-              <img src={IpState + '/fotos/' + publi.name} alt="" className='mx-auto h-full' />
+              <img src={IpState + '/fotos/' + publi.name} alt="" className=' h-full w-32 p-2 rounded-xl' />
             </a>
           </div>
           :

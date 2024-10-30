@@ -20,7 +20,7 @@ export function IconHeader({ linkPhoto, text, href }: IconInterface) {
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Link href={href} className=" p-3 border-b border-neutral-300 "><Image src={linkPhoto} className="hover:scale-105 transition" alt="cumple" width={35} height={35} ></Image></Link>
+          <Link href={href} className="h-12 p-3 border-b border-neutral-300 "><Image src={linkPhoto} className="transition" alt="cumple" width={35} height={35} ></Image></Link>
         </TooltipTrigger>
         <TooltipContent>
           <p>{text}</p>

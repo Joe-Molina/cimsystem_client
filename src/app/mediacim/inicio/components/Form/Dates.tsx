@@ -25,7 +25,7 @@ const SetDate = ({ setDates, start, state }: props) => {
   return (
     <>
       <Popover>
-        <div className='flex items-center gap-1 text-sm font-medium'> <PopoverTrigger><div className='bg-neutral-900/70  border border-neutral-700 w-7 h-7 flex justify-center items-center rounded-sm '><Image src={`/iconos/${start ? "up.svg" : "down.svg"}`} alt='' width={20} height={20} /></div></PopoverTrigger>{start ? ActualDateStart : ActualDateEnd}</div>
+        <div className='flex items-center gap-1 text-sm font-medium'> <PopoverTrigger><div className='  border  w-7 h-7 flex justify-center items-center rounded-sm '><Image src={`/iconos/${start ? "up.svg" : "down.svg"}`} alt='' width={20} height={20} /></div></PopoverTrigger>{start ? ActualDateStart : ActualDateEnd}</div>
         <PopoverContent>
           <Calendar
             mode="single"

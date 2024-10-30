@@ -1,5 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+'use client'
+
 import Image from 'next/image'
 import React, { useEffect } from 'react'
 
@@ -32,7 +34,9 @@ import {
 } from "@/components/ui/popover"
 import { useIpContext } from '@/app/mediacim/inicio/hooks/useIp'
 
-export function DatePickerWithRange({ fechaFin, fechaInicio, id }: any) {
+export function DatePickerWithRange({ fechaFin, fechaInicio, id }: any, {
+  className,
+}: React.HTMLAttributes<HTMLDivElement>) {
   const { IpState } = useIpContext()
   const { setEndDate, setStartDate } = usePostsContext()
 
@@ -54,14 +58,14 @@ export function DatePickerWithRange({ fechaFin, fechaInicio, id }: any) {
   }, [date])
 
   return (
-    <div className={cn("grid gap-2")}>
+    <div className={cn("text-black grid gap-2", className)}>
       <Popover>
         <PopoverTrigger asChild>
           <Button
             id="date"
             variant={"outline"}
             className={cn(
-              "w-[300px] justify-start text-left font-normal",
+              "w-full justify-start text-left font-normal shadow-none hover:bg-white hover:text-blue-500",
               !date && "text-muted-foreground"
             )}
           >
@@ -96,7 +100,7 @@ export function DatePickerWithRange({ fechaFin, fechaInicio, id }: any) {
 }
 
 
-export default function EditPopover({ publi, ip }: any) {
+export function EditPopover({ publi, ip }: any) {
   const { setDuration, setPosition, setStartDate, setEndDate } = usePostsContext()
 
   const [edit, setEdit] = React.useState({
@@ -131,7 +135,7 @@ export default function EditPopover({ publi, ip }: any) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className='bg-neutral-900/70  border border-neutral-700 w-7 h-7 p-0 flex justify-center items-center rounded-sm hover:bg-blue-600/10 transition' ><Image src='/iconos/edit.svg' alt='' width={20} height={20} /></Button>
+        <p className='bg-blue-500 border  w-9 h-9 p-0 flex justify-center items-center rounded-sm transition hover:bg-blue-600' ><Image src='/iconos/edit.svg' alt='' width={20} height={20} /></p>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

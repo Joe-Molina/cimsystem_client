@@ -29,7 +29,6 @@ export default function Home() {
         <p className="font-bold text-2xl ml-3">CIMSystem</p>
       </header>
       <article className="h-full p-5 flex flex-wrap justify-center mt-20 gap-10">
-
         <LinkCard url='/syh/socios' img="/fotos/cim.jpg" nombre="syh" />
         <LinkCard url='/informacion/socios/00001' img="/fotos/cim.jpg" nombre="informacion sobre socios" />
         <LinkCard url='/cumples' img="/fotos/cim.jpg" nombre="cumpleanos socios" />

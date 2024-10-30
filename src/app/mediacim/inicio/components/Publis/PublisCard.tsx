@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 import { verificarEstadoActividad } from '@/app/mediacim/inicio/services/verificarActividad'
-import { Switch } from "@/components/ui/switch"
 import Image from 'next/image'
 import { usePostsContext } from '../../hooks/usePosts'
 import { toast } from 'sonner'
 import { ImgOrVideo } from './PublisCard/components/ImgOrVideo';
-import EditPopover, { DatePickerWithRange } from './PublisCard/components/EditPopover';
+import { EditPopover, DatePickerWithRange } from './PublisCard/components/EditPopover';
 import { serviceDeletePost } from '../../services/Posts';
 import { useIpContext } from '../../hooks/useIp'
 import { useEffect } from 'react'
@@ -32,34 +31,30 @@ export const PubliCard = ({ publi }: any) => {
   }, [])
 
   return (
-    <div className='shadow-lg flex flex-col justify-between max-w-96 cover rounded-sm overflow-hidden w-72  bg-neutral-900  border border-neutral-600'>
+    <div className='flex h-52 rounded-sm border border-neutral-200 bg-slate-50'>
       <ImgOrVideo publi={publi} />
 
-      <p className='p-1 bg-neutral-950/75  px-2  border-y border-neutral-600'>{publi.name}</p>
+      <div className='flex flex-col  justify-between  p-3 w-60 max-w-80'>
+        <div className='flex w-full border-b  justify-between'>
+          <p className=' inline-block text-blue-500 font-bold text-xl overflow-hidden max-h-7'>{publi.name}</p>
+          {/* activity status */}
+          {verificarEstadoActividad(publi.fecha_inicio, publi.Fecha_Fin) ? <div className='w-2 h-2 bg-green-700 rounded-full'> </div> : <div className='w-2 h-2 bg-red-700 rounded-full'></div>}
+        </div>
+        <div className='flex w-full justify-between'>
+          {/* position */}
+          <div className='text-blue-500 font-bold bg-white  border border-neutral-200 w-20 h-20 flex justify-center items-center rounded-sm text-3xl'>{publi.position > 0 ? publi.position + ".º" : '-'}</div>
 
-      <div className=''>
-        <div className='flex my-1'>
-          <div className='flex gap-2 items-center'>
-            {/* position */}
-            <div className='bg-neutral-900/70  border border-neutral-700 w-10 h-7 flex justify-center items-center rounded-sm'>{publi.position > 0 ? publi.position + ".º" : '-'}</div>
+          {/* duration  */}
+          <p className=' text-blue-500 font-bold  border bg-white border-neutral-200 w-20 h-20  flex justify-center items-center rounded-sm text-3xl'>{publi.duration / 1000 + "s"}</p>
 
-            {/* duration  */}
-            <p className='bg-neutral-900/70  border border-neutral-700 w-9 h-7 flex justify-center items-center rounded-sm'>{publi.duration / 1000 + "s"}</p>
-
-            {/* ico img/video  */}
-            {publi.type == 'img' ? <div className='bg-neutral-900/70  border border-neutral-700 w-7 h-7 flex justify-center items-center rounded-sm'><Image src='/iconos/img.svg' alt='' width={20} height={20} /></div> : <div className='bg-neutral-900/70 border border-neutral-700 w-7 h-7 flex justify-center items-center rounded-sm'><Image src='/iconos/video.svg' alt='' width={20} height={20} /></div>}
-
-            {/* activity status */}
-            {verificarEstadoActividad(publi.fecha_inicio, publi.Fecha_Fin) ? <Switch checked={true} id="airplane-mode" className='border border-green-800 bg-green-400' /> : <Switch checked={false} id="airplane-mode" className='border border-red-800' />}
-          </div>
-          {/* delete publi  */}
-          <div className='w-full flex justify-end gap-1 items-center'>
+          <div className=' flex flex-col justify-between'>
             <EditPopover publi={publi} ip={IpState} />
-            <button className='bg-neutral-900/70  border border-neutral-700 w-7 h-7 flex justify-center items-center rounded-sm hover:bg-red-600/10 transition' onClick={() => { handleClickDetele(); }} ><Image src='/iconos/delete.svg' alt='' width={20} height={20} /></button>
+            <button className=' bg-blue-500 w-9 h-9 flex justify-center items-center rounded-sm hover:bg-blue-600 transition' onClick={() => { handleClickDetele(); }} ><Image src='/iconos/delete.svg' alt='' width={20} height={20} /></button>
           </div>
+
         </div>
         <DatePickerWithRange fechaFin={publi.Fecha_Fin} fechaInicio={publi.fecha_inicio} id={publi.id} />
-      </div>
-    </div >
+      </div >
+    </div>
   )
 }

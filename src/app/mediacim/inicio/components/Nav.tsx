@@ -11,9 +11,7 @@ export default function Nav() {
 
       <span className='w-full bg-neutral-900 border-b border-neutral-700'><Image src="/media.png" alt="" width={50} height={50} /></span>
 
-      <IconNavFunction url="./iconos/nav/add.svg" alt="add Publi" message="crear publicacion" />
 
-      <IconNavLink url="./iconos/nav/eye.svg" alt="add Publi" message="ir a vista" />
 
     </aside>
   )

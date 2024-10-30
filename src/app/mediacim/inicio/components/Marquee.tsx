@@ -3,7 +3,7 @@
 
 import React, { useEffect } from 'react'
 import { PublisCollection } from './Publis/PublisCollection'
-import { BannersCollection } from './Publis/BannersCollection'
+// import { BannersCollection } from './Publis/BannersCollection'
 import { usePostsContext } from '../hooks/usePosts'
 import { getPosts } from '../services/Posts'
 
@@ -16,6 +16,8 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { useIpContext } from '../hooks/useIp'
+import IconNavFunction from './nav/IconNav'
+import IconNavLink from './nav/IconNavLink'
 
 export function SelectIp() {
   const { setIp } = useIpContext()
@@ -55,22 +57,22 @@ function Marquee() {
 
   //<button onClick={() => { console.log(postsState.Posts) }} >posts state</button>
   return (
-    <section className=" lg:[grid-area:main]  bg-neutral-900 overflow-auto">
-      <div className='flex h-full w-full flex-col '>
-        <div className='bg-neutral-950 flex justify-around items-center px-2 h-[53px] w-full border-b border-neutral-700' >
-          <p className='font-2xl font-bold'>MediaCIM Web</p>
-          <SelectIp />
+    <article className="[grid-area:main]">
+      <div className="w-full bg-white border-b border-zinc h-12 font-bold flex justify-center items-center text-blue-500">MediaCim</div>
+      <div className='flex w-full flex-col max-w-[1400px] m-auto h-[93vh]'>
+        <div className=' flex justify-between  items-center py-1 ' >
+          <div className='flex items-center'>
+            <SelectIp />
+            <IconNavFunction url="./iconos/plus.svg" alt="add Publi" message="crear publicacion" />
+          </div>
+          <IconNavLink url="./iconos/nav/eye.svg" alt="add Publi" message="ir a vista" />
         </div>
 
-        <div className='bg-neutral-950 h-[95%] m-3 border rounded-md overflow-auto'>
-          <h2 className='font-medium text-2xl pl-3 py-2 border-b '>Publicaciones</h2>
+        <div className='rounded-md overflow-y-auto border py-4'>
           <PublisCollection />
-          <h2 className='font-medium text-2xl pl-3 py-2 border-b '>Banners</h2>
-          <BannersCollection />
         </div>
-
       </div>
-    </section>
+    </article>
   )
 }
 
