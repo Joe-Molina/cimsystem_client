@@ -30,7 +30,7 @@ export default function Home() {
       </header>
       <article className="h-full p-5 flex flex-wrap justify-center mt-20 gap-10">
         <LinkCard url='/syh/socios' img="/fotos/cim.jpg" nombre="syh" />
-        <LinkCard url='/informacion/socios/00001' img="/fotos/cim.jpg" nombre="informacion sobre socios" />
+        <LinkCard url='/informacion/socios/' img="/fotos/cim.jpg" nombre="informacion sobre socios" />
         <LinkCard url='/cumples' img="/fotos/cim.jpg" nombre="cumpleanos socios" />
         <LinkCard url='/cobranza' img="/fotos/cim.jpg" nombre="cobranza" />
         <LinkCard url='/mediacim' img="/fotos/cim.jpg" nombre="Mediacim" />
