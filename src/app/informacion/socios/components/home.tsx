@@ -53,7 +53,7 @@ export const HomeSocios: React.FC<BuscadorProps> = ({ socios }) => {
 
     setTimeout(() => {
       setLoad(false)
-    }, 500);
+    }, 1000);
 
     console.log(load)
 
