@@ -27,6 +27,13 @@ export interface Socio {
   fecha_nac: string
 }
 
+export interface SocioSyh {
+  codigo: string
+  nombre: string
+  cedula: string
+  tipo: string
+}
+
 export interface familiares {
   accion: string,
   nom_fam: string,
@@ -61,6 +68,10 @@ export interface infoSocios {
 
 export interface BuscadorProps {
   socios: Socio[]; // Aquí defines que `socios` es un array de `Socio`
+}
+
+export interface BuscadorPropsSyh {
+  socios: SocioSyh[]; // Aquí defines que `socios` es un array de `Socio`
 }
 
 export interface InfoSociosProps {

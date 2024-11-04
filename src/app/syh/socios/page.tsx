@@ -1,17 +1,15 @@
-import React from 'react'
-import { Buscador } from '../components/socio/searchSocio';
+import { SocioSyh } from "@/types"
+import axios from "axios"
+import { HomeSocios } from "@/app/syh/socios/components/home"
 
-const SociosPage = async () => {
+export default async function Socios() {
 
-  const data = await fetch("http://10.10.1.4:3010/socios")
-
-  const socios = await data.json()
-
-  console.log(socios)
+  const socios: SocioSyh[] = (await axios.get('http://10.10.1.4:3010/socios')).data
 
   return (
-    <Buscador socios={socios} />
+    <article className="[grid-area:main]">
+      <div className="w-full bg-white border-b border-zinc h-12 font-bold flex justify-center items-center text-blue-500">Ficha Socios SYH</div>
+      <HomeSocios socios={socios} />
+    </article>
   )
 }
-
-export default SociosPage

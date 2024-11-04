@@ -54,8 +54,11 @@ export const NavBarFichaSocio: React.FC<BusquedaInterface> = ({ setBusqueda, bus
 
 
   return (
-    <div className=' flex py-3 justify-between w-full max-w-[1400px] m-auto sticky top-0 bg-white z-50 ' >
-      <div className="flex gap-2 ">
+    <div className='flex flex-col py-3 justify-between w-full max-w-[1400px] m-auto sticky top-0 bg-white z-50 ' >
+      <div className="h-12 w-full bg-yellow-50 flex justify-center items-center font-bold text-yellow-500 my-2">
+        ATENCION - ESTOS DATOS PERTECEN AL SISTEMA ANTIGUO SYH, SI NECESITA DATOS ACTUALIZADOS PRESIONE EL BOTON (DATOS ACTUALIZADOS)
+      </div>
+      <div className="flex gap-2 justify-between">
         <Input type="text" placeholder="Buscar..." className="w-80" onChange={manejarBusqueda} />
         <section className="flex border h-9 rounded-sm items-center gap-2 p-2 shadow-sm">
           <SetTypeButton busquedaType={busquedaType} setBusquedaType={setBusquedaType} label={"accion"} />
@@ -63,8 +66,8 @@ export const NavBarFichaSocio: React.FC<BusquedaInterface> = ({ setBusqueda, bus
           <SetTypeButton busquedaType={busquedaType} setBusquedaType={setBusquedaType} label={"Nombre"} />
           <SetTypeButton busquedaType={busquedaType} setBusquedaType={setBusquedaType} label={"Familiar"} />
         </section>
+        <Link className="border  h-9 rounded-sm px-2 text-zinc-400 shadow-sm hover:bg-zinc-50 flex justify-center items-center" href='/informacion/socios'>Datos Actualizados</Link>
       </div>
-      <Link className="border  h-9 rounded-sm px-2 text-zinc-400 shadow-sm hover:bg-zinc-50 flex justify-center items-center" href='/syh/socios'>Sistema antiguo</Link>
     </div >
   )
 }
