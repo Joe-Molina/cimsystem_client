@@ -24,7 +24,8 @@ export interface Socio {
   profesion: string,
   nota: string,
   fecha_ing: string,
-  fecha_nac: string
+  fecha_nac: string,
+  tipo_razon: string
 }
 
 export interface SocioSyh {
@@ -75,5 +76,6 @@ export interface BuscadorPropsSyh {
 }
 
 export interface InfoSociosProps {
+  socios: Socio[];
   data: infoSocios; // Aquí defines que `socios` es un array de `Socio`
 }

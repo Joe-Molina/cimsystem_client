@@ -1,9 +1,9 @@
 import axios from "axios";
-import { Buscador } from "../../components/buscarSocio"
+// import { Buscador } from "../../components/buscarSocio"
 import { infoSocios, Socio } from "@/types";
-import { InfoSocio } from "../../components/InfoSocio"
-import { InfoFamilia } from "../../components/InfoFamilia";
-// import { InfoPersonal } from "./components/datosPersonales";
+// import { InfoSocio } from "../../components/InfoSocio"
+// import { InfoFamilia } from "../../components/InfoFamilia";
+import { BuscarSocios } from "../components/buscarSocioDesdeFicha";
 
 export default async function SociosJunta({ params }: { params: { accion: string } }) {
   try {
@@ -11,20 +11,14 @@ export default async function SociosJunta({ params }: { params: { accion: string
 
     const socio: infoSocios = (await axios.get(`http://10.10.1.4:3000/socios/info/${params.accion}`)).data
 
-    const sociosSin0 = socios.filter(i => i.accion !== "00000")
+    const sociosSin0 = socios.filter(i => i.accion !== "00000" || "000000" || "0000")
 
-    console.log(socio)
 
     return (
-      <section className="flex flex-row h-full  border border-zinc-300 rounded-xl overflow-hidden bg-white">
-        <article className="h-full flex  w-1/6 border-r border-zinc-300 rounded-l-xl overflow-hidden">
-          <Buscador socios={sociosSin0} />
-        </article>
-        <article className=" flex w-5/6 h-full rounded-r-xl">
-          <InfoSocio data={socio} />
-          <InfoFamilia data={socio} />
-        </article>
-      </section>
+      <article className="[grid-area:main]">
+        <div className="w-full bg-white border-b border-zinc h-12 font-bold flex justify-center items-center text-blue-500">Ficha Socios</div>
+        <BuscarSocios socios={sociosSin0} data={socio} />
+      </article>
 
     );
   } catch (error: unknown) {

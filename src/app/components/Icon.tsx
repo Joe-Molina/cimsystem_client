@@ -1,5 +1,10 @@
 import Link from "next/link";
-import Image from "next/image";
+// import Image from "next/image";
+import "@/app/globals.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { IconLookup } from '@fortawesome/free-solid-svg-icons'
+
+
 import {
   Tooltip,
   TooltipContent,
@@ -8,19 +13,20 @@ import {
 } from "@/components/ui/tooltip"
 
 interface IconInterface {
-  linkPhoto: string
+  icon: IconLookup
   text: string
   href: string
 }
 
+export function IconHeader({ text, href, icon }: IconInterface) {
 
-export function IconHeader({ linkPhoto, text, href }: IconInterface) {
+
 
   return (
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Link href={href} className="h-12 p-3 border-b border-neutral-300 "><Image src={linkPhoto} className="transition" alt="cumple" width={35} height={35} ></Image></Link>
+          <Link href={href} className="flex justify-center items-center h-16  text-zinc-400"><FontAwesomeIcon icon={icon} className="h-7 w-7 text-zinc-400 hover:text-blue-500" /></Link>
         </TooltipTrigger>
         <TooltipContent>
           <p>{text}</p>
