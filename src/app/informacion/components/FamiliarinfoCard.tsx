@@ -19,11 +19,9 @@ export const PhotoFamiliar: React.FC<AlertDialogProps> = ({ familiar }) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <div className="w-52">
-          <div className="h-52 w-52 min-h-52 max-w-52 overflow-hidden rounded-sm ">
-            <Image priority src={`http://10.10.1.2:8080/images_socios/${familiar.ced_fam}.jpg`} alt="familiar" width={200} height={200} className="z-10 rounded-sm h-52 w-52 hover:scale-110 transition " />
-          </div>
-          <p className=" overflow-hidden">{familiar.nom_fam}</p>
+        <div className="flex flex-col justify-center items-center w-40 z-10">
+          <Image priority src={`http://10.10.1.2:8080/images_socios/${familiar.ced_fam}.jpg`} alt="familiar" width={200} height={200} className="h-32 w-32 rounded-lg hover:scale-105 transition z-20" />
+          <p className="text-[12px] text-center text-zinc-500">{familiar.nom_fam}</p>
         </div>
       </AlertDialogTrigger>
       <AlertDialogContent >

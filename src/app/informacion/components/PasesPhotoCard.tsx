@@ -18,12 +18,10 @@ export const PhotoPase: React.FC<AlertDialogProps> = ({ pase }) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <div className="w-52">
-          <div className="h-52 w-52 min-h-52 max-w-52 overflow-hidden rounded-sm ">
-            <Image priority src={`http://10.10.1.2:8080/images_socios/${pase.cedula}.jpg`} alt="familiar" width={200} height={200} className="z-10 rounded-sm h-52 w-52 hover:scale-110 transition " />
-          </div>
-          <p className="z-20">{pase.nombre}</p>
-        </div>
+        <button className="flex flex-col justify-between w-40">
+          <p className="text-sm text-center text-zinc-500">{pase.nombre}</p>
+          <Image priority src={`http://10.10.1.2:8080/images_socios/${pase.cedula}.jpg`} alt="familiar" width={200} height={200} className="h-40 w-40 rounded-lg hover:scale-105 transition" />
+        </button>
       </AlertDialogTrigger>
       <AlertDialogContent >
         <div className="flex">

@@ -13,7 +13,6 @@ export default async function SociosJunta({ params }: { params: { accion: string
 
     const sociosSin0 = socios.filter(i => i.accion !== "00000" || "000000" || "0000")
 
-
     return (
       <article className="[grid-area:main]">
         <div className="w-full bg-white border-b border-zinc h-12 font-bold flex justify-center items-center text-blue-500">Ficha Socios</div>
