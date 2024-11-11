@@ -5,6 +5,7 @@ import { AlertDialogDemo } from "./fotoAlert";
 import { useState } from "react";
 import { InfoFamilia } from "./InfoFamilia";
 import { InfoPases } from "./InfoPases";
+import { InfoContactos } from "./infoContactos";
 
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -73,8 +74,9 @@ export const FichaSocio: React.FC<infoSocios> = ({ socio, familiares, pases }) =
         }
       </div>
 
-      {option == "Familia" && <InfoFamilia familiares={familiares} />}
-      {option == "Pases" && <InfoPases pases={pases} />}
+      {option == "Familia" && familiares.length > 1 && <InfoFamilia familiares={familiares} />}
+      {option == "Pases" && pases.length > 1 && <InfoPases pases={pases} />}
+      {option == "Contactos" && <InfoContactos socio={socio} />}
 
     </section>
   )

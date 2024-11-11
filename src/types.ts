@@ -7,16 +7,10 @@ export interface Socio {
   sexo: number,
   nfcId: string,
   cedula: string,
-  e_mail: string,
   estado_civ: number,
   nacionalid: number,
   nacionalidad: string,
   direccion: string,
-  celular: string,
-  telefonos: string,
-  telefonos_rep: string,
-  telefonos_tra: string,
-  empresa_tra: string,
   cedula_rep: string,
   nombre_rep: string,
   cuotas_man: number,
@@ -26,6 +20,13 @@ export interface Socio {
   fecha_ing: string,
   fecha_nac: string,
   tipo_razon: string
+  empresa_tra: string,
+  e_mail: string,
+  e_mail_rep: string
+  telefonos: string,
+  telefonos_rep: string,
+  telefonos_tra: string,
+  celular: string,
 }
 
 export interface SocioSyh {

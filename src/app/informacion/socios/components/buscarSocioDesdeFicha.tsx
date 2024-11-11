@@ -63,22 +63,22 @@ export const BuscarSocios: React.FC<InfoSociosProps> = ({ socios, data }) => {
   return (
     <div className='flex  relative  w-full flex-col mx-auto h-[93vh] overflow-y-auto'>
       <NavBarFichaSocio setBusqueda={setBusqueda} busquedaType={BusquedaType} setBusquedaType={setBusquedaType} />
-      <div className=" flex flex-col fixed left-44 top-[110px] w-80 overflow-y-auto h-[84vh]">
-        {
+      {
 
-          load ?
+        load ?
 
-            busqueda != "" && <Image src={"/loader3.webp"} alt={"loader"} width={400} height={400} className="h-24 w-24" />
+          busqueda != "" && <div className=" flex flex-col fixed left-44 top-[110px] w-80 overflow-y-auto h-[84vh] " ><Image src={"/loader3.webp"} alt={"loader"} width={400} height={400} className="h-24 w-24" /></div>
 
-            :
+          :
 
-            busqueda != "" && sociosBusqueda.map((socio: Socio) => (
+          <div className=" flex flex-col fixed left-44 top-[110px] w-80 overflow-y-auto h-[84vh] " >
+            {busqueda != "" && sociosBusqueda.map((socio: Socio) => (
               <BuscarFichaCard nombre={socio.nombre} accion={socio.accion} cedula={socio.cedula} tipo_socio={socio.tipo_socio} key={socio.accion} />
-            ))
+            ))}
+          </div>
 
 
-        }
-      </div>
+      }
       <div className="flexflex-wrap gap-7 justify-center items-start max-w-[1400px] mx-auto h-full w-full ">
         <FichaSocio socio={data.socio} familiares={data.familiares} pases={data.pases} />
       </div>
