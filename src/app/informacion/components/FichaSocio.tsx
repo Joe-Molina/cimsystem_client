@@ -6,6 +6,7 @@ import { useState } from "react";
 import { InfoFamilia } from "./InfoFamilia";
 import { InfoPases } from "./InfoPases";
 import { InfoContactos } from "./infoContactos";
+import { Facturas } from "./Facturas";
 
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -24,7 +25,7 @@ export const FichaSocio: React.FC<infoSocios> = ({ socio, familiares, pases }) =
   // const { socio, familiares, pases } = data;
   const url: string = `http://10.10.1.2:8080/images_socios/${socio.cedula}.jpg`
 
-  const options = ["Contactos", "Inf.Laboral", "Familia", "Pases", "Facturacion", "Invitados"]
+  const options = ["Contactos", "Familia", "Pases", "Facturacion", "Invitados"]
 
   const [option, setOption] = useState('Contactos')
 
@@ -32,13 +33,13 @@ export const FichaSocio: React.FC<infoSocios> = ({ socio, familiares, pases }) =
   console.log(socio, familiares, pases);
   console.log(option)
   return (
-    <section className="flex flex-col items-center w-full h-80 gap-5">
-      <div className="flex gap-5">
+    <section className="flex flex-col items-center w-full h-full gap-5">
+      <div className="flex gap-5 ">
         <AlertDialogDemo url={url} accion={socio.accion} />
-        <div className="flex flex-col w-full  overflow-y-auto text-neutral-700">
-          <p className="py-3 px-1 font-semibold text-2xl text-neutral-800">{socio.nombre}</p>
+        <div className="flex flex-col  overflow-y-auto text-neutral-700">
+          <div className="py-3 px-1 font-semibold text-2xl text-neutral-800 inline-block">{socio.nombre}</div>
           <div className="flex flex-col h-full justify-between">
-            <div className="flex flex-wrap  gap-3 ">
+            <div className="flex flex-wrap  gap-x-3 ">
               <Info data={socio.accion} nombre={"Accion"} />
               <Info data={socio.cedula} nombre={"cedula"} />
               <Info data={socio.rif_tra} nombre={"RIF"} />
@@ -54,13 +55,8 @@ export const FichaSocio: React.FC<infoSocios> = ({ socio, familiares, pases }) =
               <Info data={socio.fecha_ing.slice(0, 10)} nombre={"Ingreso"} />
               <Info data={socio.nfcId} nombre={"Carnet"} />
               <Info data={socio.nota} nombre={"nota"} />
-              <Info data={socio.celular} nombre={"celular"} />
-              <Info data={socio.telefonos} nombre={"telefono"} />
-              <Info data={socio.e_mail} nombre={"Email"} />
               <Info data={socio.empresa_tra} nombre={"Profesion"} />
-              <Info data={socio.telefonos_tra} nombre={"Telefono"} />
               <Info data={socio.nombre_rep} nombre={"Nombre Rep"} />
-              <Info data={socio.telefonos_rep} nombre={"Telefono_rep"} />
             </div>
           </div>
         </div>
@@ -77,6 +73,7 @@ export const FichaSocio: React.FC<infoSocios> = ({ socio, familiares, pases }) =
       {option == "Familia" && familiares.length > 1 && <InfoFamilia familiares={familiares} />}
       {option == "Pases" && pases.length > 1 && <InfoPases pases={pases} />}
       {option == "Contactos" && <InfoContactos socio={socio} />}
+      {option == "Facturacion" && <Facturas accion={socio.accion} />}
 
     </section>
   )
