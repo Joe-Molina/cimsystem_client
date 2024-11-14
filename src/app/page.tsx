@@ -1,3 +1,5 @@
+'use client'
+
 import Image from "next/image";
 import Link from "next/link";
 import { faCakeCandles, faLaptop, faBook, faLandmark, IconLookup } from '@fortawesome/free-solid-svg-icons'
