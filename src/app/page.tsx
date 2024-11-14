@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { faCakeCandles, faLaptop, faBook, faLandmark, IconLookup } from '@fortawesome/free-solid-svg-icons'
+import { faCakeCandles, faLaptop, faBook, IconLookup } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface linkCard {
@@ -48,7 +48,7 @@ export default function Home() {
         <LinkCard url='/mediacim' icon={faLaptop} nombre="Mediacim" description={lorem} />
         <LinkCard url='/informacion/socios/' icon={faBook} nombre="informacion sobre socios" description={lorem} />
         <LinkCard url='/cumples' icon={faCakeCandles} nombre="cumpleanos socios" description={lorem} />
-        <LinkCard url='/cobranza' icon={faLandmark} nombre="cobranza" description={lorem} />
+        {/* <LinkCard url='/cobranza' icon={faLandmark} nombre="cobranza" description={lorem} /> */}
       </article>
     </main>
 
