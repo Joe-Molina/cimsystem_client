@@ -2,8 +2,6 @@
 
 import Image from 'next/image'
 import React from 'react'
-import IconNavFunction from './nav/IconNav'
-import IconNavLink from './nav/IconNavLink'
 
 export default function Nav() {
   return (

@@ -3,7 +3,7 @@
 
 import { verificarEstadoActividad } from '@/app/mediacim/inicio/services/verificarActividad'
 import { Switch } from "@/components/ui/switch"
-import EditPopover, { DatePickerWithRange } from './PublisCard/components/EditPopover';
+import { EditPopover, DatePickerWithRange } from './PublisCard/components/EditPopover';
 import { serviceDeletePost } from '../../services/Posts';
 import { useIpContext } from '../../hooks/useIp'
 import { usePostsContext } from '../../hooks/usePosts'
