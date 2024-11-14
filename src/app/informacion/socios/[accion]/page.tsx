@@ -24,7 +24,7 @@ export default async function SociosJunta({ params }: { params: { accion: string
     return (
       <div className="h-full text-center py-20 flex flex-col justify-start mt-32 items-center">
         <div className="bg-zinc-950 shadow-sm p-11 rounded-lg text-zinc-50">
-          <h1>Hubo un error al cargar los socios de la Junta</h1>
+          <h1>Hubo un error al cargar la informacion de los socios</h1>
           <p>Contacte con Soporte para corregir el problema</p>
           <p>Error: {error?.toString()}</p>
         </div>

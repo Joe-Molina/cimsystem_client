@@ -23,7 +23,7 @@ export const useFacturas = ({ accion }: useFacturasProps) => {
   useEffect(() => {
     if (!accion) return
 
-    fetch(`http://localhost:3000/facturas/${accion}`)
+    fetch(`http://10.10.1.4:3000/facturas/${accion}`)
       .then(res => res.json())
       .then(response => {
 

@@ -13,7 +13,10 @@ export default async function RootLayout2({
         <main id="app" className="relative max-h-screen h-screen">
           <NavSide />
           <article className="[grid-area:main]overflow-auto">
-            {children}
+            <div className="w-full bg-white border-b border-zinc h-12 font-bold flex justify-center items-center text-blue-500">Cumples Socios</div>
+            <div className='flex w-full flex-col mx-auto h-[93vh] overflow-y-auto'>
+              {children}
+            </div>
           </article>
         </main>
       </body>

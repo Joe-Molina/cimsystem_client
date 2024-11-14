@@ -23,7 +23,7 @@ export const useFacturasDetails = ({ numero }: useFacturasProps) => {
   useEffect(() => {
     if (!numero) return
 
-    fetch(`http://localhost:3000/facturas/detalles/${numero}`)
+    fetch(`http://10.10.1.4:3000/facturas/detalles/${numero}`)
       .then(res => res.json())
       .then(response => {
 

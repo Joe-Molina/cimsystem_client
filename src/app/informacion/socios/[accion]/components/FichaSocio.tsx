@@ -1,12 +1,13 @@
 'use client'
 
 import { infoSocios } from "@/types"
-import { AlertDialogDemo } from "./fotoAlert";
+import { AlertDialogDemo } from "../../../components/fotoAlert";
 import { useState } from "react";
-import { InfoFamilia } from "./InfoFamilia";
-import { InfoPases } from "./InfoPases";
-import { InfoContactos } from "./infoContactos";
+import { InfoFamilia } from "../../../components/InfoFamilia";
+import { InfoPases } from "../../../components/InfoPases";
+import { InfoContactos } from "../../../components/infoContactos";
 import { Facturas } from "./Facturas";
+import { Invitados } from "./TableInvitados";
 
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -29,9 +30,6 @@ export const FichaSocio: React.FC<infoSocios> = ({ socio, familiares, pases }) =
 
   const [option, setOption] = useState('Contactos')
 
-
-  console.log(socio, familiares, pases);
-  console.log(option)
   return (
     <section className="flex flex-col items-center w-full h-full gap-5">
       <div className="flex gap-5 ">
@@ -74,6 +72,7 @@ export const FichaSocio: React.FC<infoSocios> = ({ socio, familiares, pases }) =
       {option == "Pases" && pases.length > 1 && <InfoPases pases={pases} />}
       {option == "Contactos" && <InfoContactos socio={socio} />}
       {option == "Facturacion" && <Facturas accion={socio.accion} />}
+      {option == "Invitados" && <Invitados accion={socio.accion} />}
 
     </section>
   )

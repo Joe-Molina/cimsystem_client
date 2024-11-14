@@ -6,6 +6,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import Image from "next/image"
+import { useState } from "react";
 
 interface AlertDialogProps {
   url: string;
@@ -15,13 +16,17 @@ interface AlertDialogProps {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const AlertDialogDemo: React.FC<AlertDialogProps> = ({ url, accion }) => {
 
+
+  const [imgSrc, setImgSrc] = useState(url)
+
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <div className="flex flex-col h-full justify-center items-center rounded-sm ">
           <p className="text-sm text-zinc-500">Accion</p>
           <p className="text-2xl text-zinc-600 font-bold">{accion}</p>
-          <Image priority src={url} alt="socio" width={100} height={100} className="rounded-lg h-36 w-36 overflow-hidden" />
+          <Image priority src={imgSrc} alt="socio" onError={() => { setImgSrc("/perfil.png") }} width={100} height={100} className="rounded-lg h-36 w-36 overflow-hidden" />
         </div>
       </AlertDialogTrigger>
       <AlertDialogContent>

@@ -34,6 +34,29 @@ export interface SocioSyh {
   nombre: string
   cedula: string
   tipo: string
+  nrorif: string
+  direccion: string
+  telefonos: string
+  email: string
+  sexo: string
+  fechanac: string
+  edocivil: string
+  fecha: string
+  carnet: string
+  nota: string
+  trabtelefon: string
+  telefono_movil: string
+}
+
+export interface familiarSYH {
+  codigo_socios: string
+  nombre: string
+  fechanac: string
+  codigo_parentesco: string
+  cedula: string
+  carnet: string
+  sexo: string
+  email: string
 }
 
 export interface familiares {
@@ -79,4 +102,14 @@ export interface BuscadorPropsSyh {
 export interface InfoSociosProps {
   socios: Socio[];
   data: infoSocios; // Aquí defines que `socios` es un array de `Socio`
+}
+
+export interface InfoSociosSyhProps {
+  socios: SocioSyh[];
+  socio: InfoSocioSyhProps; // Aquí defines que `socios` es un array de `Socio`
+}
+
+export interface InfoSocioSyhProps {
+  socio: SocioSyh; // Aquí defines que `socios` es un array de `Socio`
+  familiares: familiarSYH[]
 }

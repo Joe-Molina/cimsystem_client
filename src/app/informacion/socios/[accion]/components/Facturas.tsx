@@ -1,5 +1,5 @@
 import React from 'react'
-import { useFacturas } from '../socios/[accion]/hooks/useFacturas'
+import { useFacturas } from '../hooks/useFacturas'
 import {
   Accordion,
   AccordionContent,
@@ -7,7 +7,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { format } from 'date-fns'
-import { TableFacturasDetails } from '../socios/[accion]/components/TableFacturasDetails'
+import { TableFacturasDetails } from './TableFacturasDetails'
+import Image from 'next/image'
 
 
 
@@ -19,7 +20,14 @@ export const Facturas: React.FC<FacturasPros> = ({ accion }) => {
 
   const { facturas } = useFacturas({ accion })
 
+  if (!facturas) {
+    return (
+      <Image src={"/loader3.webp"} alt={"loader"} width={400} height={400} className="h-24 w-24" />
+    )
+  }
+
   return (
+
     <section className="w-full z-30 overflow-auto max-h-[43vh] overflow-x-hidden">
       <Accordion type="single" collapsible className="w-full">
         <div className='flex w-full justify-between items-center text-sm'>
@@ -50,6 +58,8 @@ export const Facturas: React.FC<FacturasPros> = ({ accion }) => {
           ))
         }
       </Accordion>
+
     </section>
+
   )
 }

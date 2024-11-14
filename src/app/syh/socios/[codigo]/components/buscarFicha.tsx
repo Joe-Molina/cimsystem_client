@@ -17,7 +17,7 @@ export const BuscarFichaCard: React.FC<cardSocio> = ({ nombre, accion, cedula })
   const [imgSrc, setImgSrc] = useState(src)
 
   return (
-    <Link className="flex  h-20 w-full p-2 border rounded- transition bg-white hover:bg-slate-100 z-10 items-center" href={`/informacion/socios/${accion}`}>
+    <Link className="flex  h-20 w-full p-2 border rounded- transition bg-white hover:bg-slate-100 z-10 items-center" href={`/syh/socios/${accion}`}>
       <Image src={imgSrc} onError={() => { setImgSrc("/perfil.png") }} alt={"socio"} width={50} height={50} className="rounded-full w-10 overflow-hidden h-10 " />
       <div className="flex flex-col w-full ml-2">
         <p className="text-[12px] text-start font-semibold">{nombre}</p>
