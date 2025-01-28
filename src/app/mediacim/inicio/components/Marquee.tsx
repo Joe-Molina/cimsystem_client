@@ -58,8 +58,7 @@ function Marquee() {
   //<button onClick={() => { console.log(postsState.Posts) }} >posts state</button>
   return (
     <article className="[grid-area:main]">
-      <div className="w-full bg-white border-b border-zinc h-12 font-bold flex justify-center items-center text-blue-500">MediaCim</div>
-      <div className='flex w-full flex-col max-w-[1400px] m-auto h-[93vh]'>
+      <div className='flex w-full flex-col max-w-[1400px] m-auto h-[87vh]'>
         <div className=' flex justify-between  items-center py-1 ' >
           <div className='flex items-center'>
             <SelectIp />

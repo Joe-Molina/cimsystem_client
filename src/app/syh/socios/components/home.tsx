@@ -46,11 +46,7 @@ export const HomeSocios: React.FC<BuscadorPropsSyh> = ({ socios }) => {
         );
         setSociosBusqueda(sociosCedula);
         break;
-
-      // Puedes añadir más casos según sea necesario...
-
       default:
-      // Código a ejecutar si no coincide con ningún caso
     }
 
     setTimeout(() => {
@@ -65,7 +61,7 @@ export const HomeSocios: React.FC<BuscadorPropsSyh> = ({ socios }) => {
 
 
   return (
-    <div className='flex w-full flex-col mx-auto h-[93vh] overflow-y-auto'>
+    <div className='flex w-full flex-col mx-auto h-[87vh] overflow-y-auto'>
       <NavBarFichaSocio setBusqueda={setBusqueda} busquedaType={BusquedaType} setBusquedaType={setBusquedaType} />
       <div className="flex flex-wrap gap-7 justify-center items-start max-w-[1400px] mx-auto h-full">
 

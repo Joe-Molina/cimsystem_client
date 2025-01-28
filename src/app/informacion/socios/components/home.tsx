@@ -63,9 +63,9 @@ export const HomeSocios: React.FC<BuscadorProps> = ({ socios }) => {
 
 
   return (
-    <div className='flex w-full flex-col mx-auto h-[93vh] overflow-y-auto'>
+    <div className='flex w-full flex-col mx-auto overflow-y-auto'>
       <NavBarFichaSocio setBusqueda={setBusqueda} busquedaType={BusquedaType} setBusquedaType={setBusquedaType} />
-      <div className="flex flex-wrap gap-7 justify-center items-start max-w-[1400px] mx-auto h-full">
+      <div className="flex flex-wrap gap-7 justify-center items-start max-w-[1400px] mx-auto h-[78vh]">
 
 
         {
@@ -84,6 +84,6 @@ export const HomeSocios: React.FC<BuscadorProps> = ({ socios }) => {
         }
       </div>
 
-    </div>
+    </div >
   )
 }

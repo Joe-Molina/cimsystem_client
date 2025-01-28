@@ -54,7 +54,7 @@ export const NavBarFichaSocio: React.FC<BusquedaInterface> = ({ setBusqueda, bus
 
 
   return (
-    <div className=' flex py-3 justify-between w-full max-w-[1400px] m-auto sticky top-0 bg-white z-50 ' >
+    <div className=' flex py-3 justify-between w-full max-w-[1400px] m-auto sticky top-0 bg-white z-40 ' >
       <div className="flex gap-2 ">
         <Input type="text" placeholder="Buscar..." className="w-80" onChange={manejarBusqueda} />
         <section className="flex border h-9 rounded-sm items-center gap-2 p-2 shadow-sm">

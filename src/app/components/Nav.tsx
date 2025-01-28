@@ -1,22 +1,38 @@
 'use client'
-
-import Link from "next/link";
-import { IconHeader } from "./Icon";
-import { faCakeCandles, faLaptop, faHouse, faBook, faLandmark } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import { Separator } from "@/components/ui/separator"
+import {
+  SidebarTrigger,
+} from "@/components/ui/sidebar"
 
 export function NavSide() {
 
   return (
-    <header className="[grid-area:aside] flex-col h-screen flex items-center text-white border-r border-neutral-300 bg-white gap-1">
-      <Link href={'/'} className="flex justify-center items-center h-12 w-full bg-blue-600 hover:bg-white hover:text-blue-500 border-b transition">
-        <FontAwesomeIcon icon={faHouse} className="p-3" />
-      </Link>
-      <IconHeader href="/cumples" icon={faCakeCandles} text="Cumpleaños socios" />
-      <IconHeader href="/informacion/socios" icon={faBook} text="Ficha Socios" />
-      <IconHeader href="/cobranza" icon={faLandmark} text="cobranza" />
-      <IconHeader href="/mediacim" icon={faLaptop} text="MediaCim" />
-    </header>
+    <>
+      <header className="flex h-16 shrink-0 items-center gap-2">
+        <div className="flex items-center gap-2 px-4">
+          <SidebarTrigger className="-ml-1" />
+          <Separator orientation="vertical" className="mr-2 h-4" />
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem className="hidden md:block">
+                <BreadcrumbLink href="#">ss</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator className="hidden md:block" />
+              <BreadcrumbItem>
+                <BreadcrumbPage>s</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </div>
+      </header>
+    </>
   )
 }

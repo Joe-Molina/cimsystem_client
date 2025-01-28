@@ -1,18 +1,23 @@
+import { Toaster } from "sonner";
 import Marquee from "./inicio/components/Marquee";
 import { FormProvider } from "./inicio/context/FormProvider";
-// import { conect } from "./getSession";
-// import { redirect } from "next/navigation";
-
-
+import { IpProvider } from "./inicio/context/IpProvider";
+import { PostsProvider } from "./inicio/context/PostProvider";
 
 export default async function Home() {
-  // const session = await conect()
-  // if (!session) redirect("/login")
+
 
   return (
-    <FormProvider>
-      <Marquee />
-    </FormProvider>
-  );
-}
+    <IpProvider>
+      <PostsProvider>
+        <main id="app" >
+          <FormProvider>
+            <Marquee />
+          </FormProvider>
+        </main>
+        <Toaster />
+      </PostsProvider>
+    </IpProvider>
+  )
 
+}

@@ -9,8 +9,7 @@ export default async function Socios() {
   const filterSocios = socios.filter(socio => socio.codigo !== "00000" && socio.codigo !== "0000" ? true : false)
 
   return (
-    <article className="[grid-area:main]">
-      <div className="w-full bg-white border-b border-zinc h-12 font-bold flex justify-center items-center text-blue-500">Ficha Socios SYH</div>
+    <article>
       <HomeSocios socios={filterSocios} />
     </article>
   )

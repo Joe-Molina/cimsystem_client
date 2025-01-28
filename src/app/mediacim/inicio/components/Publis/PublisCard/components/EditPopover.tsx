@@ -162,7 +162,7 @@ export function EditPopover({ publi, ip }: any) {
             <Label htmlFor="Posicion" className="text-right">
               Posicion
             </Label>
-            <Input id="Posicion" type="number" className="text-white" onChange={(e) => {
+            <Input id="Posicion" type="number" className="text-black" onChange={(e) => {
               if (e) {
                 setEdit({ ...edit, position: Number(e.target.value) });
                 console.log(edit)
