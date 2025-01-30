@@ -13,13 +13,16 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
+import { ArrowUpDown, MoreHorizontal } from "lucide-react"
+
+import { Label } from "@/components/ui/label"
+import { Switch } from "@/components/ui/switch"
 
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
+  // DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
@@ -36,7 +39,19 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { format } from "@formkit/tempo"
+import { Msj } from "./services"
+import Link from "next/link"
+import copy from 'copy-to-clipboard';
+// import { redirect } from "next/navigation"
 
+
+const enviarWs = async (data: Cobranza_info) => {
+
+  copy(Msj.getWs(data))
+
+  window.open(`https://api.whatsapp.com/send/?phone=58${data.celular}`, '_blank')
+
+}
 export interface Cobranza_info {
   cant_cuotas_vencidas: number;
   cargos_cantidad: number;
@@ -120,11 +135,20 @@ export const columns: ColumnDef<Cobranza_info>[] = [
     ),
   },
   {
+    accessorKey: "ultimo_pago",
+    header: 'ultimo pago',
+    cell: ({ row }) => {
+      const date: Date = row.getValue("ultimo_pago")
+
+      return <div className="font-medium"><div className="bg-slate-100 inline px-3 py-1 rounded-xl font-semibold text-neutral-600">{date ? format(date, 'short') : 'sin ultimo pago'}</div></div>
+    },
+  },
+  {
     accessorKey: "cant_cuotas_vencidas",
     header: ({ column }) => {
       return (
         <Button
-          className="text-left"
+          className="text-xs text-left "
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
@@ -133,22 +157,7 @@ export const columns: ColumnDef<Cobranza_info>[] = [
         </Button>
       )
     },
-    cell: ({ row }) => <div className="lowercase px-4">{row.getValue("cant_cuotas_vencidas")}</div>,
-  },
-  {
-    accessorKey: "deuda_total",
-    header: 'deuda total',
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("deuda_total"))
-
-      // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount)
-
-      return <div className="text-left font-bold">{formatted}</div>
-    },
+    cell: ({ row }) => <div className="lowercase px-5 ">{Number(row.getValue("cant_cuotas_vencidas"))}</div>,
   },
   {
     accessorKey: "total_divisa",
@@ -181,12 +190,18 @@ export const columns: ColumnDef<Cobranza_info>[] = [
     },
   },
   {
-    accessorKey: "ultimo_pago",
-    header: 'ultimo pago',
+    accessorKey: "deuda_total",
+    header: 'deuda total',
     cell: ({ row }) => {
-      const date: Date = row.getValue("ultimo_pago")
+      const amount = parseFloat(row.getValue("deuda_total"))
 
-      return <div className="font-medium"><div className="bg-slate-100 inline px-3 py-1 rounded-xl ">{date ? format(date, 'short') : 'sin ultimo pago'}</div></div>
+      // Format the amount as a dollar amount
+      const formatted = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+      }).format(amount)
+
+      return <div className="text-left font-bold">{formatted}</div>
     },
   },
   {
@@ -204,15 +219,25 @@ export const columns: ColumnDef<Cobranza_info>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuLabel>Acciones</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(socio_data.nombre)}
+
             >
-              Copy payment ID
+              <Button rel="noopener noreferrer" onClick={enviarWs.bind(null, socio_data)}>
+                Mensaje de ws
+              </Button>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem
+
+            >
+              <Button rel="noopener noreferrer" onClick={async () => await Msj.sentMail([socio_data])}>
+                Mensaje gmail
+              </Button>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            {/* <DropdownMenuItem>View customer</DropdownMenuItem> */}
+            <DropdownMenuItem><Link href={`/informacion/socios/${socio_data.accion}`} target="_blank">ver detalles de pagos</Link></DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )
@@ -226,6 +251,19 @@ interface DataTableDemoProps {
 
 export function DataTableDemo({ data }: DataTableDemoProps) {
 
+  const [deudas, setDeudas] = React.useState(data)
+  const [check, setcheck] = React.useState(false)
+
+  React.useEffect(() => {
+
+    if (check) {
+      setDeudas(data.filter(socio => socio.cargos_cantidad > 0))
+    } else {
+      setDeudas(data)
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [check])
 
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -235,8 +273,20 @@ export function DataTableDemo({ data }: DataTableDemoProps) {
     React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
 
-  const table = useReactTable({
-    data,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const obtenerRowSeleccionadas = (rows: any, deudas: Cobranza_info[]) => {
+    const indices = Object.keys(rows).map(Number); // Convertir las claves a números
+    const arrayFiltrado = indices.map((indice) => deudas[indice]);
+
+    return arrayFiltrado
+  }
+
+
+
+  React.useEffect(() => { console.log(obtenerRowSeleccionadas(rowSelection, deudas)) }, [rowSelection, deudas])
+
+  const table = useReactTable<Cobranza_info>({
+    data: deudas,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -255,8 +305,8 @@ export function DataTableDemo({ data }: DataTableDemoProps) {
   })
 
   return (
-    <div className="w-full p-4">
-      <div className="flex items-center py-4">
+    <div className="w-full  p-4">
+      <div className="flex gap-3 items-center py-4 ">
         <Input
           placeholder="Filtar por nombres..."
           value={(table.getColumn("nombre")?.getFilterValue() as string) ?? ""}
@@ -265,7 +315,28 @@ export function DataTableDemo({ data }: DataTableDemoProps) {
           }
           className="max-w-sm"
         />
-        <DropdownMenu>
+        <Input
+          placeholder="Filtar por cuotas vencidas..."
+          type="number"
+          // value={(table.getColumn("cant_cuotas_vencidas")?.getFilterValue() as number) ?? ""}
+          onChange={(event) =>
+            event.target.value ? setDeudas(data.filter(socio => socio.cant_cuotas_vencidas === parseInt(event.target.value))) : setDeudas(data)
+          }
+          className="w-56"
+        />
+
+        <div className="flex items-center space-x-2">
+          <Switch id="airplane-mode" onClick={() => setcheck(!check)} />
+          <Label htmlFor="airplane-mode">ver solo cargos</Label>
+          <div></div>
+        </div>
+        {(obtenerRowSeleccionadas(rowSelection, deudas).length > 0) &&
+          <Button variant="outline" className="ml-auto" onClick={async () => await Msj.sentMail(obtenerRowSeleccionadas(rowSelection, deudas))}>
+            enviar correos
+          </Button>
+        }
+
+        {/* <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
               Columns <ChevronDown />
@@ -290,7 +361,7 @@ export function DataTableDemo({ data }: DataTableDemoProps) {
                 )
               })}
           </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu> */}
       </div>
       <div className="rounded-md border">
         <Table>
@@ -344,8 +415,8 @@ export function DataTableDemo({ data }: DataTableDemoProps) {
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+          {/* {table.getFilteredSelectedRowModel().rows.length} de{" "} */}
+          {table.getFilteredRowModel().rows.length} Socios en esta seccion.
         </div>
         <div className="space-x-2">
           <Button
