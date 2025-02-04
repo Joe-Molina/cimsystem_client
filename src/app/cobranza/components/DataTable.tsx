@@ -308,10 +308,11 @@ export function DataTableDemo({ data }: DataTableDemoProps) {
     <div className="w-full  p-4">
       <div className="flex gap-3 items-center py-4 ">
         <Input
-          placeholder="Filtar por nombres..."
-          value={(table.getColumn("nombre")?.getFilterValue() as string) ?? ""}
+          placeholder="Filtar por accion..."
+          type="number"
+          value={(table.getColumn("accion")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("nombre")?.setFilterValue(event.target.value)
+            table.getColumn("accion")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />

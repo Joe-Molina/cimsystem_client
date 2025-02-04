@@ -20,7 +20,6 @@ import {
 } from "@/components/ui/sidebar"
 import { ChevronRightIcon } from "@radix-ui/react-icons"
 import { useMenu } from "@/hooks/useMenu"
-import { useEffect } from "react"
 
 export function NavMain({
   items,
