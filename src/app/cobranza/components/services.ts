@@ -31,7 +31,7 @@ Departamento de cobranzas
 
   static async sentMail(data: Cobranza_info[]) {
 
-    const sendmail = await axios.post('http://localhost:3000/cobranza/sendmail', { data })
+    const sendmail = await axios.post('http://10.10.1.4:3000/cobranza/sendmail', { data })
 
     console.log(sendmail)
 
