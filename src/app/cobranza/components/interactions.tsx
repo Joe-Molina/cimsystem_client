@@ -43,7 +43,7 @@ export default function Interactions({ accion }: { accion: number }) {
     const fetchInteractionData = async () => {
       try {
         const endpoints = interactionItems.map(item =>
-          axios.get(`http://localhost:3002/interactions/${accion}/${item.endpoint}`)
+          axios.get(`http://10.10.1.4:3002/interactions/${accion}/${item.endpoint}`)
         );
 
         const responses = await Promise.all(endpoints);

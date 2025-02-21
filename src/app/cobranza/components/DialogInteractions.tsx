@@ -20,7 +20,7 @@ export function DialogInteractions({ accion }: { accion: string }) {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post('http://localhost:3002/interactions/create', { accion: accion, interaction_TypeId: Number(selectedOption), factura: Number(factura) })
+      const response = await axios.post('http://10.10.1.4:3002/interactions/create', { accion: accion, interaction_TypeId: Number(selectedOption), factura: Number(factura) })
       toast('interaccion registrada con exito')
       return console.log(response)
     } catch (error) {
@@ -32,7 +32,7 @@ export function DialogInteractions({ accion }: { accion: string }) {
   return (
     <Dialog>
       <DialogTrigger asChild >
-        <Button className="w-full text-start" variant="outline">Registrar pago</Button>
+        <Button className="w-full text-start" variant="outline">Registrar interaccion</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

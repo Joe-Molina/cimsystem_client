@@ -21,9 +21,9 @@ atte Dpto. de cobranzas
     return a
   }
 
-  static async sentMail(data: Cobranza_info[]) {
+  static async sentMail() {
 
-    const sendmail = await axios.post('http://10.10.1.4:3000/cobranza/sendmail', { data })
+    const sendmail = await axios.post('http://10.10.1.4:3000/cobranza/sendmail',) // cambiar por 10.10.1.4 al terminar los cambios 
 
     console.log(sendmail)
 

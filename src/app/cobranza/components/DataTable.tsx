@@ -181,12 +181,6 @@ export const columns: ColumnDef<Cobranza_info>[] = [
 
             <DropdownMenuSeparator />
 
-            {/* <DropdownMenuItem>
-              <Button rel="noopener noreferrer" onClick={async () => await Msj.sentMail([socio_data])}>
-                Mensaje gmail
-              </Button>
-            </DropdownMenuItem>  */}
-
             <DropdownMenuItem>
               <div className="flex flex-col">
                 <p className="text-[12px] text-neutral-400">celular:</p>
@@ -292,11 +286,9 @@ export function DataTableDemo({ data }: DataTableDemoProps) {
           <div></div>
         </div>
 
-        {(obtenerRowSeleccionadas(rowSelection, deudas).length > 0) &&
-          <Button variant="outline" className="ml-auto" onClick={async () => await Msj.sentMail(obtenerRowSeleccionadas(rowSelection, deudas))}>
-            enviar correos
-          </Button>
-        }
+        <Button rel="noopener noreferrer" onClick={async () => await Msj.sentMail()}>
+          Mensaje gmail
+        </Button>
         {/* 
         <Button variant="outline" className="ml-auto" onClick={}>
           Administrar interacciones
