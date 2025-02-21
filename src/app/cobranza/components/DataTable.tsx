@@ -25,7 +25,6 @@ import {
   // DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
@@ -42,6 +41,9 @@ import { format } from "@formkit/tempo"
 import { Msj } from "./services"
 import Link from "next/link"
 import copy from 'copy-to-clipboard';
+import Interactions from "./interactions"
+import { DialogInteractions } from "./DialogInteractions"
+import { HoverDataCobranza } from "./HoverdataCobranza"
 // import { redirect } from "next/navigation"
 
 
@@ -121,18 +123,9 @@ export const columns: ColumnDef<Cobranza_info>[] = [
     cell: ({ row }) => <div className="lowercase px-4">{row.getValue("accion")}</div>,
   },
   {
-    accessorKey: "celular",
-    header: "celular",
-    cell: ({ row }) => (
-      <div className="capitalize text-left">{row.getValue("celular")}</div>
-    ),
-  },
-  {
-    accessorKey: "e_mail",
-    header: "e_mail",
-    cell: ({ row }) => (
-      <div className="capitalize text-left">{row.getValue("e_mail")}</div>
-    ),
+    id: "actions2",
+    header: "interacciones",
+    cell: ({ row }) => <div > <Interactions accion={row.getValue("accion")} /> </div>,
   },
   {
     accessorKey: "ultimo_pago",
@@ -144,100 +137,67 @@ export const columns: ColumnDef<Cobranza_info>[] = [
     },
   },
   {
-    accessorKey: "cant_cuotas_vencidas",
-    header: ({ column }) => {
-      return (
-        <Button
-          className="text-xs text-left "
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          cuotas vencidas
-          <ArrowUpDown />
-        </Button>
-      )
-    },
-    cell: ({ row }) => <div className="lowercase px-5 ">{Number(row.getValue("cant_cuotas_vencidas"))}</div>,
-  },
-  {
-    accessorKey: "total_divisa",
-    header: 'mantenimientos',
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("total_divisa"))
-
-      // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount)
-
-      return <div className="text-left font-medium">{formatted}</div>
-    },
-  },
-  {
-    accessorKey: "cargos_divisa",
-    header: 'cargos',
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("cargos_divisa"))
-
-      // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount)
-
-      return <div className="font-medium">{amount ? formatted : 0}</div>
-    },
-  },
-  {
-    accessorKey: "deuda_total",
-    header: 'deuda total',
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("deuda_total"))
-
-      // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount)
-
-      return <div className="text-left font-bold">{formatted}</div>
-    },
-  },
-  {
     id: "actions",
+    header: 'Deuda',
+    enableHiding: false,
+    cell: ({ row }) => {
+      const socio_data = row.original
+
+      return (
+        <HoverDataCobranza socio={socio_data} />
+      )
+    }
+
+  },
+  {
+    id: "actions3",
     enableHiding: false,
     cell: ({ row }) => {
       const socio_data = row.original
 
       return (
         <DropdownMenu>
+
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
               <span className="sr-only">Open menu</span>
               <MoreHorizontal />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-            <DropdownMenuItem
 
-            >
-              <Button rel="noopener noreferrer" onClick={enviarWs.bind(null, socio_data)}>
-                Mensaje de ws
-              </Button>
-            </DropdownMenuItem>
+          <DropdownMenuContent align="end" className="px-3">
+
+            <DialogInteractions accion={socio_data.accion} />
+
             <DropdownMenuSeparator />
-            <DropdownMenuItem
 
-            >
+            <DropdownMenuItem rel="noopener noreferrer" className="dark bg-neutral-900 text-white" onClick={enviarWs.bind(null, socio_data)}>
+              Mensaje de ws
+            </DropdownMenuItem>
+
+            <DropdownMenuSeparator />
+
+            <DropdownMenuItem className="dark bg-neutral-900 text-white"><Link href={`/informacion/socios/${socio_data.accion}`} target="_blank">ver detalles de pagos</Link></DropdownMenuItem>
+
+            <DropdownMenuSeparator />
+
+            {/* <DropdownMenuItem>
               <Button rel="noopener noreferrer" onClick={async () => await Msj.sentMail([socio_data])}>
                 Mensaje gmail
               </Button>
+            </DropdownMenuItem>  */}
+
+            <DropdownMenuItem>
+              <div className="flex flex-col">
+                <p className="text-[12px] text-neutral-400">celular:</p>
+                <p>{socio_data.celular ? socio_data.celular : 'no disponible'}</p>
+                <p className="text-[12px] text-neutral-400">email:</p>
+                <p>{socio_data.e_mail ? socio_data.e_mail : 'no disponible'}</p>
+              </div>
             </DropdownMenuItem>
+
             <DropdownMenuSeparator />
-            {/* <DropdownMenuItem>View customer</DropdownMenuItem> */}
-            <DropdownMenuItem><Link href={`/informacion/socios/${socio_data.accion}`} target="_blank">ver detalles de pagos</Link></DropdownMenuItem>
+
           </DropdownMenuContent>
         </DropdownMenu>
       )
@@ -331,38 +291,17 @@ export function DataTableDemo({ data }: DataTableDemoProps) {
           <Label htmlFor="airplane-mode">ver solo cargos</Label>
           <div></div>
         </div>
+
         {(obtenerRowSeleccionadas(rowSelection, deudas).length > 0) &&
           <Button variant="outline" className="ml-auto" onClick={async () => await Msj.sentMail(obtenerRowSeleccionadas(rowSelection, deudas))}>
             enviar correos
           </Button>
         }
+        {/* 
+        <Button variant="outline" className="ml-auto" onClick={}>
+          Administrar interacciones
+        </Button> */}
 
-        {/* <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns <ChevronDown />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                )
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu> */}
       </div>
       <div className="rounded-md border">
         <Table>
@@ -426,7 +365,7 @@ export function DataTableDemo({ data }: DataTableDemoProps) {
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            Previous
+            anterior
           </Button>
           <Button
             variant="outline"
@@ -434,7 +373,7 @@ export function DataTableDemo({ data }: DataTableDemoProps) {
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            Next
+            siguiente
           </Button>
         </div>
       </div>
