@@ -1,5 +1,6 @@
 import axios from "axios"
 import { Cobranza_info } from "./DataTable"
+import { toast } from "sonner"
 
 export class Msj {
   static getWs(data: Cobranza_info) {
@@ -22,6 +23,9 @@ atte Dpto. de cobranzas
   }
 
   static async sentMail() {
+
+
+    toast('Emails enviados. no volver a enviar en un lapso de 14 dias.')
 
     const sendmail = await axios.post('http://10.10.1.4:3000/cobranza/sendmail',) // cambiar por 10.10.1.4 al terminar los cambios 
 

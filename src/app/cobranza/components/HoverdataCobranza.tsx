@@ -20,7 +20,7 @@ export function HoverDataCobranza({ socio }: { socio: { total_divisa: number, ca
   return (
     <HoverCard>
       <HoverCardTrigger asChild>
-        <Button variant="link" className="w-28 font-bold justify-start p-0">{socio.deuda_total.toFixed(2)}$</Button>
+        <Button variant="link" className="w-28 font-bold justify-end p-0 ">{socio.deuda_total.toFixed(2)}$</Button>
       </HoverCardTrigger>
       <HoverCardContent className="w-120">
         <Table>

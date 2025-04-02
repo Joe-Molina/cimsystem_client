@@ -167,13 +167,13 @@ export const columns: ColumnDef<Cobranza_info>[] = [
 
           <DropdownMenuContent align="end" className="px-3">
 
-            <DialogInteractions accion={socio_data.accion} />
+            {socio_data.total_divisa != 0 && <DialogInteractions accion={socio_data.accion} />}
 
             <DropdownMenuSeparator />
 
-            <DropdownMenuItem rel="noopener noreferrer" className="dark bg-neutral-900 text-white" onClick={enviarWs.bind(null, socio_data)}>
+            {(socio_data.celular && socio_data.total_divisa != 0) && <DropdownMenuItem rel="noopener noreferrer" className="dark bg-neutral-900 text-white" onClick={enviarWs.bind(null, socio_data)}>
               Mensaje de ws
-            </DropdownMenuItem>
+            </DropdownMenuItem>}
 
             <DropdownMenuSeparator />
 
@@ -258,6 +258,8 @@ export function DataTableDemo({ data }: DataTableDemoProps) {
     },
   })
 
+  const [isSend, setIsSend] = React.useState(false)
+
   return (
     <div className="w-full  p-4">
       <div className="flex gap-3 items-center py-4 ">
@@ -286,7 +288,7 @@ export function DataTableDemo({ data }: DataTableDemoProps) {
           <div></div>
         </div>
 
-        <Button rel="noopener noreferrer" onClick={async () => await Msj.sentMail()}>
+        <Button rel="noopener noreferrer" disabled={isSend} onClick={async () => { setIsSend(true), await Msj.sentMail() }}>
           Mensaje gmail
         </Button>
         {/* 
