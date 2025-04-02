@@ -167,7 +167,7 @@ export const columns: ColumnDef<Cobranza_info>[] = [
 
           <DropdownMenuContent align="end" className="px-3">
 
-            {socio_data.total_divisa != 0 && <DialogInteractions accion={socio_data.accion} />}
+            && <DialogInteractions accion={socio_data.accion} />
 
             <DropdownMenuSeparator />
 
