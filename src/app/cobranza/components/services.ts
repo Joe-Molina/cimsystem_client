@@ -4,22 +4,27 @@ import { toast } from "sonner"
 
 export class Msj {
   static getWs(data: Cobranza_info) {
-    const a = `
-Estimado/a Socio/a 
-${data.nombre}
+    const msj = `Estimado/a Socio/a ${data.nombre}%0A %0AReciba nuestros cordiales  saludos, en nombre del Dpto. de Cobranzas de CASA DE ITALIA DE MARACAY. Le escribimos el dia de hoy para hacerle un amable recordatorio en relación a sus cuotas vencidas con nuestra Asociación, bajo el Nro. De Acción ${data.accion}%0A %0AEl monto total pendiente,  es de $${data.deuda_total.toFixed(2)} USD, su pago equivalente en Bolívares (tasa BCV) al cambio del dia, correspondiente a ${data.cant_cuotas_vencidas} cuota(s).%0A %0ACualquier información adicional puede solicitarla via WhatsApp al teléfono 0412-7863830, a la presente dirección de correo, en recepción hasta las 10pm o en nuestras oficinas administrativas hasta las 5pm.%0A %0AEn caso de hacer pago móvil o transferencias debe enviarlas igualmente por esta vía o el correo electronico cobranzas@casaitaliamaracay.com para el debido registro y posterior emisión de su factura.%0A %0AAgradecemos además su atención.%0Aatte Dpto. de cobranzas`
+    return msj
+  }
 
-Reciba nuestros cordiales  saludos, en nombre del Dpto. de Cobranzas de CASA DE ITALIA DE MARACAY. Le escribimos el dia de hoy para hacerle un amable recordatorio en relación a sus cuotas vencidas con nuestra Asociación, bajo el Nro. De Acción ${data.accion}
+  static getWsCopy(data: Cobranza_info) {
+    const msj = `
+    Estimado/a Socio/a 
+    ${data.nombre}
 
-El monto total pendiente,  es de $${data.deuda_total.toFixed(2)} USD, su pago equivalente en Bolívares (tasa BCV) al cambio del dia, correspondiente a ${data.cant_cuotas_vencidas} cuota(s) vencida(s).
+    Reciba nuestros cordiales  saludos, en nombre del Dpto. de Cobranzas de CASA DE ITALIA DE MARACAY. Le escribimos el dia de hoy para hacerle un amable recordatorio en relación a sus cuotas vencidas con nuestra Asociación, bajo el Nro. De Acción ${data.accion}
 
-Cualquier información adicional puede solicitarla via WhatsApp al teléfono 0412-7863830, a la presente dirección de correo, en recepción hasta las 10pm o en nuestras oficinas administrativas hasta las 5pm.
+    El monto total pendiente,  es de $${data.deuda_total.toFixed(2)} USD, su pago equivalente en Bolívares (tasa BCV) al cambio del dia, correspondiente a ${data.cant_cuotas_vencidas} cuota(s) vencida(s).
 
-En caso de hacer pago móvil o transferencias debe enviarlas igualmente por esta vía o el correo electronico cobranzas@casaitaliamaracay.com para el debido registro y posterior emisión de su factura.
+    Cualquier información adicional puede solicitarla via WhatsApp al teléfono 0412-7863830, a la presente dirección de correo, en recepción hasta las 10pm o en nuestras oficinas administrativas hasta las 5pm.
 
-Agradecemos además su atención.
-atte Dpto. de cobranzas
+    En caso de hacer pago móvil o transferencias debe enviarlas igualmente por esta vía o el correo electronico cobranzas@casaitaliamaracay.com para el debido registro y posterior emisión de su factura.
+
+    Agradecemos además su atención.
+    atte Dpto. de cobranzas
     `
-    return a
+    return msj
   }
 
   static async sentMail() {

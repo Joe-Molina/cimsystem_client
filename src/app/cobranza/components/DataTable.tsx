@@ -44,16 +44,16 @@ import copy from 'copy-to-clipboard';
 import Interactions from "./interactions"
 import { DialogInteractions } from "./DialogInteractions"
 import { HoverDataCobranza } from "./HoverdataCobranza"
+import { Dialog } from "@/components/ui/dialog"
+import { DialogWhatsApp } from "./DialogWhatsapp"
+import axios from "axios"
 // import { redirect } from "next/navigation"
 
 
-const enviarWs = async (data: Cobranza_info) => {
-
-  copy(Msj.getWs(data))
-
-  window.open(`https://api.whatsapp.com/send/?phone=58${data.celular}`, '_blank')
-
+export const enviarWs = async (data: Cobranza_info) => {
+  window.open(`https://api.whatsapp.com/send/?phone=58${data.celular}&text=${Msj.getWs(data).replace(" ", "%20")}`, '_blank')
 }
+
 export interface Cobranza_info {
   cant_cuotas_vencidas: number;
   cargos_cantidad: number;
@@ -123,11 +123,6 @@ export const columns: ColumnDef<Cobranza_info>[] = [
     cell: ({ row }) => <div className="lowercase px-4">{row.getValue("accion")}</div>,
   },
   {
-    id: "actions2",
-    header: "interacciones",
-    cell: ({ row }) => <div > <Interactions accion={row.getValue("accion")} /> </div>,
-  },
-  {
     accessorKey: "ultimo_pago",
     header: 'ultimo pago',
     cell: ({ row }) => {
@@ -167,13 +162,12 @@ export const columns: ColumnDef<Cobranza_info>[] = [
 
           <DropdownMenuContent align="end" className="px-3">
 
-            && <DialogInteractions accion={socio_data.accion} />
+            <DialogInteractions accion={socio_data.accion} />
 
             <DropdownMenuSeparator />
 
-            {(socio_data.celular && socio_data.total_divisa != 0) && <DropdownMenuItem rel="noopener noreferrer" className="dark bg-neutral-900 text-white" onClick={enviarWs.bind(null, socio_data)}>
-              Mensaje de ws
-            </DropdownMenuItem>}
+            {(socio_data.celular && socio_data.total_divisa != 0) && <DialogWhatsApp accion={socio_data.accion} data={socio_data} />
+            }
 
             <DropdownMenuSeparator />
 
@@ -199,11 +193,7 @@ export const columns: ColumnDef<Cobranza_info>[] = [
   },
 ]
 
-interface DataTableDemoProps {
-  data: Cobranza_info[];
-}
-
-export function DataTableDemo({ data }: DataTableDemoProps) {
+export function DataTableDemo({ data }: { data: Cobranza_info[] }) {
 
   const [deudas, setDeudas] = React.useState(data)
   const [check, setcheck] = React.useState(false)
@@ -240,7 +230,7 @@ export function DataTableDemo({ data }: DataTableDemoProps) {
   React.useEffect(() => { console.log(obtenerRowSeleccionadas(rowSelection, deudas)) }, [rowSelection, deudas])
 
   const table = useReactTable<Cobranza_info>({
-    data: deudas,
+    data,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -288,12 +278,8 @@ export function DataTableDemo({ data }: DataTableDemoProps) {
           <div></div>
         </div>
 
-        <Button rel="noopener noreferrer" disabled={isSend} onClick={async () => { setIsSend(true), await Msj.sentMail() }}>
+        {/* <Button rel="noopener noreferrer" disabled={isSend} onClick={async () => { setIsSend(true), await Msj.sentMail() }}>
           Mensaje gmail
-        </Button>
-        {/* 
-        <Button variant="outline" className="ml-auto" onClick={}>
-          Administrar interacciones
         </Button> */}
 
       </div>
@@ -319,21 +305,35 @@ export function DataTableDemo({ data }: DataTableDemoProps) {
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
+              table.getRowModel().rows.map(async (row) => {
+
+                const [contact, setContact] = React.useState(false)
+                const interaction = async () => {
+                  setContact(await axios.get(`http://10.10.1.4:3002/interactions/${row.getValue("accion")}/1`))
+                }
+
+                React.useEffect(() => {
+                  interaction()
+                }, [])
+
+
+
+                return (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"} className={contact ? `hover:bg-slate-100 ${row.getIsSelected() && 'bg-slate-200'}` : `hover:bg-green-300 ${row.getIsSelected() && 'bg-slate-400'}`}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                )
+              })
             ) : (
               <TableRow>
                 <TableCell

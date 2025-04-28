@@ -10,8 +10,9 @@ import {
 import axios from "axios";
 import { toast } from "sonner";
 import { DialogClose } from "@radix-ui/react-dialog";
+import { Cobranza_info, enviarWs } from "./DataTable";
 
-export function DialogInteractions({ accion }: { accion: string }) {
+export function DialogWhatsApp({ accion, data }: { accion: string, data: Cobranza_info }) {
 
   const handleSubmit = async () => {
     try {
@@ -21,18 +22,19 @@ export function DialogInteractions({ accion }: { accion: string }) {
     } catch (error) {
       console.log(error)
     }
+
   }
 
   return (
     <Dialog>
       <DialogTrigger asChild >
-        <Button className="w-full text-start" variant="outline">Registrar interaccion</Button>
+        <Button className="w-full text-start" variant="outline" onClick={enviarWs.bind(null, data)}>Contactar</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Registrar contacto</DialogTitle>
+          <DialogTitle>Registrar mensaje</DialogTitle>
           <DialogDescription>
-            Deseas registrar un nuevo contacto con esta accion?
+            el mensaje fue recibido?
           </DialogDescription>
         </DialogHeader>
 
