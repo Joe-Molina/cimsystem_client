@@ -14,15 +14,11 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
-
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
-
 import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
 import {
   DropdownMenu,
-  // DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
@@ -40,20 +36,15 @@ import {
 import { format } from "@formkit/tempo"
 import { Msj } from "./services"
 import Link from "next/link"
-import copy from 'copy-to-clipboard';
-import Interactions from "./interactions"
 import { DialogInteractions } from "./DialogInteractions"
 import { HoverDataCobranza } from "./HoverdataCobranza"
-import { Dialog } from "@/components/ui/dialog"
 import { DialogWhatsApp } from "./DialogWhatsapp"
 import axios from "axios"
 // import { redirect } from "next/navigation"
 
-
 export const enviarWs = async (data: Cobranza_info) => {
   window.open(`https://api.whatsapp.com/send/?phone=58${data.celular}&text=${Msj.getWs(data).replace(" ", "%20")}`, '_blank')
 }
-
 export interface Cobranza_info {
   cant_cuotas_vencidas: number;
   cargos_cantidad: number;
@@ -70,28 +61,6 @@ export interface Cobranza_info {
 }
 
 export const columns: ColumnDef<Cobranza_info>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
   {
     accessorKey: "nombre",
     header: "nombre",
@@ -195,6 +164,29 @@ export const columns: ColumnDef<Cobranza_info>[] = [
 
 export function DataTableDemo({ data }: { data: Cobranza_info[] }) {
 
+  const [contactStatus, setContactStatus] = React.useState<Record<string, boolean>>({});
+
+  React.useEffect(() => {
+    const fetchDeudas = async () => {
+      const status: Record<string, boolean> = {};
+      for (const row of data) {
+        try {
+          const response = await axios.get(
+            `http://10.10.1.4:3002/interactions/${row.accion}/1`
+          );
+          status[row.accion] = response.data; // Almacena el resultado de la llamada
+        } catch (error) {
+          console.error(`Error fetching data for accion ${row.accion}`, error);
+          status[row.accion] = false; // Maneja errores
+        }
+      }
+      setContactStatus(status); // Actualiza el estado con los resultados
+    };
+
+    fetchDeudas();
+  }, [data]);
+
+
   const [deudas, setDeudas] = React.useState(data)
   const [check, setcheck] = React.useState(false)
 
@@ -278,10 +270,6 @@ export function DataTableDemo({ data }: { data: Cobranza_info[] }) {
           <div></div>
         </div>
 
-        {/* <Button rel="noopener noreferrer" disabled={isSend} onClick={async () => { setIsSend(true), await Msj.sentMail() }}>
-          Mensaje gmail
-        </Button> */}
-
       </div>
       <div className="rounded-md border">
         <Table>
@@ -305,23 +293,16 @@ export function DataTableDemo({ data }: { data: Cobranza_info[] }) {
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map(async (row) => {
+              table.getRowModel().rows.map((row) => {
+                console.log(row.getValue('accion'))
 
-                const [contact, setContact] = React.useState(false)
-                const interaction = async () => {
-                  setContact(await axios.get(`http://10.10.1.4:3002/interactions/${row.getValue("accion")}/1`))
-                }
-
-                React.useEffect(() => {
-                  interaction()
-                }, [])
-
+                const isContact = contactStatus[row.getValue('accion') as string];
 
 
                 return (
                   <TableRow
                     key={row.id}
-                    data-state={row.getIsSelected() && "selected"} className={contact ? `hover:bg-slate-100 ${row.getIsSelected() && 'bg-slate-200'}` : `hover:bg-green-300 ${row.getIsSelected() && 'bg-slate-400'}`}
+                    data-state={row.getIsSelected() && "selected"} className={isContact ? "bg-green-100" : ""}
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>
