@@ -166,6 +166,8 @@ export function DataTableDemo({ data }: { data: Cobranza_info[] }) {
 
   const [contactStatus, setContactStatus] = React.useState<Record<string, boolean>>({});
 
+  const [deudas, setDeudas] = React.useState(data)
+
   React.useEffect(() => {
     const fetchDeudas = async () => {
       const status: Record<string, boolean> = {};
@@ -187,7 +189,6 @@ export function DataTableDemo({ data }: { data: Cobranza_info[] }) {
   }, [data]);
 
 
-  const [deudas, setDeudas] = React.useState(data)
   const [check, setcheck] = React.useState(false)
 
   React.useEffect(() => {
@@ -222,7 +223,7 @@ export function DataTableDemo({ data }: { data: Cobranza_info[] }) {
   React.useEffect(() => { console.log(obtenerRowSeleccionadas(rowSelection, deudas)) }, [rowSelection, deudas])
 
   const table = useReactTable<Cobranza_info>({
-    data,
+    data: deudas,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -240,7 +241,7 @@ export function DataTableDemo({ data }: { data: Cobranza_info[] }) {
     },
   })
 
-  const [isSend, setIsSend] = React.useState(false)
+
 
   return (
     <div className="w-full  p-4">
