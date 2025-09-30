@@ -6,9 +6,11 @@ import { useState } from "react";
 import { useForm, SubmitHandler } from 'react-hook-form';  
 
 interface FormData {
-  accion : number,
+  accion : string,
+  registrador: string
 	apellidos : string,
 	cedula : number,
+  email: string,
 	edo_civil : "casado" | "soltero" | "viudo" | "divorciado",
 	fecha_nacimiento : Date,
 	lugar_nacimiento: string,
@@ -35,7 +37,9 @@ export default function Home() {
     reset // Función para resetear el formulario
   } = useForm<FormData>({
     defaultValues: {
-    accion : 0,
+    registrador: "",
+    email: "",
+    accion: "",
 	  apellidos :   "",
 	  cedula : 0,
 	  edo_civil : "casado",
@@ -83,7 +87,7 @@ export default function Home() {
     }
   };
 
-  const inputClasses = "w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed";
+  const inputClasses = "w-full p-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed";
   const labelClasses = "block text-sm font-medium text-gray-700 mb-1";
   const errorClasses = "text-red-600 text-xs mt-1";
 
@@ -91,15 +95,47 @@ export default function Home() {
   return (
     <div className="w-full h-full flex justify-center bg-gradient-to-br from-slate-800 to-cyan-900 items-center ">
       <section className=" flex h-4/5 w-5/6 bg-white rounded-lg shadow-xl hover:scale-105 transition">
-        <Image src="/fotos/cim.jpg" alt="tumama" className="w-1/2 h-full rounded-l-md" width={800} height={800} />
-        <article className="flex flex-col items-center justify-center center w-1/2 h-full rounded-r-md p-3 ">
-          <div className="flex justify-center items-center">
-            <Image src="/fotos/logocim.png" alt="tumama" width={50} height={50} />
-          <h1 className="font-bold text-xl my-2">CIMSystem</h1>
-          </div>
-      <div className="p-3 mx-auto bg-white rounded-lg max-h-96 overflow-y-auto">
+        <Image src="/fotos/cim.jpg" alt="tumama" className="w-5/12 h-full rounded-l-md" width={800} height={800} />
+      <article className="flex flex-col w-7/12 h-full rounded-r-md p-1 justify-center items-center">
+      <div className="p-1 mx-auto bg-white rounded-lg overflow-y-auto">
       <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">actualizacion ficha de Socio</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-4">
+  {/* registrador */}
+        <div>
+          <label htmlFor="registrador" className={labelClasses}>quien registra?:</label>
+          <select
+            id="registrador"
+            {...register('registrador')}
+            className={inputClasses}
+            disabled={isSubmitting}
+            required
+          >
+            <option value="">Selecciona quien registra...</option>
+            <option value="Maryelin">Maryelin</option>
+            <option value="gianfranco">gianfranco</option>
+            <option value="maria fernanda">maria fernanda</option>
+            <option value="norberto">norberto</option>
+            <option value="lorena">lorena</option>
+            <option value="saul">saul</option>
+            <option value="rubmairys">rubmairys</option>
+            <option value="yusmari">yusmari</option>
+            <option value="libia">libia</option>
+          </select>
+          {errors.registrador && <p className={errorClasses}>{errors.registrador.message}</p>}
+        </div>
+
+            {/*accion */}
+        <div>
+          <label htmlFor="accion" className={labelClasses}>Accion:</label>
+          <input
+            type="text"
+            id="accion"
+            {...register('accion')}
+            className={inputClasses}
+            disabled={isSubmitting}
+          />
+          {errors.accion && <p className={errorClasses}>{errors.accion.message}</p>}
+        </div>
 
         {/* Nombres */}
         <div>
@@ -107,7 +143,7 @@ export default function Home() {
           <input
             type="text"
             id="nombres"
-            {...register('nombres', { required: 'Los nombres son obligatorios' })}
+            {...register('nombres')}
             className={inputClasses}
             disabled={isSubmitting}
           />
@@ -120,7 +156,7 @@ export default function Home() {
           <input
             type="text"
             id="apellidos"
-            {...register('apellidos', { required: 'Los apellidos son obligatorios' })}
+            {...register('apellidos')}
             className={inputClasses}
             disabled={isSubmitting}
           />
@@ -150,52 +186,24 @@ export default function Home() {
           <input
             type="text"
             id="rif"
-            {...register('rif', {
-              required: 'El RIF es obligatorio',
-            })}
+            {...register('rif')}
             className={inputClasses}
             disabled={isSubmitting}
           />
           {errors.rif && <p className={errorClasses}>{errors.rif.message}</p>}
         </div>
-
-        {/* Fecha de Nacimiento */}
+        
+        {/* Email */}
         <div>
-          <label htmlFor="fecha_nacimiento" className={labelClasses}>Fecha de Nacimiento:</label>
-          <input
-            type="date"
-            id="fecha_nacimiento"
-            {...register('fecha_nacimiento', {
-              required: 'La fecha de nacimiento es obligatoria',
-              valueAsDate: true,
-              validate: (value) => {
-                const today = new Date();
-                const birthDate = new Date(value);
-                let age = today.getFullYear() - birthDate.getFullYear();
-                const m = today.getMonth() - birthDate.getMonth();
-                if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-                  age--;
-                }
-                return age >= 0 || 'Debe ser mayor de 18 años';
-              }
-            })}
-            className={inputClasses}
-            disabled={isSubmitting}
-          />
-          {errors.fecha_nacimiento && <p className={errorClasses}>{errors.fecha_nacimiento.message}</p>}
-        </div>
-
-        {/* Lugar de Nacimiento */}
-        <div>
-          <label htmlFor="lugar_nacimiento" className={labelClasses}>Lugar de Nacimiento:</label>
+          <label htmlFor="email" className={labelClasses}>Email:</label>
           <input
             type="text"
-            id="lugar_nacimiento"
-            {...register('lugar_nacimiento', { required: 'El lugar de nacimiento es obligatorio' })}
+            id="email"
+            {...register('email')}
             className={inputClasses}
             disabled={isSubmitting}
           />
-          {errors.lugar_nacimiento && <p className={errorClasses}>{errors.lugar_nacimiento.message}</p>}
+          {errors.email && <p className={errorClasses}>{errors.email.message}</p>}
         </div>
 
         {/* Nacionalidad */}
@@ -204,7 +212,7 @@ export default function Home() {
           <input
             type="text"
             id="nacionalidad"
-            {...register('nacionalidad', { required: 'La nacionalidad es obligatoria' })}
+            {...register('nacionalidad')}
             className={inputClasses}
             disabled={isSubmitting}
           />
@@ -216,7 +224,7 @@ export default function Home() {
           <label htmlFor="sexo" className={labelClasses}>Género:</label>
           <select
             id="sexo"
-            {...register('sexo', { required: 'Selecciona el género' })}
+            {...register('sexo')}
             className={inputClasses}
             disabled={isSubmitting}
           >
@@ -232,7 +240,7 @@ export default function Home() {
           <label htmlFor="edo_civil" className={labelClasses}>Estado Civil:</label>
           <select
             id="edo_civil"
-            {...register('edo_civil', { required: 'Selecciona el estado civil' })}
+            {...register('edo_civil')}
             className={inputClasses}
             disabled={isSubmitting}
           >
@@ -251,7 +259,7 @@ export default function Home() {
           <input
             type="text"
             id="profesion"
-            {...register('profesion', { required: 'La profesión es obligatoria' })}
+            {...register('profesion')}
             className={inputClasses}
             disabled={isSubmitting}
           />
@@ -264,7 +272,7 @@ export default function Home() {
           <input
             type="text"
             id="residencia"
-            {...register('residencia', { required: 'La residencia es obligatoria' })}
+            {...register('residencia')}
             className={inputClasses}
             disabled={isSubmitting}
           />
@@ -277,37 +285,11 @@ export default function Home() {
           <input
             type="tel"
             id="telefono_celular"
-            {...register('telefono_celular', { required: 'El teléfono celular es obligatorio' })}
+            {...register('telefono_celular')}
             className={inputClasses}
             disabled={isSubmitting}
           />
           {errors.telefono_celular && <p className={errorClasses}>{errors.telefono_celular.message}</p>}
-        </div>
-
-        {/* Teléfono Trabajo */}
-        <div>
-          <label htmlFor="telefono_trabajo" className={labelClasses}>Teléfono Trabajo:</label>
-          <input
-            type="tel"
-            id="telefono_trabajo"
-            {...register('telefono_trabajo')}
-            className={inputClasses}
-            disabled={isSubmitting}
-          />
-          {errors.telefono_trabajo && <p className={errorClasses}>{errors.telefono_trabajo.message}</p>}
-        </div>
-
-        {/* Teléfono Hogar */}
-        <div>
-          <label htmlFor="telofono_hogar" className={labelClasses}>Teléfono Hogar:</label>
-          <input
-            type="tel"
-            id="telofono_hogar"
-            {...register('telofono_hogar')}
-            className={inputClasses}
-            disabled={isSubmitting}
-          />
-          {errors.telofono_hogar && <p className={errorClasses}>{errors.telofono_hogar.message}</p>}
         </div>
 
         {/* Parentesco (si aplica) */}
@@ -328,7 +310,7 @@ export default function Home() {
           <label htmlFor="tipo_socio" className={labelClasses}>Tipo de Socio:</label>
           <select
             id="tipo_socio"
-            {...register('tipo_socio', { required: 'Selecciona el estado civil' })}
+            {...register('tipo_socio')}
             className={inputClasses}
             disabled={isSubmitting}
           >
@@ -338,14 +320,6 @@ export default function Home() {
           </select>
           {errors.tipo_socio && <p className={errorClasses}>{errors.tipo_socio.message}</p>}
         </div>
-
-        {/* Campo oculto para 'accion' */}
-        <input
-          type="hidden"
-          {...register('accion', { valueAsNumber: true })}
-          value={0}
-        />
-
         {/* Botón de Envío */}
         <div className="md:col-span-2 text-center mt-4"> {/* Ocupa ambas columnas en pantallas grandes */}
           <button
