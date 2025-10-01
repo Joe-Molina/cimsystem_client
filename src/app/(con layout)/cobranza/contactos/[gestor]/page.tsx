@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import { Toaster } from 'sonner'
-import { getContacts, updateContact, updateResponse } from './utils/getContactAxios'
+import { getContacts, updateContact, updateContactAvailable, updateContactCall, updateResponse, updateResponseCall } from './utils/getContactAxios'
 import { ContactTable } from './components/ContactTable'
 import { useParams } from 'next/navigation'; // <-- Correcto, para App Router
 
@@ -11,10 +11,23 @@ export interface ContactProps {
     createdAt: Date
     userId: number
     accion: string
+    contactAvailable: boolean
     contact: boolean
     contact_createdAt?: Date
     response: boolean
     response_createdAt?: Date
+    contactCall: boolean
+    contactCall_createdAt?: Date
+    responseCall: boolean
+    responseCall_createdAt?: Date
+}
+
+export interface ContactActions {
+  actualizarContacto: (id: number) => Promise<void>
+  actualizarResponse: (id: number) => Promise<void>
+  actualizarContactoCall: (id: number) => Promise<void>
+  actualizarResponseCall: (id: number) => Promise<void>
+  actualizarContactAvailable: (id: number) => Promise<void>
 }
 
 
@@ -78,7 +91,7 @@ export default function Page() { // NO es async y NO recibe 'params'
         )
     }
 
-        const actualizarResponse = async (id: number) => {
+    const actualizarResponse = async (id: number) => {
       console.log('apretado')
         const update = await updateResponse(id)
 
@@ -98,6 +111,74 @@ export default function Page() { // NO es async y NO recibe 'params'
         )
     }
 
+    const actualizarContactoCall = async (id: number) => {
+      console.log('apretado')
+        const update = await updateContactCall(id)
+
+        setContacs(
+          prevContacts => {
+            return prevContacts.map(contact => {
+              if(contact.id == update.id) {
+                return {
+                  ...contact,
+                  contactCall: true
+                }
+              }
+              return contact
+            })
+          }
+
+        )
+    }
+
+    const actualizarResponseCall = async (id: number) => {
+      console.log('apretado')
+        const update = await updateResponseCall(id)
+
+        setContacs(
+          prevContacts => {
+            return prevContacts.map(contact => {
+              if(contact.id == update.id) {
+                return {
+                  ...contact,
+                  responseCall: true
+                }
+              }
+              return contact
+            })
+          }
+
+        )
+    }
+
+    const actualizarContactAvailable = async (id: number) => {
+      console.log('apretado')
+        const update = await updateContactAvailable(id)
+
+        setContacs(
+          prevContacts => {
+            return prevContacts.map(contact => {
+              if(contact.id == update.id) {
+                return {
+                  ...contact,
+                  contactAvailable: true
+                }
+              }
+              return contact
+            })
+          }
+
+        )
+    }
+
+    const contactActions: ContactActions = {
+      actualizarContacto,
+      actualizarResponse,
+      actualizarContactoCall,
+      actualizarResponseCall,
+      actualizarContactAvailable
+    }
+
     // 3. Ejecutamos la función asíncrona al montar
     useEffect(() => {
         ContactosAsignados()
@@ -108,8 +189,8 @@ export default function Page() { // NO es async y NO recibe 'params'
             <Toaster />
             <div className='bg-white shadow-md rounded-md p-5 h-full w-full'>
                 {/* Mostramos el ID del gestor obtenido */}
-                <h1 className='text-xl'>Gestor ID: {gestorIdString == "2" ? "Maryeling": '' } {gestorIdString == "3" ? "Gianfranco": '' } {gestorIdString == "4" ? "Daniela": '' }</h1>
-                {contacs && <ContactTable contacts={contacs} actualizarContacto={actualizarContacto} actualizarResponse={actualizarResponse}/>}
+                <h1 className='text-xl'>Gestor ID: {gestorIdString == "2" ? "Maryelin": '' } {gestorIdString == "3" ? "Gianfranco": '' } {gestorIdString == "4" ? "Daniela": '' }</h1>
+                {contacs && <ContactTable contacts={contacs} contactActions={contactActions}/>}
             </div>
         </div>
     )

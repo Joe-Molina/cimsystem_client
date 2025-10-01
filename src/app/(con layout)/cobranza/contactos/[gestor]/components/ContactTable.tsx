@@ -7,14 +7,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { ContactProps } from "../page"
+import { ContactActions, ContactProps } from "../page"
 import { format } from "@formkit/tempo"
 import TableRowContact from "./TableRow"
 import useFetchCobranzas from "../hooks/useFetchCobranzas"
 
 
 
-export function ContactTable({ contacts, actualizarContacto, actualizarResponse }: { contacts: ContactProps[], actualizarContacto: (id: number) => Promise<void>, actualizarResponse: (id: number) => Promise<void> }) {
+export function ContactTable({ contacts, contactActions }: { contacts: ContactProps[], contactActions: ContactActions}) {
 
   const {isLoading, cobranzas} = useFetchCobranzas()
 
@@ -27,8 +27,11 @@ export function ContactTable({ contacts, actualizarContacto, actualizarResponse 
         <TableHeader className="sticky top-0 bg-white z-10"> 
           <TableRow>
             <TableHead className="w-[100px]">accion</TableHead>
-            <TableHead>Contacto</TableHead>
-            <TableHead>Respuesta</TableHead>
+            <TableHead>Contacto WhatsApp</TableHead>
+            <TableHead>Respuesta WhatsApp</TableHead>
+            <TableHead>Contacto Llamada</TableHead>
+            <TableHead>Respuesta Llamada</TableHead>
+            <TableHead>Estado del Contacto</TableHead>
             <TableHead>Contactar</TableHead>
             <TableHead>Telefono</TableHead>
             <TableHead>Cuotas</TableHead>
@@ -40,7 +43,7 @@ export function ContactTable({ contacts, actualizarContacto, actualizarResponse 
             const cobranza = cobranzas.filter(cobranza => cobranza.accion == contact.accion)
 
             return (
-            <TableRowContact contact={contact} actualizarContacto={actualizarContacto} actualizarResponse={actualizarResponse} key={contact.id} cobranza={cobranza[0]}/>
+            <TableRowContact contact={contact}  key={contact.id} contactActions={contactActions}  cobranza={cobranza[0]}/>
           )
           }) : <TableRow><TableCell>Cargando...</TableCell></TableRow> }
         </TableBody>

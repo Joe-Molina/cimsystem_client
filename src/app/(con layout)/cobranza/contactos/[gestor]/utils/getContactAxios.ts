@@ -12,6 +12,19 @@ export const getContacts = async () => {
   return response.data
 }
 
+export const updateContactAvailable = async (id: number) => {
+  const response = await axios({
+    method: 'patch',
+    withCredentials: true,
+    url: 'http://10.10.1.4:3002/interactions/update_contact_available',
+    data: {
+      id
+    }
+  });
+
+  return response.data
+}
+
 export const updateContact = async (id: number) => {
   const response = await axios({
     method: 'patch',
@@ -22,6 +35,18 @@ export const updateContact = async (id: number) => {
     }
   });
 
+  return response.data
+}
+
+export const updateContactCall = async (id: number) => {
+  const response = await axios({
+    method: 'patch',
+    withCredentials: true,
+    url: 'http://10.10.1.4:3002/interactions/update_contact_call',
+    data: {
+      id
+    }
+  });
 
   return response.data
 }
@@ -36,6 +61,18 @@ export const updateResponse = async (id: number) => {
     }
   });
 
+  return response.data
+}
+
+export const updateResponseCall = async (id: number) => {
+  const response = await axios({
+    method: 'patch',
+    withCredentials: true,
+    url: 'http://10.10.1.4:3002/interactions/update_response_call',
+    data: {
+      id
+    }
+  });
 
   return response.data
 }
