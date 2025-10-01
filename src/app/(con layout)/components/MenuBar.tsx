@@ -19,7 +19,13 @@ const cobranza: { title: string; href: string; description: string }[] = [
     title: "Cobranza",
     href: "/cobranza",
     description:
-      "A modal dialog that interrupts the user with important content and expects a response.",
+      "Verifica deudas y manda mensajes automaticos a los socios con deudas",
+  },
+    {
+    title: "Primeros Contactos",
+    href: "/cobranza/contactos",
+    description:
+      "Selecciona tu nombre y gestiona los primeros contactos que hiciste con los deudores",
   }
 ]
 
