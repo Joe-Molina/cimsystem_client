@@ -28,7 +28,7 @@ export function DialogWhatsApp({ accion, data, actualizarContacto, contactId }: 
   return (
     <Dialog>
       <DialogTrigger asChild >
-        <Button className="w-24 text-start" variant="outline" onClick={enviarWs.bind(null, data)}>Contactar</Button>
+        <Button className="w-26 text-start" variant="outline" onClick={enviarWs.bind(null, data)}>Enviar Mensaje</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

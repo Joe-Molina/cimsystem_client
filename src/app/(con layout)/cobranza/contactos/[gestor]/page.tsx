@@ -185,7 +185,7 @@ export default function Page() { // NO es async y NO recibe 'params'
     }, [gestorIdString]) // Dependencia: re-ejecutar si el gestor cambia (navegación en la misma página)
 
     return (
-        <div className='bg-slate-100 h-full p-7'>
+        <div className='bg-slate-100 h-[calc(100%-40px)] p-7'>
             <Toaster />
             <div className='bg-white shadow-md rounded-md p-5 h-full w-full'>
                 {/* Mostramos el ID del gestor obtenido */}
