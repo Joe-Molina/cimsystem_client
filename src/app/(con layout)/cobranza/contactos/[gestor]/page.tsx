@@ -121,7 +121,7 @@ export default function Page() { // NO es async y NO recibe 'params'
               if(contact.id == update.id) {
                 return {
                   ...contact,
-                  contactCall: true
+                  contactCall: true,
                 }
               }
               return contact

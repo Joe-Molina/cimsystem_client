@@ -11,13 +11,13 @@ export default function TableRowContact({contact, contactActions, cobranza}: {co
   return (
             <TableRow key={contact.id}>
               <TableCell className="font-medium">{contact.accion}</TableCell>
-              <TableCell className="font-medium">{contact.contact ? <button  className="bg-green-200 inline-block px-2 rounded-md text-green-700 font-bold"><div>contactado</div><div className='text-xs'>{format(contact.contact_createdAt!, { date: "medium", time: "short" })}</div></button> : <button onClick={() => contactActions.actualizarContacto(contact.id)} className="bg-red-200 inline-block px-2 rounded-md text-red-700 font-bold">sin contactar</button>}</TableCell>
+              <TableCell className="font-medium">{contact.contact ? <button  className="bg-green-200 inline-block px-2 rounded-md text-green-700 font-bold"><div>contactado</div></button> : <button onClick={() => contactActions.actualizarContacto(contact.id)} className="bg-red-200 inline-block px-2 rounded-md text-red-700 font-bold">sin contactar</button>}</TableCell>
               <TableCell className="font-medium">{contact.response ? <button className="bg-green-200 inline-block px-2 rounded-md text-green-700 font-bold">Respondido</button> : <button onClick={() => contactActions.actualizarResponse(contact.id)} className="bg-red-200 inline-block px-2 rounded-md text-red-700 font-bold">sin Responder</button>}</TableCell>
-              <TableCell className="font-medium">{contact.contactCall ? <button  className="bg-green-200 inline-block px-2 rounded-md text-green-700 font-bold">contactado</button> : <button onClick={() => contactActions.actualizarContactoCall(contact.id)} className="bg-red-200 inline-block px-2 rounded-md text-red-700 font-bold">sin Llamar</button>}</TableCell>
+              <TableCell className="font-medium">{contact.contactCall ? <button  className="bg-green-200 inline-block px-2 rounded-md text-green-700 font-bold">Llamada realizada</button> : <button onClick={() => contactActions.actualizarContactoCall(contact.id)} className="bg-red-200 inline-block px-2 rounded-md text-red-700 font-bold">sin Llamar</button>}</TableCell>
               <TableCell className="font-medium">{contact.responseCall ? <button className="bg-green-200 inline-block px-2 rounded-md text-green-700 font-bold">Llamada atendida</button> : <button onClick={() => contactActions.actualizarResponseCall(contact.id)} className="bg-red-200 inline-block px-2 rounded-md text-red-700 font-bold">no Atentido</button>}</TableCell>
               <TableCell className="font-medium">
                 {
-                  contact.contact || contact.contactCall ? 
+                  contact.contact ? 
                     <button className="bg-yellow-100 inline-block px-2 rounded-md text-yellow-600 font-bold">esperando respuesta</button>
                     :
                     contact.contactAvailable ? 
