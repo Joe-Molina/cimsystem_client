@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { getContacts, updateContact, updateContactAvailable, updateContactCall, updateResponse, updateResponseCall } from '../utils/getContactAxios';
 import { ContactActions, ContactProps } from '../../types/types';
+import { toast } from 'sonner';
+import { format } from '@formkit/tempo';
 
 export default function useFetchContacts(gestorId: number) { // 👈 Nombre mejorado
 
@@ -44,6 +46,12 @@ export default function useFetchContacts(gestorId: number) { // 👈 Nombre mejo
     console.log('apretado')
     const update = await updateContact(id)
 
+    if(update){
+      toast(`contacto actualizado`, {
+        description: format(new Date(), "full"),
+      })
+    }
+
     setContactsPrimary(
       prevContacts => {
         return prevContacts.map(contact => {
@@ -63,6 +71,12 @@ export default function useFetchContacts(gestorId: number) { // 👈 Nombre mejo
   const actualizarResponse = async (id: number) => {
     console.log('apretado')
     const update = await updateResponse(id)
+
+    if (update) {
+      toast(`contacto actualizado`, {
+        description: format(new Date(), "full"),
+      })
+    }
 
     setContactsPrimary(
       prevContacts => {
@@ -84,6 +98,12 @@ export default function useFetchContacts(gestorId: number) { // 👈 Nombre mejo
     console.log('apretado')
     const update = await updateContactCall(id)
 
+    if (update) {
+      toast(`contacto actualizado`, {
+        description: format(new Date(), "full"),
+      })
+    }
+
     setContactsPrimary(
       prevContacts => {
         return prevContacts.map(contact => {
@@ -104,6 +124,12 @@ export default function useFetchContacts(gestorId: number) { // 👈 Nombre mejo
     console.log('apretado')
     const update = await updateResponseCall(id)
 
+    if (update) {
+      toast(`contacto actualizado`, {
+        description: format(new Date(), "full"),
+      })
+    }
+
     setContactsPrimary(
       prevContacts => {
         return prevContacts.map(contact => {
@@ -123,6 +149,12 @@ export default function useFetchContacts(gestorId: number) { // 👈 Nombre mejo
   const actualizarContactAvailable = async (id: number) => {
     console.log('apretado')
     const update = await updateContactAvailable(id)
+
+    if (update) {
+      toast(`contacto actualizado`, {
+        description: format(new Date(), "full"),
+      })
+    }
 
     setContactsPrimary(
       prevContacts => {

@@ -3,6 +3,7 @@ import React from 'react'
 import { ContactTable } from './components/ContactTable'
 import { useParams } from 'next/navigation'; // <-- Correcto, para App Router
 import useFetchContacts from './hooks/useFetchContacts'
+import { Toaster } from '@/components/ui/sonner';
 
 const ButtonFilter = ({
   filterKey,              // El valor que este botón representa (ej: 'isContact')
@@ -52,6 +53,7 @@ export default function Page() { // NO es async y NO recibe 'params'
     console.log(key)
     return (
         <div className='bg-slate-100 h-[calc(100%-40px)] md:p-7 sm:p-1'>
+                                  <Toaster/>
             <div className='bg-white shadow-md rounded-md p-5 h-full w-full '>
                 {/* Mostramos el ID del gestor obtenido */}
                 <h1 className='text-xl'>Gestor: {gestorIdString == "2" ? "Maryelin": '' } {gestorIdString == "3" ? "Gianfranco": '' } {gestorIdString == "4" ? "Daniela": '' }</h1>

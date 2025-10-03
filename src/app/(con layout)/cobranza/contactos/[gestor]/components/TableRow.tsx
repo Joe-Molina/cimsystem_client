@@ -1,7 +1,6 @@
 import { TableCell, TableRow } from '@/components/ui/table'
 import React from 'react'
 import { format } from '@formkit/tempo'
-import useSendWs from '../hooks/useFetchCobranzas'
 import { Cobranza_info } from '../../../components/DataTable'
 import { DialogWhatsApp } from './DialogWs'
 import { ContactActions, ContactProps } from '../../types/types'
