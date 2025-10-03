@@ -7,20 +7,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { ContactActions, ContactProps } from "../page"
 import { format } from "@formkit/tempo"
 import TableRowContact from "./TableRow"
 import useFetchCobranzas from "../hooks/useFetchCobranzas"
+import { ContactActions, ContactProps } from "../../types/types"
+import useFetchContacts from "../hooks/useFetchContacts"
 
 
 
-export function ContactTable({ contacts, contactActions }: { contacts: ContactProps[], contactActions: ContactActions}) {
+export function ContactTable({isLoadingContact, contacts, contactActions}: {isLoadingContact: boolean, contacts: ContactProps[], contactActions: ContactActions}) {
 
   const {isLoading, cobranzas} = useFetchCobranzas()
 
   return (
     // APLICAR OVERFLOW Y ALTURA AL CONTENEDOR DIV EXTERNO
-    <div className="max-h-[calc(100%-20px)] overflow-y-auto"> 
+    <div className="max-h-[calc(100%-100px)] overflow-y-auto"> 
     
       <Table>
         <TableCaption>Lista de primeros contactos asignados</TableCaption>
@@ -40,7 +41,7 @@ export function ContactTable({ contacts, contactActions }: { contacts: ContactPr
           </TableRow>
         </TableHeader>
         <TableBody> 
-          {!isLoading ? contacts.map((contact) => {
+          {!(isLoading && !isLoadingContact) ? contacts.map((contact) => {
             const cobranza = cobranzas.filter(cobranza => cobranza.accion == contact.accion)
 
             return (

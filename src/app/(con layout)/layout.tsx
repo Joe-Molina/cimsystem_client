@@ -28,13 +28,11 @@ export default async function RootLayout({
       >
         <div className="flex flex-col h-screen">
           <div className="flex justify-between items-center px-12 h-12 shadow-lg">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 overflow-auto w-full">
               <Image src={'/fotos/logocim.png'} alt="" width={40} height={40} ></Image>
               <Link href={'/'} className="font-bold text-xl">CIMSystem</Link>
             </div>
-
             <NavigationMenuDemo />
-
           </div>
           {children}
         </div>

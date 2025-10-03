@@ -1,35 +1,41 @@
 "use client"
-import React, { useEffect, useState } from 'react'
-import { Toaster } from 'sonner'
-import { getContacts, updateContact, updateContactAvailable, updateContactCall, updateResponse, updateResponseCall } from './utils/getContactAxios'
+import React from 'react'
 import { ContactTable } from './components/ContactTable'
 import { useParams } from 'next/navigation'; // <-- Correcto, para App Router
+import useFetchContacts from './hooks/useFetchContacts'
 
-// Mantenemos la interfaz
-export interface ContactProps {
-    id: number
-    createdAt: Date
-    userId: number
-    accion: string
-    contactAvailable: boolean
-    contact: boolean
-    contact_createdAt?: Date
-    response: boolean
-    response_createdAt?: Date
-    contactCall: boolean
-    contactCall_createdAt?: Date
-    responseCall: boolean
-    responseCall_createdAt?: Date
-}
+const ButtonFilter = ({
+  filterKey,              // El valor que este botón representa (ej: 'isContact')
+  activeFilterKey,        // El valor del filtro actualmente seleccionado (el estado)
+  changeFilter,           // La función para cambiar el filtro
+  children                // Usamos 'children' para el contenido del botón
+}: {
+  filterKey: string;
+  activeFilterKey: string;
+  changeFilter: (key: string) => void;
+  children: React.ReactNode;
+}) => {
+  // 1. Ya no necesitas el console.log aquí.
 
-export interface ContactActions {
-  actualizarContacto: (id: number) => Promise<void>
-  actualizarResponse: (id: number) => Promise<void>
-  actualizarContactoCall: (id: number) => Promise<void>
-  actualizarResponseCall: (id: number) => Promise<void>
-  actualizarContactAvailable: (id: number) => Promise<void>
-}
+  // 2. Comparamos filterKey con activeFilterKey para determinar si está activo.
+  const isActive = filterKey === activeFilterKey;
+  
+  // 3. La clase ahora usa una sintaxis de template string más limpia.
+  const buttonClasses = `px-4 py-2 rounded transition-colors ${
+    isActive ? 'bg-indigo-600 text-white shadow-md' : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+  }`;
 
+  return (
+    <button 
+      onClick={() => changeFilter(filterKey)} // Usamos filterKey para actualizar
+      className={buttonClasses}
+      aria-pressed={isActive} // Mejora la accesibilidad (A11Y)
+      type="button" // Especifica el tipo para evitar envíos de formulario
+    >
+      {children} {/* El texto del botón viene de children (lo hace reutilizable) */}
+    </button>
+  );
+};
 
 export default function Page() { // NO es async y NO recibe 'params'
 
@@ -41,156 +47,25 @@ export default function Page() { // NO es async y NO recibe 'params'
     // Convertimos el ID a número de inmediato para usarlo en la lógica de filtrado
     const gestorId = Number(gestorIdString); 
 
+    const {isLoadingContact,contactActions,contacts,changeFilter, FILTER_KEYS, key} = useFetchContacts(gestorId)
 
-    const [contacs, setContacs] = useState<ContactProps[]>([])
-
-    // 2. La lógica de filtrado usa el gestorId obtenido del hook
-    const ContactosAsignados = async () => {
-        // Manejo de caso donde el ID no es válido o está ausente (debería ser raro si es ruta dinámica)
-        if (isNaN(gestorId)) {
-            console.error("ID de gestor no válido:", gestorIdString);
-            return;
-        }
-
-        try {
-            const contactosResponse = await getContacts();
-            
-            // Asumiendo que getContacts() retorna el array directamente o tiene una propiedad 'data'
-            const contactos = contactosResponse.data || contactosResponse; 
-            
-            if (contactos && Array.isArray(contactos)) {
-                // Filtramos por el ID numérico
-                const gestorContacts = contactos.filter((contacto: ContactProps) => 
-                    contacto.userId === gestorId
-                );
-                setContacs(gestorContacts);
-            }
-        } catch (error) {
-            console.error("Error fetching contacts:", error);
-            // Manejar error de forma visible para el usuario si es necesario
-        }
-    }
-
-    const actualizarContacto = async (id: number) => {
-      console.log('apretado')
-        const update = await updateContact(id)
-
-        setContacs(
-          prevContacts => {
-            return prevContacts.map(contact => {
-              if(contact.id == update.id) {
-                return {
-                  ...contact,
-                  contact: true
-                }
-              }
-              return contact
-            })
-          }
-
-        )
-    }
-
-    const actualizarResponse = async (id: number) => {
-      console.log('apretado')
-        const update = await updateResponse(id)
-
-        setContacs(
-          prevContacts => {
-            return prevContacts.map(contact => {
-              if(contact.id == update.id) {
-                return {
-                  ...contact,
-                  response: true
-                }
-              }
-              return contact
-            })
-          }
-
-        )
-    }
-
-    const actualizarContactoCall = async (id: number) => {
-      console.log('apretado')
-        const update = await updateContactCall(id)
-
-        setContacs(
-          prevContacts => {
-            return prevContacts.map(contact => {
-              if(contact.id == update.id) {
-                return {
-                  ...contact,
-                  contactCall: true,
-                }
-              }
-              return contact
-            })
-          }
-
-        )
-    }
-
-    const actualizarResponseCall = async (id: number) => {
-      console.log('apretado')
-        const update = await updateResponseCall(id)
-
-        setContacs(
-          prevContacts => {
-            return prevContacts.map(contact => {
-              if(contact.id == update.id) {
-                return {
-                  ...contact,
-                  responseCall: true
-                }
-              }
-              return contact
-            })
-          }
-
-        )
-    }
-
-    const actualizarContactAvailable = async (id: number) => {
-      console.log('apretado')
-        const update = await updateContactAvailable(id)
-
-        setContacs(
-          prevContacts => {
-            return prevContacts.map(contact => {
-              if(contact.id == update.id) {
-                return {
-                  ...contact,
-                  contactAvailable: true
-                }
-              }
-              return contact
-            })
-          }
-
-        )
-    }
-
-    const contactActions: ContactActions = {
-      actualizarContacto,
-      actualizarResponse,
-      actualizarContactoCall,
-      actualizarResponseCall,
-      actualizarContactAvailable
-    }
-
-    // 3. Ejecutamos la función asíncrona al montar
-    useEffect(() => {
-        ContactosAsignados()
-    }, [gestorIdString]) // Dependencia: re-ejecutar si el gestor cambia (navegación en la misma página)
-
+    console.log(key)
     return (
-        <div className='bg-slate-100 h-[calc(100%-40px)] p-7'>
-            <Toaster />
-            <div className='bg-white shadow-md rounded-md p-5 h-full w-full'>
+        <div className='bg-slate-100 h-[calc(100%-40px)] md:p-7 sm:p-1'>
+            <div className='bg-white shadow-md rounded-md p-5 h-full w-full '>
                 {/* Mostramos el ID del gestor obtenido */}
-                <h1 className='text-xl'>Gestor ID: {gestorIdString == "2" ? "Maryelin": '' } {gestorIdString == "3" ? "Gianfranco": '' } {gestorIdString == "4" ? "Daniela": '' }</h1>
-                {contacs && <ContactTable contacts={contacs} contactActions={contactActions}/>}
+                <h1 className='text-xl'>Gestor: {gestorIdString == "2" ? "Maryelin": '' } {gestorIdString == "3" ? "Gianfranco": '' } {gestorIdString == "4" ? "Daniela": '' }</h1>
+                <div className='flex items-center mb-3 bg-slate-100 p-2 rounded-md'>
+                  <div className='flex gap-3 w-full overflow-auto'>
+                    <ButtonFilter filterKey={FILTER_KEYS.ALL} changeFilter={changeFilter}  activeFilterKey={key}>Todo</ButtonFilter>
+                    <ButtonFilter filterKey={FILTER_KEYS.IS_NOT_CONTACT} changeFilter={changeFilter} activeFilterKey={key} >Sin Contactar</ButtonFilter>
+                    <ButtonFilter filterKey={FILTER_KEYS.IS_CONTACT} changeFilter={changeFilter} activeFilterKey={key} >Mensaje Enviado</ButtonFilter>
+                    <ButtonFilter filterKey={FILTER_KEYS.IS_CONTACT_CALL} changeFilter={changeFilter} activeFilterKey={key} >Llamada realizada</ButtonFilter>
+                    <ButtonFilter filterKey={FILTER_KEYS.CASE_ASIGNED} changeFilter={changeFilter} activeFilterKey={key} >Casos asignados</ButtonFilter>
+                    <ButtonFilter filterKey={FILTER_KEYS.NON_AVAILABLE} changeFilter={changeFilter} activeFilterKey={key} >Imposible contactar</ButtonFilter>
+                  </div>
+                </div>
+                <ContactTable contactActions={contactActions} contacts={contacts} isLoadingContact={isLoadingContact}/>
             </div>
         </div>
     )

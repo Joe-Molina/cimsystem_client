@@ -1,13 +1,12 @@
 import { TableCell, TableRow } from '@/components/ui/table'
 import React from 'react'
-import { ContactActions, ContactProps } from "../page"
 import { format } from '@formkit/tempo'
 import useSendWs from '../hooks/useFetchCobranzas'
 import { Cobranza_info } from '../../../components/DataTable'
 import { DialogWhatsApp } from './DialogWs'
+import { ContactActions, ContactProps } from '../../types/types'
 
 export default function TableRowContact({contact, contactActions, cobranza}: {contact: ContactProps, contactActions:ContactActions, cobranza: Cobranza_info }) {
-  console.log(cobranza.cant_cuotas_vencidas)
   return (
             <TableRow key={contact.id}>
               <TableCell className="font-medium">{contact.accion}</TableCell>
@@ -21,15 +20,12 @@ export default function TableRowContact({contact, contactActions, cobranza}: {co
               <TableCell className="font-medium">
                 { contact.responseCall || contact.response 
                 ?
-                  <button className="bg-green-100 inline-block px-2 rounded-md text-green-600 font-bold">Caso pendiente por asignar </button>
+                  <button className="bg-green-100 inline-block px-2 rounded-md text-green-600 font-bold">Caso Asignado</button>
                 :
-                  contact.contact ? 
-                    <button className="bg-yellow-100 inline-block px-2 rounded-md text-yellow-600 font-bold">esperando respuesta</button>
-                    :
                     contact.contactAvailable ? 
                       <button className="bg-red-200 inline-block px-2 rounded-md text-red-700 font-bold">contacto no disponible</button>
                       :
-                      <button onClick={() => contactActions.actualizarContactAvailable(contact.id)} className="bg-violet-200 inline-block px-2 rounded-md text-violet-700 font-bold">verificar contacto</button>
+                      <button onClick={() => contactActions.actualizarContactAvailable(contact.id)} className="bg-yellow-200 inline-block rounded-md text-yellow-700 font-bold p-2">verificar contacto</button>
                     }
                     </TableCell>
               <TableCell className="font-medium"><span className='bg-orange-300 px-2 rounded-md text-orange-800 font-semibold'>{cobranza.cant_cuotas_vencidas}</span></TableCell>
