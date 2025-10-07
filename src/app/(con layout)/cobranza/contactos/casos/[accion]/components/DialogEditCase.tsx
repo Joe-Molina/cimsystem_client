@@ -18,6 +18,7 @@ import {
   RadioGroupItem,
 } from "@/components/ui/radio-group"
 import axios from "axios"
+import { Textarea } from "@/components/ui/textarea"
 
 
 export function DialogEditCase({id}: {id: number}) {
@@ -51,6 +52,10 @@ export function DialogEditCase({id}: {id: number}) {
   }
 }
 
+useEffect(() => {
+  console.log(note)
+},[note])
+
 
   return (
     <Dialog>
@@ -78,7 +83,7 @@ export function DialogEditCase({id}: {id: number}) {
           <div className="grid gap-4">
             <div className="grid gap-3">
               <Label htmlFor="name-1">Nota:</Label>
-              <Input id="name-1" name="name" defaultValue="Que te informo el socio?" onChange={(e) => setNote(e.target.value)}/>
+              <Textarea id="name-1" name="name" defaultValue="Que te informo el socio?" onChange={(e) => setNote(e.target.value)}/>
             </div>
           </div>
           <DialogFooter>
