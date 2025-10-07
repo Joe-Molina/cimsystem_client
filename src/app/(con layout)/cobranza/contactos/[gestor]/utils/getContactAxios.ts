@@ -1,5 +1,4 @@
 import axios, { AxiosResponse } from "axios";
-import { ContactProps } from "../page";
 
 export const getContacts = async () => {
   const response = await axios({

@@ -53,10 +53,11 @@ export default function Page() { // NO es async y NO recibe 'params'
     console.log(key)
     return (
         <div className='bg-slate-100 h-[calc(100%-40px)] md:p-7 sm:p-1'>
-                                  <Toaster/>
+            <Toaster/>
             <div className='bg-white shadow-md rounded-md p-5 h-full w-full '>
                 {/* Mostramos el ID del gestor obtenido */}
                 <h1 className='text-xl'>Gestor: {gestorIdString == "2" ? "Maryelin": '' } {gestorIdString == "3" ? "Gianfranco": '' } {gestorIdString == "4" ? "Daniela": '' }</h1>
+                <span>{contacts.length}</span>
                 <div className='flex items-center mb-3 bg-slate-100 p-2 rounded-md'>
                   <div className='flex gap-3 w-full overflow-auto'>
                     <ButtonFilter filterKey={FILTER_KEYS.ALL} changeFilter={changeFilter}  activeFilterKey={key}>Todo</ButtonFilter>

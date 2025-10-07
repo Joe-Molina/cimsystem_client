@@ -4,6 +4,8 @@ import { format } from '@formkit/tempo'
 import { Cobranza_info } from '../../../components/DataTable'
 import { DialogWhatsApp } from './DialogWs'
 import { ContactActions, ContactProps } from '../../types/types'
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
 
 export default function TableRowContact({contact, contactActions, cobranza}: {contact: ContactProps, contactActions:ContactActions, cobranza: Cobranza_info }) {
   return (
@@ -19,7 +21,7 @@ export default function TableRowContact({contact, contactActions, cobranza}: {co
               <TableCell className="font-medium">
                 { contact.responseCall || contact.response 
                 ?
-                  <button className="bg-green-100 inline-block px-2 rounded-md text-green-600 font-bold">Caso Asignado</button>
+                  <Link href={`/cobranza/contactos/casos/${contact.accion}`} ><Button className="bg-green-100 inline-block rounded-md text-green-600 font-bold hover:bg-green-900 hover:text-green-400">Caso Asignado</Button></Link>
                 :
                     contact.contactAvailable ? 
                       <button className="bg-red-200 inline-block px-2 rounded-md text-red-700 font-bold">contacto no disponible</button>
