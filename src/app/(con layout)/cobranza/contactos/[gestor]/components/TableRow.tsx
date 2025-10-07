@@ -21,7 +21,7 @@ export default function TableRowContact({contact, contactActions, cobranza}: {co
               <TableCell className="font-medium">
                 { contact.responseCall || contact.response 
                 ?
-                  <Link href={`/cobranza/contactos/casos/${contact.accion}`} ><Button className="bg-green-100 inline-block rounded-md text-green-600 font-bold hover:bg-green-900 hover:text-green-400">Caso Asignado</Button></Link>
+                  !contact.caseStatus ? <Link href={`/cobranza/contactos/casos/${contact.accion}`} ><Button className="bg-green-100 inline-block rounded-md text-green-600 font-bold hover:bg-green-900 hover:text-green-400">Caso Asignado</Button></Link> : <Link href={`/cobranza/contactos/casos/${contact.accion}`} ><Button className="bg-sky-100 inline-block rounded-md text-sky-600 font-bold hover:bg-sky-900 hover:text-sky-400">Caso Cerrado</Button></Link>
                 :
                     contact.contactAvailable ? 
                       <button className="bg-red-200 inline-block px-2 rounded-md text-red-700 font-bold">contacto no disponible</button>
