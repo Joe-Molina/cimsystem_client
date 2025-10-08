@@ -38,6 +38,7 @@ export function ContactTable({isLoadingContact, contacts, contactActions}: {isLo
             <TableHead>Estado del Contacto</TableHead>
             <TableHead>Cuotas</TableHead>
             <TableHead className="text-right">Fecha de Asignacion</TableHead>
+            <TableHead className="text-right">Opciones</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody> 

@@ -75,3 +75,28 @@ export const updateResponseCall = async (id: number) => {
 
   return response.data
 }
+
+export const updateCasePromise = async ({ id, note, promesa }: { id: number, note: string, promesa: string }) => {
+
+  const response1 = await axios({
+    method: 'patch',
+    withCredentials: true,
+    url: 'http://10.10.1.4:3002/interactions/update_promise',
+    data: {
+      id, promesa
+    }
+  });
+
+  const response = await axios({
+    method: 'patch',
+    withCredentials: true,
+    url: 'http://10.10.1.4:3002/interactions/update_note',
+    data: {
+      id, note
+    }
+  });
+
+  if (response && response1) {
+    window.location.reload();
+  }
+}
