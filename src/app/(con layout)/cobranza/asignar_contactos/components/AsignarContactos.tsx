@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { Cobranza_info } from '../../components/DataTable'
 import { dividirArrayEnPartes } from '../utils/dividirArray';
 import axios from 'axios';
-import { crearContacto } from '../utils/createContactAxios';
+import { crearCaso } from '../utils/createContactAxios';
+// import { crearContacto } from '../utils/createContactAxios';
 
 export function AsignarContactos({socios}: {socios:Cobranza_info[]}) {
 
@@ -37,9 +38,9 @@ export function AsignarContactos({socios}: {socios:Cobranza_info[]}) {
 
 const asignarContactos = async (contactos_divididos: Cobranza_info[][]) => {
     // 1. Definir los arrays de promesas (la ejecución comienza aquí)
-    const promesas0 = contactos_divididos[0].map(deuda => crearContacto(2, deuda.accion));
-    const promesas1 = contactos_divididos[1].map(deuda => crearContacto(3, deuda.accion));
-    const promesas2 = contactos_divididos[2].map(deuda => crearContacto(4, deuda.accion));
+    const promesas0 = contactos_divididos[0].map(deuda => crearCaso({user: 2, accion: deuda.accion, cuotasIniciales: deuda.cant_cuotas_vencidas}));
+    const promesas1 = contactos_divididos[1].map(deuda => crearCaso({user: 3, accion: deuda.accion, cuotasIniciales: deuda.cant_cuotas_vencidas}));
+    const promesas2 = contactos_divididos[2].map(deuda => crearCaso({user: 4, accion: deuda.accion, cuotasIniciales: deuda.cant_cuotas_vencidas}));
 
     // 2. Esperar a que TODOS los grupos terminen al mismo tiempo
     await Promise.all([

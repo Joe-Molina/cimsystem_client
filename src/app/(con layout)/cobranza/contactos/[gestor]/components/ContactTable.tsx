@@ -7,13 +7,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { format } from "@formkit/tempo"
 import TableRowContact from "./TableRow"
 import useFetchCobranzas from "../hooks/useFetchCobranzas"
 import { ContactActions, ContactProps } from "../../types/types"
-import useFetchContacts from "../hooks/useFetchContacts"
-
-
 
 export function ContactTable({isLoadingContact, contacts, contactActions}: {isLoadingContact: boolean, contacts: ContactProps[], contactActions: ContactActions}) {
 
@@ -36,7 +32,8 @@ export function ContactTable({isLoadingContact, contacts, contactActions}: {isLo
             <TableHead>Telefono</TableHead>
             <TableHead>Respuesta Llamada</TableHead>
             <TableHead>Estado del Contacto</TableHead>
-            <TableHead>Cuotas</TableHead>
+            <TableHead>Cuotas Iniciales</TableHead>
+            <TableHead>Cuotas Actuales</TableHead>
             <TableHead className="text-right">Fecha de Asignacion</TableHead>
             <TableHead className="text-right">Opciones</TableHead>
           </TableRow>
@@ -44,6 +41,10 @@ export function ContactTable({isLoadingContact, contacts, contactActions}: {isLo
         <TableBody> 
           {!(isLoading && !isLoadingContact) ? contacts.map((contact) => {
             const cobranza = cobranzas.filter(cobranza => cobranza.accion == contact.accion)
+
+
+            // no activar la funcion de abajo porq actualiza todas las cuotas
+            // Promise.all([updateCuotas()])
 
             return (
             <TableRowContact contact={contact}  key={contact.id} contactActions={contactActions}  cobranza={cobranza[0]}/>

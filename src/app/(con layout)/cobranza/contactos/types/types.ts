@@ -16,6 +16,7 @@ export interface ContactProps {
   PromiseNonPayment: boolean
   note: string
   caseStatus: boolean
+  cuotasIniciales: number
 }
 
 export interface ContactActions {

@@ -9,7 +9,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useEffect, useState } from "react"
 
@@ -17,9 +16,9 @@ import {
   RadioGroup,
   RadioGroupItem,
 } from "@/components/ui/radio-group"
-import axios from "axios"
 import { Textarea } from "@/components/ui/textarea"
 import { updateCasePromise, updateContact, updateContactAvailable, updateContactCall, updateResponse, updateResponseCall } from "../../../[gestor]/utils/getContactAxios"
+import { toast } from "sonner"
 
 
 export function DialogEditCase({id}: {id: number}) {
@@ -32,39 +31,37 @@ useEffect(() => {
 
 const updateContactReload = async(id: number) => {
   const response = await updateContact(id)
-    if (response) {
-    window.location.reload();
+  if (response){
+    toast('Mensaje enviado')
   }
 }
 const updateResponseReload = async(id: number) => {
   const response = await updateResponse(id)
-    if (response) {
-    window.location.reload();
+
+  if (response){
+    toast('Respuesta de mensaje actualizada')
   }
+
 }
 
 const updateContactCallReload = async(id: number) => {
   const response = await updateContactCall(id)
-    if (response) {
-    window.location.reload();
+  if (response){
+    toast('Socio llamado')
   }
 }
-
 const updateResponseCallReload = async(id: number) => {
   const response = await updateResponseCall(id)
-    if (response) {
-    window.location.reload();
+  if (response){
+    toast('Llamada atendida')
   }
 }
-
 const updateContactAvailableReload = async(id: number) => {
   const response = await updateContactAvailable(id)
-    if (response) {
-    window.location.reload();
+  if (response){
+    toast('Actualizado a contacto no disponible')
   }
 }
-
-
   return (
     <Dialog>
       <form>
@@ -90,6 +87,7 @@ const updateContactAvailableReload = async(id: number) => {
           </div>
           </div>
           <Button className="text-xs w-full" onClick={() => updateContactAvailableReload(id)} >Registrar contacto no disponible</Button>
+          {/* <DialogWhatsApp accion={contact.accion} data={cobranza} actualizarContacto={contactActions.actualizarContacto} contactId={contact.id}/> */}
         </div>
           <RadioGroup defaultValue="1" onValueChange={setPromesa}>
             <div className="flex items-center gap-3  bg-green-100 text-green-800 p-1 rounded-md">
