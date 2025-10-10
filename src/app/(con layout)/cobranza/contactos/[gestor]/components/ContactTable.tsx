@@ -10,6 +10,7 @@ import {
 import TableRowContact from "./TableRow"
 import useFetchCobranzas from "../hooks/useFetchCobranzas"
 import { ContactActions, ContactProps } from "../../types/types"
+import { DialogCase } from "./DialogCase"
 
 export function ContactTable({isLoadingContact, contacts, contactActions}: {isLoadingContact: boolean, contacts: ContactProps[], contactActions: ContactActions}) {
 

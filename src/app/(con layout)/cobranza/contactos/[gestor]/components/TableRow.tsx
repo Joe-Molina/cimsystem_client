@@ -6,6 +6,7 @@ import { DialogWhatsApp } from './DialogWs'
 import { ContactActions, ContactProps } from '../../types/types'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { DialogCase } from './DialogCase'
 
 export default function TableRowContact({contact, contactActions, cobranza}: {contact: ContactProps, contactActions:ContactActions, cobranza: Cobranza_info }) {
   return (
@@ -30,7 +31,7 @@ export default function TableRowContact({contact, contactActions, cobranza}: {co
               <TableCell className="font-medium"><span className='bg-orange-300 px-2 rounded-md text-orange-800 font-semibold'>{contact.cuotasIniciales}</span></TableCell>
               <TableCell className="font-medium"><span className={`bg-${cobranza.cant_cuotas_vencidas < contact.cuotasIniciales ? 'blue': 'orange'}-300 px-2 rounded-md text-${cobranza.cant_cuotas_vencidas < contact.cuotasIniciales ? 'slate': 'orange'}-800 font-semibold`}>{cobranza.cant_cuotas_vencidas}</span></TableCell>
               <TableCell className="text-right"><span className="bg-blue-100 inline-block px-2 rounded-md text-sky-500 font-semibold">{format(contact.createdAt, "full")}</span></TableCell> 
-              <TableCell><Link href={`/cobranza/contactos/casos/${contact.accion}`} ><Button >Ver Caso</Button></Link></TableCell>
+              <TableCell><DialogCase cobranza={cobranza} accion={contact.accion} ><Button >Ver Caso</Button></DialogCase></TableCell>
             </TableRow>
   )
 }
