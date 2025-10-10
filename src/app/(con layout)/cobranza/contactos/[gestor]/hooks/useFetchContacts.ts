@@ -3,6 +3,8 @@ import { getContacts, updateContact, updateContactAvailable, updateContactCall, 
 import { ContactActions, ContactProps } from '../../types/types';
 import { toast } from 'sonner';
 import { format } from '@formkit/tempo';
+import { Cobranza_info } from '../../../components/DataTable';
+import { useAllCobranzaInfo } from '../../../react_query_hooks/useCobranza';
 
 export default function useFetchContacts(gestorId: number) { // 👈 Nombre mejorado
 
@@ -10,6 +12,7 @@ export default function useFetchContacts(gestorId: number) { // 👈 Nombre mejo
   const [contacts, setContacts] = useState<ContactProps[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true); // 👈 Añadir estado de carga
   const [error, setError] = useState<string | null>(null); // 👈 Añadir estado de error
+  const {query: {data}} = useAllCobranzaInfo()
 
     useEffect(() => {
         const cargarData = async () => {
@@ -172,6 +175,8 @@ export default function useFetchContacts(gestorId: number) { // 👈 Nombre mejo
     )
   }
 
+  
+
   const FILTER_KEYS = {
     ALL: 'all',
     IS_CONTACT: 'isContact',
@@ -179,7 +184,8 @@ export default function useFetchContacts(gestorId: number) { // 👈 Nombre mejo
     IS_CONTACT_CALL: 'isContactCall',
     IS_NOT_CONTACT_CALL: 'isNotContactCall',
     CASE_ASIGNED: 'caseAsigned',
-    NON_AVAILABLE: 'nonAvailable'
+    NON_AVAILABLE: 'nonAvailable',
+    PAYMENT: 'payment'
   };
 
   const [activeFilterKey, setActiveFilterKey] = useState(FILTER_KEYS.ALL);
@@ -187,17 +193,24 @@ export default function useFetchContacts(gestorId: number) { // 👈 Nombre mejo
   const filterFunctions = {
     [FILTER_KEYS.ALL]: (contacts: ContactProps[]) => contacts, // Devuelve todos los contactos
     [FILTER_KEYS.IS_CONTACT]: (contacts: ContactProps[]) =>
-      contacts.filter((contact: ContactProps) => contact.contact === true && contact.contactCall == false && contact.response == false && contact.responseCall == false), // Contactos donde 'contact' es verdadero
+      contacts.filter((contact: ContactProps) => contact.contact === true && contact.contactCall == false && contact.response == false && contact.responseCall == false && contact.caseStatus == false), // Contactos donde 'contact' es verdadero
     [FILTER_KEYS.IS_NOT_CONTACT]: (contacts: ContactProps[]) =>
-      contacts.filter((contact: ContactProps) => contact.contact === false && contact.contactCall === false && contact.contactAvailable == false),
+      contacts.filter((contact: ContactProps) => contact.contact === false && contact.contactCall === false && contact.contactAvailable == false && contact.caseStatus == false),
     [FILTER_KEYS.IS_CONTACT_CALL]:(contacts: ContactProps[]) =>
       contacts.filter((contact: ContactProps) => contact.contactCall === true && contact.contactAvailable == false && contact.responseCall == false && contact.response == false), 
     [FILTER_KEYS.IS_NOT_CONTACT_CALL]: (contacts: ContactProps[]) =>
       contacts.filter((contact: ContactProps) => contact.contactCall === false), 
     [FILTER_KEYS.CASE_ASIGNED]: (contacts: ContactProps[]) =>
-      contacts.filter((contact: ContactProps) => contact.response === true || contact.responseCall === true), 
+      contacts.filter((contact: ContactProps) => contact.contactAvailable == false && (contact.response === true || contact.responseCall === true || contact.caseStatus)), 
     [FILTER_KEYS.NON_AVAILABLE]: (contacts: ContactProps[]) =>
       contacts.filter((contact: ContactProps) => contact.contactAvailable === true ), 
+    [FILTER_KEYS.PAYMENT]: (contacts: ContactProps[]) =>   
+      contacts.filter((contact: ContactProps) => {
+        const compareCoutes = data!.filter((cobranza) => cobranza.accion == contact.accion)
+
+        contact.cuotasIniciales 
+      })
+     , 
   };
 
   const changeFilter = (key: string) => {

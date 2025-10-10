@@ -5,6 +5,8 @@ import { useParams } from 'next/navigation'; // <-- Correcto, para App Router
 import useFetchContacts from './hooks/useFetchContacts'
 import { Toaster } from '@/components/ui/sonner';
 import { updateCuotas } from '../../asignar_contactos/utils/createContactAxios';
+import { useCases } from '../../react_query_hooks/useCases';
+import useFetchCobranza from '../casos/hooks/useCobranza';
 
 const ButtonFilter = ({
   filterKey,              // El valor que este botón representa (ej: 'isContact')
@@ -45,10 +47,11 @@ export default function Page() { // NO es async y NO recibe 'params'
     // Asumimos que la ruta es, por ejemplo, app/clientes/[gestor]/page.tsx
     const params = useParams<{ gestor: string }>();
     const gestorIdString = params.gestor; 
-    
+
+    const {query: {data}} = useCases()
+
     // Convertimos el ID a número de inmediato para usarlo en la lógica de filtrado
     const gestorId = Number(gestorIdString); 
-
     const {isLoadingContact,contactActions,contacts,changeFilter, FILTER_KEYS, key} = useFetchContacts(gestorId)
 
         if(!isLoadingContact){

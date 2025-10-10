@@ -26,10 +26,8 @@ export function ContactTable({isLoadingContact, contacts, contactActions}: {isLo
             <TableHead className="w-[100px]">accion</TableHead>
             <TableHead>Nombre</TableHead>
             <TableHead>WhatsApp</TableHead>
-            <TableHead>Enviar Mensaje</TableHead>
             <TableHead>Respuesta WhatsApp</TableHead>
             <TableHead>Contacto Llamada</TableHead>
-            <TableHead>Telefono</TableHead>
             <TableHead>Respuesta Llamada</TableHead>
             <TableHead>Estado del Contacto</TableHead>
             <TableHead>Cuotas Iniciales</TableHead>

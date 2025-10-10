@@ -12,7 +12,7 @@ import { toast } from "sonner";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { Cobranza_info, enviarWs } from "../../../components/DataTable";
 
-export function DialogWhatsApp({ accion, data, actualizarContacto, contactId }: {contactId: number, accion: string, data: Cobranza_info, actualizarContacto: (id: number) => Promise<void>}) {
+export function DialogWhatsApp({ accion, data,  }: { accion: string, data: Cobranza_info}) {
 
   const handleSubmit = async () => {
     try {
@@ -43,7 +43,7 @@ export function DialogWhatsApp({ accion, data, actualizarContacto, contactId }: 
             <Button >no</Button>
           </DialogClose>
           <DialogClose asChild className="w-full">
-            <Button type="submit" onClick={() => actualizarContacto(contactId)}>si</Button>
+            <Button type="submit">si</Button>
           </DialogClose >
         </div>
       </DialogContent>

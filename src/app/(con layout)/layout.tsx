@@ -4,6 +4,7 @@ import "../globals.css";
 import Image from "next/image";
 import { NavigationMenuDemo } from "./components/MenuBar";
 import Link from "next/link";
+import { Providers } from "@/lib/providers";
 
 const geistSans = localFont({
   src: "../fonts/GeistVF.woff",
@@ -26,6 +27,7 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} antialiased`}
       >
+     <Providers>
         <div className="flex flex-col h-screen">
           <div className="flex justify-between items-center px-12 h-12 shadow-lg">
             <div className="flex items-center gap-4 overflow-auto w-full">
@@ -36,6 +38,7 @@ export default async function RootLayout({
           </div>
           {children}
         </div>
+      </Providers>
       </body>
     </html>
   );
