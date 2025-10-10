@@ -13,7 +13,7 @@ export default function TableRowContact({contact, contactActions, cobranza}: {co
               <TableCell className="font-medium">{contact.accion}</TableCell>
               <TableCell className="font-medium">{cobranza.nombre}</TableCell>
               <TableCell className="font-medium">{contact.contact ? <button  className="bg-green-200 inline-block px-2 rounded-md text-green-700 font-bold"><div>mensaje enviado</div></button> : <button  className="bg-red-200 inline-block px-2 rounded-md text-red-700 font-bold">sin contactar</button>}</TableCell>
-              <TableCell></TableCell>
+              <TableCell><DialogWhatsApp accion={contact.accion} data={cobranza} actualizarContacto={contactActions.actualizarContacto} contactId={contact.id}/></TableCell>
               <TableCell className="font-medium">{contact.response ? <button className="bg-green-200 inline-block px-2 rounded-md text-green-700 font-bold">Respondido</button> : contact.contact ? <button  className="bg-red-200 inline-block px-2 rounded-md text-red-700 font-bold">sin Respuesta</button>: <button className="bg-red-300 inline-block px-2 rounded-md text-red-800 font-bold">no contactado</button>}</TableCell>
               <TableCell className="font-medium">{contact.contactCall ? <button  className="bg-green-200 inline-block px-2 rounded-md text-green-700 font-bold">Llamada realizada</button> : <button className="bg-red-200 inline-block px-2 rounded-md text-red-700 font-bold">sin Llamar</button>}</TableCell>
               <TableCell>{cobranza.celular && <span className='p-2 bg-slate-500 text-slate-200 rounded-md font-normal'>{cobranza.celular}</span>}</TableCell>
