@@ -1,5 +1,5 @@
 import React from 'react'
-import { ContactProps } from '../../../types/types'
+import { ContactProps } from '../../types/types'
 import { format, } from '@formkit/tempo'
 import { DialogEditCase } from './DialogEditCase'
 

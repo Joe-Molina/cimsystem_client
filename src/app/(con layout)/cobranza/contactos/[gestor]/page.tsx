@@ -6,7 +6,7 @@ import useFetchContacts from './hooks/useFetchContacts'
 import { Toaster } from '@/components/ui/sonner';
 import { updateCuotas } from '../../asignar_contactos/utils/createContactAxios';
 import { useCases } from '../../react_query_hooks/useCases';
-import useFetchCobranza from '../casos/hooks/useCobranza';
+import useFetchCobranza from './hooks/useCobranza';
 
 const ButtonFilter = ({
   filterKey,              // El valor que este botón representa (ej: 'isContact')

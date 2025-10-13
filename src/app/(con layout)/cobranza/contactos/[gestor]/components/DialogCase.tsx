@@ -14,8 +14,8 @@ import { Label } from "@/components/ui/label"
 import { ContactProps } from "../../types/types"
 import { Cobranza_info, enviarWs } from "../../../components/DataTable"
 import { Toaster } from "sonner"
-import useFetchcases from "../../casos/hooks/useCases"
-import { DataCase } from "../../casos/[accion]/components/DataCaseRow"
+import useFetchcases from "../hooks/useCases"
+import { DataCase } from "./DataCaseRow"
 import { ReactNode } from "react"
 export function DialogCase({accion, cobranza, children}: {accion: string, cobranza: Cobranza_info, children: ReactNode}) {
       const {cases,isLoading} = useFetchcases({accion})

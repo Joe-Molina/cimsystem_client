@@ -17,7 +17,7 @@ import {
   RadioGroupItem,
 } from "@/components/ui/radio-group"
 import { Textarea } from "@/components/ui/textarea"
-import { updateCasePromise, updateContact, updateContactAvailable, updateContactCall, updateResponse, updateResponseCall } from "../../../[gestor]/utils/getContactAxios"
+import { updateCasePromise, updateContact, updateContactAvailable, updateContactCall, updateResponse, updateResponseCall } from "../utils/getContactAxios"
 import { toast } from "sonner"
 
 
