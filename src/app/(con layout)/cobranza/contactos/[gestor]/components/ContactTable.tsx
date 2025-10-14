@@ -8,14 +8,11 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import TableRowContact from "./TableRow"
-import useFetchCobranzas from "../hooks/useFetchCobranzas"
 import { ContactActions, ContactProps } from "../../types/types"
-import { DialogCase } from "./DialogCase"
+import { useAllCobranzaInfo } from "../../../react_query_hooks/useCobranza"
 
 export function ContactTable({isLoadingContact, contacts, contactActions}: {isLoadingContact: boolean, contacts: ContactProps[], contactActions: ContactActions}) {
-
-  const {isLoading, cobranzas} = useFetchCobranzas()
-
+  const {query: {data}} = useAllCobranzaInfo()
   return (
     // APLICAR OVERFLOW Y ALTURA AL CONTENEDOR DIV EXTERNO
     <div className="max-h-[calc(100%-100px)] overflow-y-auto"> 
@@ -38,13 +35,8 @@ export function ContactTable({isLoadingContact, contacts, contactActions}: {isLo
           </TableRow>
         </TableHeader>
         <TableBody> 
-          {!(isLoading && !isLoadingContact) ? contacts.map((contact) => {
-            const cobranza = cobranzas.filter(cobranza => cobranza.accion == contact.accion)
-
-
-            // no activar la funcion de abajo porq actualiza todas las cuotas
-            // Promise.all([updateCuotas()])
-
+          {!isLoadingContact && data ? contacts.map((contact) => {
+            const cobranza = data.filter(cobranza => cobranza.accion == contact.accion)
             return (
             <TableRowContact contact={contact}  key={contact.id} contactActions={contactActions}  cobranza={cobranza[0]}/>
           )

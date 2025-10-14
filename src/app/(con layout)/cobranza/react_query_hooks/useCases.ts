@@ -1,15 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
 import { ContactProps } from '../contactos/types/types';
-import { toast } from 'sonner';
-
-export interface ClientProps {
-  id?: number
-  name: string
-  adress: string
-  dni: string
-  phone: number
-}
 
 const fetchCases = async (): Promise<ContactProps[]> => {
   const { data } = await axios.get((`http://10.10.1.4:3002/interactions/get_contacts`))
@@ -30,7 +21,7 @@ export const useCases = () => {
   // const queryClient = useQueryClient();
 
   const query = useQuery<ContactProps[], AxiosError>({
-    queryKey: ['clients'],
+    queryKey: ['casos'],
     queryFn: fetchCases,
     staleTime: 60 * 1000
   })

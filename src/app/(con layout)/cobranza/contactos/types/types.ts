@@ -1,5 +1,6 @@
 export interface ContactProps {
   id: number
+  nombre: string
   createdAt: Date
   userId: number
   accion: string
@@ -17,6 +18,7 @@ export interface ContactProps {
   note: string
   caseStatus: boolean
   cuotasIniciales: number
+  cuotasActuales: number | undefined
 }
 
 export interface ContactActions {

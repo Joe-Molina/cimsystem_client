@@ -47,9 +47,19 @@ body {
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    --chart-1: oklch(75.862% 0.17676 60.629);
+    --chart-2: oklch(55.012% 0.22576 29.223);
+    --chart-3: oklch(56.916% 0.1919 142.785);
+    --chart-4: oklch(74.95% 0.12801 268.018);
+    --chart-5: oklch(85.9% 0.07377 246.907);
   }
 
   .dark {
+    --chart-1: oklch(0.488 0.243 264.376);
+    --chart-2: oklch(24.552% 0.16711 264.135);
+    --chart-3: oklch(47.059% 0.29887 264.226);
+    --chart-4: oklch(53.155% 0.262 273.63);
+    --chart-5: oklch(48.615% 0.29002 266.82);
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
     --card: 240 10% 3.9%;

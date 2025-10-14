@@ -1,21 +1,22 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Cobranza_info } from '../../../components/DataTable'
-import { ContactProps } from '../../types/types';
+import { ContactProps } from '../contactos/types/types';
+import { useCases } from '../react_query_hooks/useCases';
 
-export default function useFetchcases({accion}: {accion: string}) { // 👈 Nombre mejorado
+export function useGetCasesByAction({ accion }: { accion: string }) { // 👈 Nombre mejorado
 
   const [cases, setCases] = useState<ContactProps[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true); // 👈 Añadir estado de carga
   const [error, setError] = useState<string | null>(null); // 👈 Añadir estado de error
+  const {query: {data}} = useCases()
 
   useEffect(() => {
     const cargarData = async () => {
       try {
-        const response = await axios(`http://10.10.1.4:3002/interactions/get_cases/${accion}`);
-        const data: ContactProps[] = response.data;
 
-        setCases(data);
+        const cases = data!.filter(caso => caso.accion == accion)
+        
+        setCases(cases);
         setError(null); // Limpiar errores si tuvo éxito
 
       } catch (err) {
@@ -36,8 +37,6 @@ export default function useFetchcases({accion}: {accion: string}) { // 👈 Nomb
     // En este caso, Axios no tiene un método de 'cancelación' nativo
     // para una petición simple, pero el concepto es importante.
 
-  }, []); // 🚀 Array de dependencias vacío para ejecutar solo en el montaje
-
-  // 📦 Devolver todos los estados necesarios
+  }, [data]); // 
   return { cases, isLoading, error };
 }

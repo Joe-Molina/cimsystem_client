@@ -9,17 +9,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { ContactProps } from "../../types/types"
 import { Cobranza_info, enviarWs } from "../../../components/DataTable"
-import { Toaster } from "sonner"
-import useFetchcases from "../hooks/useCases"
+// import useFetchcases from "../../casos/hooks/useCases"
+import { ReactNode, useEffect } from "react"
 import { DataCase } from "./DataCaseRow"
-import { ReactNode } from "react"
+import { useGetCasesByAction } from "../../../hooks/useGetCasesByAction"
 export function DialogCase({accion, cobranza, children}: {accion: string, cobranza: Cobranza_info, children: ReactNode}) {
-      const {cases,isLoading} = useFetchcases({accion})
-
+      const {cases,isLoading} = useGetCasesByAction({accion})
   return (
     <Dialog>
       <form>
@@ -41,7 +37,7 @@ export function DialogCase({accion, cobranza, children}: {accion: string, cobran
                 <div className='flex items-center mb-3  p-2 rounded-md h-full'>
                   <div className='flex justify-center gap-3 overflow-auto h-full p-4'>
                     {
-                      isLoading  || !cases
+                      isLoading || !cases
                       ?
                       <p>cargando</p>
                       :

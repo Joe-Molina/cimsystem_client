@@ -1,10 +1,8 @@
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Cobranza_info } from '../../../components/DataTable'
-import { ContactProps } from '../../types/types';
-import { useAllCobranzaInfo } from '../../../react_query_hooks/useCobranza';
+import { Cobranza_info } from '../components/DataTable'
+import { useAllCobranzaInfo } from '../react_query_hooks/useCobranza';
 
-export default function useFetchCobranza({ accion }: { accion: string }) { // 👈 Nombre mejorado
+export function useGetDeudaByAction({ accion }: { accion: string }) { // 👈 Nombre mejorado
 
   const [cobranza, setCobranza] = useState<Cobranza_info>();
   const [cobranzas, setCobranzas] = useState<Cobranza_info[]>();

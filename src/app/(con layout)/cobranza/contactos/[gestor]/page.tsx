@@ -2,11 +2,8 @@
 import React from 'react'
 import { ContactTable } from './components/ContactTable'
 import { useParams } from 'next/navigation'; // <-- Correcto, para App Router
-import useFetchContacts from './hooks/useFetchContacts'
 import { Toaster } from '@/components/ui/sonner';
-import { updateCuotas } from '../../asignar_contactos/utils/createContactAxios';
-import { useCases } from '../../react_query_hooks/useCases';
-import useFetchCobranza from './hooks/useCobranza';
+import { useFilterCasesByGestor } from '../../hooks/useFilterCasesByGestor';
 
 const ButtonFilter = ({
   filterKey,              // El valor que este botón representa (ej: 'isContact')
@@ -43,31 +40,15 @@ const ButtonFilter = ({
 
 export default function Page() { // NO es async y NO recibe 'params'
 
-    // 1. OBTENER el parámetro gestor usando useParams (HOOK de Cliente)
-    // Asumimos que la ruta es, por ejemplo, app/clientes/[gestor]/page.tsx
     const params = useParams<{ gestor: string }>();
     const gestorIdString = params.gestor; 
-
-    const {query: {data}} = useCases()
-
-    // Convertimos el ID a número de inmediato para usarlo en la lógica de filtrado
     const gestorId = Number(gestorIdString); 
-    const {isLoadingContact,contactActions,contacts,changeFilter, FILTER_KEYS, key} = useFetchContacts(gestorId)
+    const {isLoadingContact,contactActions,contacts,changeFilter, FILTER_KEYS, key} = useFilterCasesByGestor(gestorId)
 
-        if(!isLoadingContact){
-          const casesWithPromisePayment = contacts.filter((caso) => caso.PromisePayment)
-    
-          console.log('promesas de pago: '+ casesWithPromisePayment.length)
-    
-                const casesWithPromiseNonPayment = contacts.filter((caso)=> caso.PromiseNonPayment)
-    
-          console.log('promesas de impago: '+ casesWithPromiseNonPayment.length)
-        }
     return (
         <div className='bg-slate-100 h-[calc(100%-40px)] md:p-7 sm:p-1'>
             <Toaster/>
             <div className='bg-white shadow-md rounded-md p-5 h-full w-full '>
-                {/* Mostramos el ID del gestor obtenido */}
                 <h1 className='text-xl'>Gestor: {gestorIdString == "2" ? "Maryelin": '' } {gestorIdString == "3" ? "Gianfranco": '' } {gestorIdString == "4" ? "Daniela": '' }</h1>
                 <span>{contacts.length}</span>
                 <div className='flex items-center mb-3 bg-slate-100 p-2 rounded-md'>
@@ -80,7 +61,7 @@ export default function Page() { // NO es async y NO recibe 'params'
                     <ButtonFilter filterKey={FILTER_KEYS.NON_AVAILABLE} changeFilter={changeFilter} activeFilterKey={key} >Imposible contactar</ButtonFilter>
                   </div>
                 </div>
-                <ContactTable contactActions={contactActions} contacts={contacts} isLoadingContact={isLoadingContact}/>
+                {contacts && <ContactTable contactActions={contactActions} contacts={contacts} isLoadingContact={isLoadingContact}/>}
             </div>
         </div>
     )

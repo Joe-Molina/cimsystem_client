@@ -21,7 +21,7 @@ export const useAllCobranzaInfo = () => {
   // const queryClient = useQueryClient();
 
   const query = useQuery<Cobranza_info[], AxiosError>({
-    queryKey: ['clients'],
+    queryKey: ['deudas'],
     queryFn: fetchAllCobranzaInfo,
     staleTime: 60 * 1000
   })

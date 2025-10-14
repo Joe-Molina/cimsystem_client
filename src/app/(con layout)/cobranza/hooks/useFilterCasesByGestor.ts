@@ -1,49 +1,56 @@
 import React, { useEffect, useState } from 'react'
-import { getContacts, updateContact, updateContactAvailable, updateContactCall, updateResponse, updateResponseCall } from '../utils/getContactAxios';
-import { ContactActions, ContactProps } from '../../types/types';
+import { getContacts, updateContact, updateContactAvailable, updateContactCall, updateResponse, updateResponseCall } from '../contactos/[gestor]/utils/getContactAxios';
+import { ContactActions, ContactProps } from '../contactos/types/types';
 import { toast } from 'sonner';
 import { format } from '@formkit/tempo';
-import { Cobranza_info } from '../../../components/DataTable';
-import { useAllCobranzaInfo } from '../../../react_query_hooks/useCobranza';
+import { useAllCobranzaInfo } from '../react_query_hooks/useCobranza';
+import { useCases } from '../react_query_hooks/useCases';
+// import { useCases } from '../../../react_query_hooks/useCases';
+// import useFetchCaseWithCuotas from './useCasesWithCuotas';
 
-export default function useFetchContacts(gestorId: number) { // 👈 Nombre mejorado
+
+export function useFilterCasesByGestor(gestorId: number) { // 👈 Nombre mejorado
 
   const [contactsPrimary, setContactsPrimary] = useState<ContactProps[]>([]);
   const [contacts, setContacts] = useState<ContactProps[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true); // 👈 Añadir estado de carga
   const [error, setError] = useState<string | null>(null); // 👈 Añadir estado de error
-  const {query: {data}} = useAllCobranzaInfo()
-
+    const {query: {data: deudas}} = useAllCobranzaInfo()
+    const {query: {data: casos}} = useCases()
+     
     useEffect(() => {
         const cargarData = async () => {
             try {
-              const data = await getContacts()
+              if (casos && Array.isArray(casos) && deudas) {
 
-                if (data && Array.isArray(data)) {
-                              // Filtramos por el ID numérico
-                    const gestorContacts = data.filter((contacto: ContactProps) => 
-                         contacto.userId === gestorId
-                    );
-                    setContacts(gestorContacts);
-                    setContactsPrimary(gestorContacts);
+                const casosFiltrados = casos.filter(caso => caso.userId === gestorId)
+
+                casosFiltrados.map(caso => {
+                  const deuda = deudas.filter(deuda => deuda.accion === caso.accion)
+
+                  if (deuda) {
+                    caso.cuotasActuales = deuda[0].cant_cuotas_vencidas
+                    caso.nombre = deuda[0].nombre
+                  }
+                })
+                setContacts(casosFiltrados);
+                setContactsPrimary(casosFiltrados);
                           }
-                setError(null); // Limpiar errores si tuvo éxito
+              setError(null); // Limpiar errores si tuvo éxito
 
             } catch (err) {
                 // ⚙️ Manejo de errores
                 console.error("Error al cargar la cobranza:", err);
                 setError('No se pudieron cargar los datos de cobranza.'); 
                 setContactsPrimary([]); // Asegurar que los datos estén vacíos en caso de error
-
             } finally {
                 // 🏁 Se ejecuta siempre, para indicar que la carga terminó
                 setIsLoading(false); 
             }
         };
-
         cargarData();
 
-    }, []); // 🚀 Array de dependencias vacío para ejecutar solo en el montaje
+    }, [deudas, casos]); // 🚀 Array de dependencias vacío para ejecutar solo en el montaje
 
   const actualizarContacto = async (id: number) => {
     console.log('apretado')
@@ -204,13 +211,12 @@ export default function useFetchContacts(gestorId: number) { // 👈 Nombre mejo
       contacts.filter((contact: ContactProps) => contact.contactAvailable == false && (contact.response === true || contact.responseCall === true || contact.caseStatus)), 
     [FILTER_KEYS.NON_AVAILABLE]: (contacts: ContactProps[]) =>
       contacts.filter((contact: ContactProps) => contact.contactAvailable === true ), 
-    [FILTER_KEYS.PAYMENT]: (contacts: ContactProps[]) =>   
-      contacts.filter((contact: ContactProps) => {
-        const compareCoutes = data!.filter((cobranza) => cobranza.accion == contact.accion)
-
-        contact.cuotasIniciales 
-      })
-     , 
+    // [FILTER_KEYS.PAYMENT]: (contacts: ContactProps[]) =>   
+      // contacts.filter((contact: ContactProps) => {
+      //   const compareCoutes = data!.filter((cobranza) => cobranza.accion == contact.accion)
+      //   contact.cuotasIniciales 
+      // })
+    //  , 
   };
 
   const changeFilter = (key: string) => {
