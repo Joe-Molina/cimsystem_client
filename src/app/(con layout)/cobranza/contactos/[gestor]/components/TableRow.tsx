@@ -18,7 +18,7 @@ export default function TableRowContact({contact, contactActions, cobranza}: {co
               <TableCell className="font-medium">{contact.contactCall ? <button  className="bg-green-200 inline-block px-2 rounded-md text-green-700 font-bold">Llamada realizada</button> : <button className="bg-red-200 inline-block px-2 rounded-md text-red-700 font-bold">sin Llamar</button>}</TableCell>
               <TableCell className="font-medium">{contact.responseCall ? <button className="bg-green-200 inline-block px-2 rounded-md text-green-700 font-bold">Llamada atendida</button> : contact.contactCall ? <button className="bg-red-200 inline-block px-2 rounded-md text-red-700 font-bold">no Atentido</button>: <button onClick={() => contactActions.actualizarResponseCall(contact.id)} className="bg-red-300 inline-block px-2 rounded-md text-red-800 font-bold">esperando llamar</button>}</TableCell>
               <TableCell className="font-medium">
-                { (contact.responseCall || contact.response) || contact.caseStatus
+                { (contact.responseCall || contact.response)
                 ?
                   !contact.caseStatus ? <Button className="bg-green-100 inline-block rounded-md text-green-600 font-bold hover:bg-green-900 hover:text-green-400">Caso Asignado</Button> : <Button className="bg-sky-100 inline-block rounded-md text-sky-600 font-bold hover:bg-sky-900 hover:text-sky-400">Caso Cerrado</Button>
                 :

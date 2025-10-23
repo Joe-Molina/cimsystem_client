@@ -211,12 +211,8 @@ export function useFilterCasesByGestor(gestorId: number) { // 👈 Nombre mejora
       contacts.filter((contact: ContactProps) => contact.contactAvailable == false && (contact.response === true || contact.responseCall === true || contact.caseStatus)), 
     [FILTER_KEYS.NON_AVAILABLE]: (contacts: ContactProps[]) =>
       contacts.filter((contact: ContactProps) => contact.contactAvailable === true ), 
-    // [FILTER_KEYS.PAYMENT]: (contacts: ContactProps[]) =>   
-      // contacts.filter((contact: ContactProps) => {
-      //   const compareCoutes = data!.filter((cobranza) => cobranza.accion == contact.accion)
-      //   contact.cuotasIniciales 
-      // })
-    //  , 
+    [FILTER_KEYS.PAYMENT]: (contacts: ContactProps[]) =>  
+      contacts.filter((contact: ContactProps) => contact.cuotasActuales! < contact.cuotasIniciales),  
   };
 
   const changeFilter = (key: string) => {

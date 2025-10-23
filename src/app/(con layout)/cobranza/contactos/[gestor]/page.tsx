@@ -59,6 +59,7 @@ export default function Page() { // NO es async y NO recibe 'params'
                     <ButtonFilter filterKey={FILTER_KEYS.IS_CONTACT_CALL} changeFilter={changeFilter} activeFilterKey={key} >Llamada realizada</ButtonFilter>
                     <ButtonFilter filterKey={FILTER_KEYS.CASE_ASIGNED} changeFilter={changeFilter} activeFilterKey={key} >Casos asignados</ButtonFilter>
                     <ButtonFilter filterKey={FILTER_KEYS.NON_AVAILABLE} changeFilter={changeFilter} activeFilterKey={key} >Imposible contactar</ButtonFilter>
+                    <ButtonFilter filterKey={FILTER_KEYS.PAYMENT} changeFilter={changeFilter} activeFilterKey={key} >Socios que pagaron</ButtonFilter>
                   </div>
                 </div>
                 {contacts && <ContactTable contactActions={contactActions} contacts={contacts} isLoadingContact={isLoadingContact}/>}
