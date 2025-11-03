@@ -56,11 +56,11 @@ const updateResponseCallReload = async(id: number) => {
   }
 }
 const updateContactAvailableReload = async(id: number) => {
-  const response = await updateContactAvailable(id)
-  if (response){
-    toast('Actualizado a contacto no disponible')
+    const response = await updateContactAvailable(id)
+    if (response){
+      toast('Actualizado a contacto no disponible')
+    }
   }
-}
 
   return (
     <Dialog>

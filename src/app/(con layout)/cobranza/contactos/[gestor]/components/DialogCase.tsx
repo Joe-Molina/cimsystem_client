@@ -22,31 +22,25 @@ export function DialogCase({accion, cobranza, children}: {accion: string, cobran
         <DialogTrigger asChild>
           {children}
         </DialogTrigger>
-        <DialogContent className="w-full">
+        <DialogContent className="flex flex-col w-full h-[600px]">
           <DialogHeader>
-            <DialogTitle>Expediente accion: {accion}</DialogTitle>
-            <DialogDescription>
-              apreta el boton Actualizar caso para editarlo.
+            <DialogTitle>Expediente casos: {accion}</DialogTitle>
+            <DialogDescription className="flex gap-2 justify-center items-center">
+              Casos: {accion} / {cobranza.celular? cobranza.celular: 'sin numero'} 
+             {cobranza.celular && <Button className="w-26 text-start" variant="outline" onClick={enviarWs.bind(null, cobranza!)}>Enviar Mensaje</Button>}
             </DialogDescription>
           </DialogHeader>
-            <div className='flex gap-2 items-center '>
-              <h1 className='font-bold text-xl'>Casos: {accion}</h1>
-            {cobranza.celular ? <Button className="w-26 text-start" variant="outline" onClick={enviarWs.bind(null, cobranza!)}>Enviar Mensaje</Button> : <p>No tiene numero de contacto</p>}
-            <h1 className='font-bold text-sm bg-slate-200 p-1 rounded-sm '>{cobranza?.celular}</h1>
-            </div>
-                <div className='flex items-center mb-3  p-2 rounded-md h-full'>
-                  <div className='flex justify-center gap-3 overflow-auto h-full p-4'>
-                    {
-                      isLoading || !cases
-                      ?
-                      <p>cargando</p>
-                      :
-                      cases.map((caso) => (
+              <div className="flex flex-col h-96 justify-center gap-3 p-4 pt-[400px] overflow-auto">
+                      {
+                        isLoading || !cases
+                        ?
+                        <p>cargando</p>
+                        :
+                        cases.map((caso) => (
                           <DataCase caso={caso} key={caso.id}/>
-                      ))
-                    }
-                  </div>
-                </div>
+                        ))
+                      }
+              </div>
           <DialogFooter>
             <DialogClose asChild>
               <Button variant="outline">Cerrar</Button>

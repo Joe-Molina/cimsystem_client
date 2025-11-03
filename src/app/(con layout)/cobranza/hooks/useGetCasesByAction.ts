@@ -6,15 +6,16 @@ import { useCases } from '../react_query_hooks/useCases';
 export function useGetCasesByAction({ accion }: { accion: string }) { // 👈 Nombre mejorado
 
   const [cases, setCases] = useState<ContactProps[]>([]);
+  // const [casesHistory, setCasesHistory] = useState<ContactProps[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true); // 👈 Añadir estado de carga
   const [error, setError] = useState<string | null>(null); // 👈 Añadir estado de error
-  const {query: {data}} = useCases()
+  const {casesHistory: {data}} = useCases()
 
   useEffect(() => {
     const cargarData = async () => {
       try {
-
-        const cases = data!.filter(caso => caso.accion == accion)
+        const casos = data!.toReversed()
+        const cases = casos.filter(caso => caso.accion == accion)
         
         setCases(cases);
         setError(null); // Limpiar errores si tuvo éxito
@@ -38,5 +39,5 @@ export function useGetCasesByAction({ accion }: { accion: string }) { // 👈 No
     // para una petición simple, pero el concepto es importante.
 
   }, [data]); // 
-  return { cases, isLoading, error };
+  return { cases,  isLoading, error };
 }

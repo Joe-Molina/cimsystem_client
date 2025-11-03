@@ -7,6 +7,11 @@ const fetchCases = async (): Promise<ContactProps[]> => {
   return data
 }
 
+const fetchCasesHistory = async (): Promise<ContactProps[]> => {
+  const { data } = await axios.get((`http://10.10.1.4:3002/interactions/get_contacts_history`))
+  return data
+}
+
 // const createClient = async (newClient: ClientProps): Promise<ClientProps> => {
 //   const { data } = await api.post('/client/create', newClient);
 //   if (data) {
@@ -26,6 +31,12 @@ export const useCases = () => {
     staleTime: 60 * 1000
   })
 
+  const casesHistory = useQuery<ContactProps[], AxiosError>({
+    queryKey: ['casos_history'],
+    queryFn: fetchCasesHistory,
+    staleTime: 60 * 1000
+  })
+
   // const createClientMutation = useMutation<ClientProps, Error, ClientProps>({
   //   mutationFn: createClient,
   //   onSuccess: () => queryClient.invalidateQueries({ queryKey: ['clients'] }),
@@ -33,6 +44,7 @@ export const useCases = () => {
 
   return {
     query,
+    casesHistory
     // createClientMutation
   }
 }
