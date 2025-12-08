@@ -135,7 +135,7 @@ export const columns: ColumnDef<Cobranza_info>[] = [
 
             <DropdownMenuSeparator />
 
-            {(socio_data.celular && socio_data.total_divisa != 0) && <DialogWhatsApp accion={socio_data.accion} data={socio_data} />
+            {<DialogWhatsApp accion={socio_data.accion} data={socio_data} />
             }
 
             <DropdownMenuSeparator />
@@ -164,30 +164,7 @@ export const columns: ColumnDef<Cobranza_info>[] = [
 
 export function DataTableDemo({ data }: { data: Cobranza_info[] }) {
 
-  const [contactStatus, setContactStatus] = React.useState<Record<string, boolean>>({});
-
   const [deudas, setDeudas] = React.useState(data)
-
-  React.useEffect(() => {
-    const fetchDeudas = async () => {
-      const status: Record<string, boolean> = {};
-      for (const row of data) {
-        try {
-          const response = await axios.get(
-            `http://10.10.1.4:3002/interactions/${row.accion}/1`
-          );
-          status[row.accion] = response.data; // Almacena el resultado de la llamada
-        } catch (error) {
-          console.error(`Error fetching data for accion ${row.accion}`, error);
-          status[row.accion] = false; // Maneja errores
-        }
-      }
-      setContactStatus(status); // Actualiza el estado con los resultados
-    };
-
-    fetchDeudas();
-  }, [data]);
-
 
   const [check, setcheck] = React.useState(false)
 
@@ -297,13 +274,13 @@ export function DataTableDemo({ data }: { data: Cobranza_info[] }) {
               table.getRowModel().rows.map((row) => {
                 console.log(row.getValue('accion'))
 
-                const isContact = contactStatus[row.getValue('accion') as string];
+                // const isContact = contactStatus[row.getValue('accion') as string];
 
 
                 return (
                   <TableRow
                     key={row.id}
-                    data-state={row.getIsSelected() && "selected"} className={isContact ? "bg-green-100" : ""}
+                    data-state={row.getIsSelected() && "selected"}
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>
