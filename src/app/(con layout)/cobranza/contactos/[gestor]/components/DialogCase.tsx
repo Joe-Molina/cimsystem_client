@@ -14,6 +14,16 @@ import { Cobranza_info, enviarWs } from "../../../components/DataTable";
 import { ReactNode, useEffect } from "react";
 import { DataCase } from "./DataCaseRow";
 import { useGetCasesByAction } from "../../../hooks/useGetCasesByAction";
+
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
+
+
 export function DialogCase({
   accion,
   cobranza,
@@ -28,7 +38,7 @@ export function DialogCase({
     <Dialog>
       <form>
         <DialogTrigger asChild>{children}</DialogTrigger>
-        <DialogContent className='flex flex-col w-full h-[600px]'>
+        <DialogContent className='flex flex-col w-full items-center h-[600px]'>
           <DialogHeader>
             <DialogTitle>Expediente casos: {accion}</DialogTitle>
             <DialogDescription className='flex gap-2 justify-center items-center'>
@@ -45,11 +55,21 @@ export function DialogCase({
               )}
             </DialogDescription>
           </DialogHeader>
-          <div className='flex flex-col h-96 justify-center gap-3 p-4 pt-[400px] overflow-auto'>
+          <div className='flex flex-col justify-center gap-3'>
             {isLoading || !cases ? (
               <p>cargando</p>
             ) : (
-              cases.map((caso) => <DataCase caso={caso} key={caso.id} />)
+               <Carousel className="w-full max-w-xs">
+                <CarouselContent>
+                  {cases.map((caso, index) => (
+                    <CarouselItem key={index}>
+                       <DataCase caso={caso} />
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+              </Carousel>          
             )}
           </div>
           <DialogFooter>

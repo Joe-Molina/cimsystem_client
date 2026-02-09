@@ -24,7 +24,7 @@ export function DataCaseRowContact({ info,  date, contact, response }: { info:st
 export function DataCase({caso}: { caso: ContactProps }) {
 
   return (
-   <div className='border-slate-300 flex flex-col gap-5 items-end border p-3 rounded-md'>
+   <div className='border-slate-300 flex flex-col gap-5 items-end border p-3 rounded-md overflow-auto max-h-[400px]'>
     <div className='flex w-full gap-4 justify-between'>
     <DialogEditCase id={caso.id}/>
     {caso.caseStatus ? <DataCaseRow color='green' info='Caso concluido'/>: <DataCaseRow color='red' info={`Caso abierto ${caso.contactCall_createdAt ? format( caso.contactCall_createdAt, 'short') : format( caso.createdAt, 'short')}`}/>}

@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react'
 import { Cobranza_info } from '../../components/DataTable'
 import { dividirArrayEnPartes } from '../utils/dividirArray';
-import axios from 'axios';
 import { crearCaso } from '../utils/createContactAxios';
 // import { crearContacto } from '../utils/createContactAxios';
 
@@ -34,7 +33,9 @@ export function AsignarContactos({socios}: {socios:Cobranza_info[]}) {
 
       setdeudas(newDeuda)
   }
-  const contactos_divididos: Cobranza_info[][] = dividirArrayEnPartes(deudas, 3)
+
+const contactos_divididos: Cobranza_info[][] = dividirArrayEnPartes(deudas, 3)
+const contactos_divididos_en_2: Cobranza_info[][] = dividirArrayEnPartes(deudas, 2)
 
 const asignarContactos = async (contactos_divididos: Cobranza_info[][]) => {
     // 1. Definir los arrays de promesas (la ejecución comienza aquí)
@@ -51,6 +52,21 @@ const asignarContactos = async (contactos_divididos: Cobranza_info[][]) => {
     
     // 3. El log debe reflejar que todos terminaron
     console.log("Todos los contactos de los 3 grupos han sido creados.");
+  };
+
+const asignarContactosDosPersonas = async (contactos_divididos: Cobranza_info[][]) => {
+    // 1. Definir los arrays de promesas (la ejecución comienza aquí)
+    const promesas0 = contactos_divididos[0].map(deuda => crearCaso({user: 2, accion: deuda.accion, cuotasIniciales: deuda.cant_cuotas_vencidas}));
+    const promesas1 = contactos_divididos[1].map(deuda => crearCaso({user: 3, accion: deuda.accion, cuotasIniciales: deuda.cant_cuotas_vencidas}));
+
+    // 2. Esperar a que TODOS los grupos terminen al mismo tiempo
+    await Promise.all([
+        ...promesas0, // Combina todos los arrays de promesas en uno solo
+        ...promesas1,
+    ]);
+    
+    // 3. El log debe reflejar que todos terminaron
+    console.log("Todos los contactos de los 2 grupos han sido creados.");
   };
 
   return (
@@ -70,13 +86,23 @@ const asignarContactos = async (contactos_divididos: Cobranza_info[][]) => {
         </div>
 
         <div>
-          <p>acciones para daniela: {contactos_divididos[0] && contactos_divididos[0].length}</p>
-          <p>acciones para franco: {contactos_divididos[1] && contactos_divididos[1].length}</p>
-          <p>acciones para maye: {contactos_divididos[2] && contactos_divididos[2].length}</p>  
+          <p>acciones para "gestor 1" : {contactos_divididos[0] && contactos_divididos[0].length}</p>
+          <p>acciones para "gestor 2" : {contactos_divididos[1] && contactos_divididos[1].length}</p>
+          <p>acciones para "gestor 3" : {contactos_divididos[2] && contactos_divididos[2].length}</p>  
         </div>
 
         <button className='bg-slate-400 rounded-sm px-2' onClick={() => asignarContactos(contactos_divididos)}>
           asignar contactos
+        </button>
+
+
+        
+        <div>
+          <p>acciones para "gestor 1" : {contactos_divididos_en_2[0] && contactos_divididos_en_2[0].length}</p>
+          <p>acciones para "gestor 2" : {contactos_divididos_en_2[1] && contactos_divididos_en_2[1].length}</p>
+        </div>
+                <button className='bg-slate-400 rounded-sm px-2' onClick={() => asignarContactosDosPersonas(contactos_divididos)}>
+          asignar contactos a solo 2 personas
         </button>
       </div>
   )

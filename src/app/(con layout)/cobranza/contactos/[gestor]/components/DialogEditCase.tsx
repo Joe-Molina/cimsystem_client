@@ -66,7 +66,7 @@ const updateContactAvailableReload = async(id: number) => {
     <Dialog>
       <form>
         <DialogTrigger asChild>
-          <Button variant="outline">Actualizar Historial del caso</Button>
+          <Button variant="outline" className="w-32 flex">Actualizar</Button>
         </DialogTrigger>
         <DialogContent className="">
           <DialogHeader>
