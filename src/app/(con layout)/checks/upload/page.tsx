@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useUploadCheck } from "@/hooks/use-upload-check";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,7 +20,6 @@ import { Upload, X, FileText,
 } from "lucide-react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect } from "react";
 import { toast } from "sonner";
 
 import {
@@ -48,6 +47,15 @@ export default function UploadCheckPage() {
     ocrText,
     isProcessingOCR
   } = useUploadCheck();
+
+  const [isOcrOpen, setIsOcrOpen] = useState(false);
+
+  // Auto-open OCR modal when text is detected
+  useEffect(() => {
+    if (ocrText && !isProcessingOCR) {
+      setIsOcrOpen(true);
+    }
+  }, [ocrText, isProcessingOCR]);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const tipoPagoValue = watch("tipo_pago");
@@ -152,52 +160,105 @@ export default function UploadCheckPage() {
                 </CardContent>
               </Card>
 
-              {/* OCR Result Card */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="mt-4"
-              >
-                <Card className="overflow-hidden border-2 shadow-lg rounded-2xl">
-                  <CardHeader className="bg-muted/30 border-b flex flex-row items-center justify-between py-3">
-                    <div className="flex items-center gap-2">
-                      <ScanText className="w-4 h-4 text-primary" />
-                      <CardTitle className="text-sm font-medium">Texto Detectado</CardTitle>
-                    </div>
-                    <Button 
-                      variant="ghost" 
-                      size="icon" 
-                      className="h-8 w-8 rounded-full hover:bg-primary/10 hover:text-primary disabled:opacity-50"
-                      onClick={() => {
-                        if (ocrText) {
-                          navigator.clipboard.writeText(ocrText);
-                          toast.success("Texto copiado al portapapeles");
-                        }
-                      }}
-                      disabled={!ocrText || isProcessingOCR}
-                      title="Copiar texto"
-                    >
-                      <Copy className="h-4 w-4" />
-                    </Button>
-                  </CardHeader>
-                  <CardContent className="p-0 bg-background min-h-[150px] relative">
-                    {isProcessingOCR ? (
-                      <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/80 backdrop-blur-sm z-10 gap-2">
-                        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                        <span className="text-xs text-muted-foreground font-medium animate-pulse">Procesando imagen...</span>
-                      </div>
-                    ) : (
-                      <textarea 
-                        className="w-full h-full min-h-[150px] p-4 text-xs font-mono resize-none border-none focus:ring-0 bg-transparent text-muted-foreground focus:text-foreground transition-colors"
-                        readOnly
-                        value={ocrText || "El texto detectado aparecerá aquí..."}
-                        placeholder="El texto detectado aparecerá aquí..."
-                      />
-                    )}
-                  </CardContent>
-                </Card>
-              </motion.div>
+
+              {/* Floating OCR Button/Modal */}
+              <AnimatePresence>
+                {(ocrText || isProcessingOCR) && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 50, scale: 0.9 }}
+                    className="fixed bottom-6 right-6 z-50 flex flex-col items-end"
+                  >
+                    <AnimatePresence mode="wait">
+                      {isOcrOpen ? (
+                        <motion.div
+                          key="ocr-card"
+                          initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                          animate={{ opacity: 1, scale: 1, y: 0 }}
+                          exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                          transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                        >
+                          <Card className="w-80 sm:w-96 shadow-2xl border-primary/20 bg-card/95 backdrop-blur-md overflow-hidden">
+                            <CardHeader className="bg-primary/5 border-b p-3 flex flex-row items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <ScanText className="w-4 h-4 text-primary" />
+                                <CardTitle className="text-sm font-medium">Texto Detectado</CardTitle>
+                              </div>
+                              <div className="flex items-center gap-1">
+                                <Button 
+                                  variant="ghost" 
+                                  size="icon" 
+                                  className="h-7 w-7 rounded-full hover:bg-primary/10 hover:text-primary"
+                                  onClick={() => {
+                                      if (ocrText) {
+                                          navigator.clipboard.writeText(ocrText);
+                                          toast.success("Copiado al portapapeles");
+                                      }
+                                  }}
+                                  disabled={!ocrText || isProcessingOCR}
+                                  title="Copiar todo"
+                                >
+                                  <Copy className="h-3.5 w-3.5" />
+                                </Button>
+                                <Button 
+                                  variant="ghost" 
+                                  size="icon" 
+                                  className="h-7 w-7 rounded-full hover:bg-destructive/10 hover:text-destructive"
+                                  onClick={() => setIsOcrOpen(false)}
+                                >
+                                  <X className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            </CardHeader>
+                            <CardContent className="p-0 min-h-[150px] relative bg-background/50">
+                              {isProcessingOCR ? (
+                                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-4">
+                                  <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                                  <span className="text-xs text-muted-foreground font-medium animate-pulse text-center">
+                                    Analizando imagen...<br/>Esto puede tardar unos segundos
+                                  </span>
+                                </div>
+                              ) : (
+                                <textarea 
+                                  className="w-full h-48 p-4 text-xs font-mono resize-none border-none focus:ring-0 bg-transparent text-muted-foreground focus:text-foreground transition-colors custom-scrollbar"
+                                  readOnly
+                                  value={ocrText || "No se pudo detectar texto."}
+                                />
+                              )}
+                            </CardContent>
+                          </Card>
+                        </motion.div>
+                      ) : (
+                        <motion.div
+                          key="ocr-button"
+                          initial={{ opacity: 0, scale: 0.5 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.5 }}
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          <Button 
+                            onClick={() => setIsOcrOpen(true)}
+                            className="h-14 w-14 rounded-full shadow-xl bg-primary text-primary-foreground border-2 border-primary-foreground/20 relative overflow-hidden group"
+                          >
+                            <div className="absolute inset-0 bg-gradient-to-tr from-black/10 to-transparent pointer-events-none" />
+                            {isProcessingOCR ? (
+                              <Loader2 className="h-6 w-6 animate-spin" />
+                            ) : (
+                              <ScanText className="h-6 w-6" />
+                            )}
+                            {/* Pulse effect if processing */}
+                            {isProcessingOCR && (
+                              <span className="absolute inset-0 rounded-full animate-ping bg-white/30" />
+                            )}
+                          </Button>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
 
             {/* Right Side: Form & Debt Information Container */}
