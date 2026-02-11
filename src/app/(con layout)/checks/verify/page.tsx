@@ -156,7 +156,7 @@ function CheckCard({
             <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-0.5">
               Ref: {check.referencia}
             </p>
-            <h3 className="font-bold text-lg">${Number(check.monto).toLocaleString()}</h3>
+            <h3 className="font-bold text-lg">Bs.{Number(check.monto).toLocaleString()}</h3>
           </div>
           <Badge variant={isVerified ? "default" : "outline"} className={cn(
             isVerified ? "bg-green-100 text-green-700 hover:bg-green-100" : "text-yellow-700 border-yellow-200 bg-yellow-50"
