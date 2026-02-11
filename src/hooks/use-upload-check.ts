@@ -121,7 +121,7 @@ export const useUploadCheck = () => {
     formData.append("pay_date", data.pay_date);
 
     try {
-      const response = await axios.post("http://localhost:3002/checks", formData, {
+      const response = await axios.post("http://http://10.10.1.4:3002/checks", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
