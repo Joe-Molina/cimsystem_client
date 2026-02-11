@@ -7,10 +7,21 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
-import { Upload, X, FileText, Image as ImageIcon, Send, Landmark, Calendar, DollarSign, Wallet } from "lucide-react";
+import { Upload, X, FileText, 
+  Image as ImageIcon, 
+  Send, 
+  Trash2, 
+  Calendar, 
+  DollarSign, 
+  Wallet,
+  Copy,
+  Loader2,
+  ScanText
+} from "lucide-react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect } from "react";
+import { toast } from "sonner";
 
 import {
   Select,
@@ -34,6 +45,8 @@ export default function UploadCheckPage() {
     debtData,
     isLoadingDebt,
     fetchDebtData,
+    ocrText,
+    isProcessingOCR
   } = useUploadCheck();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -110,7 +123,7 @@ export default function UploadCheckPage() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.1, duration: 0.3 }}
-              className="w-full lg:w-[450px] lg:sticky lg:top-24 shrink-0"
+              className="w-full lg:w-[450px] lg:sticky lg:top-24 shrink-0 max-h-[calc(100vh-8rem)] overflow-y-auto scrollbar-none pb-4"
             >
               <Card className="overflow-hidden border-2 shadow-xl rounded-2xl">
                 <CardHeader className="bg-muted/50 border-b flex flex-row items-center justify-between py-3">
@@ -138,6 +151,53 @@ export default function UploadCheckPage() {
                   </div>
                 </CardContent>
               </Card>
+
+              {/* OCR Result Card */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="mt-4"
+              >
+                <Card className="overflow-hidden border-2 shadow-lg rounded-2xl">
+                  <CardHeader className="bg-muted/30 border-b flex flex-row items-center justify-between py-3">
+                    <div className="flex items-center gap-2">
+                      <ScanText className="w-4 h-4 text-primary" />
+                      <CardTitle className="text-sm font-medium">Texto Detectado</CardTitle>
+                    </div>
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className="h-8 w-8 rounded-full hover:bg-primary/10 hover:text-primary disabled:opacity-50"
+                      onClick={() => {
+                        if (ocrText) {
+                          navigator.clipboard.writeText(ocrText);
+                          toast.success("Texto copiado al portapapeles");
+                        }
+                      }}
+                      disabled={!ocrText || isProcessingOCR}
+                      title="Copiar texto"
+                    >
+                      <Copy className="h-4 w-4" />
+                    </Button>
+                  </CardHeader>
+                  <CardContent className="p-0 bg-background min-h-[150px] relative">
+                    {isProcessingOCR ? (
+                      <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/80 backdrop-blur-sm z-10 gap-2">
+                        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                        <span className="text-xs text-muted-foreground font-medium animate-pulse">Procesando imagen...</span>
+                      </div>
+                    ) : (
+                      <textarea 
+                        className="w-full h-full min-h-[150px] p-4 text-xs font-mono resize-none border-none focus:ring-0 bg-transparent text-muted-foreground focus:text-foreground transition-colors"
+                        readOnly
+                        value={ocrText || "El texto detectado aparecerá aquí..."}
+                        placeholder="El texto detectado aparecerá aquí..."
+                      />
+                    )}
+                  </CardContent>
+                </Card>
+              </motion.div>
             </motion.div>
 
             {/* Right Side: Form & Debt Information Container */}
@@ -146,7 +206,7 @@ export default function UploadCheckPage() {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.15, duration: 0.3 }}
-              className="flex-1 w-full flex flex-col xl:flex-row gap-8 items-start"
+              className="flex-1 w-full flex flex-col xl:flex-row gap-8 h-full max-h-[calc(100vh-theme(spacing.32))]"
             >
               {/* Form Column */}
               <motion.div 
@@ -169,8 +229,8 @@ export default function UploadCheckPage() {
                     Verifica los datos del comprobante antes de enviarlo.
                   </CardDescription>
                 </CardHeader>
-                <form onSubmit={handleSubmit} className="flex-1 flex flex-col">
-                  <CardContent className="space-y-4 flex-1">
+                <form onSubmit={handleSubmit} className="flex-1 flex flex-col min-h-0 overflow-hidden">
+                  <CardContent className="space-y-4 flex-1 overflow-y-auto scrollbar-thin p-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="monto">Monto</Label>
@@ -302,7 +362,7 @@ export default function UploadCheckPage() {
                   exit={{ opacity: 0, scale: 0.9 }}
                   className="w-full xl:w-1/2 h-full"
                 >
-                  <div className="lg:block">
+                  <div className="lg:block h-full">
                     {isLoadingDebt ? (
                       <motion.div
                         initial={{ opacity: 0, y: 10 }}
@@ -316,12 +376,12 @@ export default function UploadCheckPage() {
                         </div>
                       </motion.div>
                     ) : debtData ? (
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.95 }}
-                        className="space-y-6"
-                      >
+                        <motion.div
+                          initial={{ opacity: 0, scale: 0.95 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.95 }}
+                          className="space-y-6 h-full flex flex-col"
+                        >
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <Card className="bg-primary/5 border-primary/10 overflow-hidden relative">
                             <div className="absolute top-0 right-0 p-4 opacity-10">
@@ -344,20 +404,30 @@ export default function UploadCheckPage() {
                           </Card>
                         </div>
 
-                        <Card className="border-none shadow-lg bg-card/50 backdrop-blur-sm">
-                          <CardHeader className="pb-4 border-b">
+                        <Card className="border-none shadow-lg bg-card/50 backdrop-blur-sm flex-1 flex flex-col min-h-0">
+                          <CardHeader className="pb-4 border-b shrink-0">
                             <div className="flex items-center gap-2">
                               <Calendar className="w-4 h-4 text-primary" />
                               <CardTitle className="text-lg">Desglose de Meses</CardTitle>
                             </div>
                           </CardHeader>
-                          <CardContent className="p-0">
-                            <div className="divide-y divide-border max-h-[400px] overflow-y-auto">
+                          <CardContent className="p-0 flex-1 overflow-auto max-h-[500px]">
+                            <div className="divide-y divide-border h-full overflow-y-auto scrollbar-thin">
                               {debtData.mesesDeudaMap.map((item, index) => (
                                 <div key={index} className="px-6 py-4 flex items-center justify-between hover:bg-muted/30 transition-colors">
                                   <div className="flex flex-col">
                                     <span className="font-semibold text-sm">
-                                      {new Date(item.mes).toLocaleDateString('es-ES', { month: 'long', year: 'numeric', timeZone: 'UTC' })}
+                                      {(() => {
+                                        try {
+                                          if (!item.mes) return 'Fecha no disponible';
+                                          const date = new Date(item.mes);
+                                          // Check if date is valid
+                                          if (isNaN(date.getTime())) return item.mes || 'Fecha inválida';
+                                          return date.toLocaleDateString('es-ES', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+                                        } catch (e) {
+                                          return 'Fecha inválida';
+                                        }
+                                      })()}
                                     </span>
                                     <span className="text-[10px] text-muted-foreground uppercase font-bold">Concepto de Deuda</span>
                                   </div>

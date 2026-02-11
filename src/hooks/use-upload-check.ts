@@ -4,6 +4,7 @@ import { useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "sonner";
+import Tesseract from "tesseract.js";
 
 export interface CheckUploadFormData {
   destiny_banck: string;
@@ -34,6 +35,8 @@ export const useUploadCheck = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [debtData, setDebtData] = useState<DebtData | null>(null);
   const [isLoadingDebt, setIsLoadingDebt] = useState(false);
+  const [ocrText, setOcrText] = useState<string>("");
+  const [isProcessingOCR, setIsProcessingOCR] = useState(false);
 
   const {
     register,
@@ -80,6 +83,23 @@ export const useUploadCheck = () => {
       setSelectedFile(file);
       const url = URL.createObjectURL(file);
       setPreviewUrl(url);
+      
+      // Process OCR
+      setIsProcessingOCR(true);
+      setOcrText("");
+      
+      Tesseract.recognize(
+        file,
+        'eng', // Using English as it often works well for numbers/mixed text, can be 'spa' too
+        { logger: m => console.log(m) }
+      ).then(({ data: { text } }) => {
+        setOcrText(text);
+        setIsProcessingOCR(false);
+      }).catch(err => {
+        console.error("OCR Error:", err);
+        setIsProcessingOCR(false);
+        toast.error("Error al procesar el texto de la imagen");
+      });
     }
   }, []);
 
@@ -142,5 +162,7 @@ export const useUploadCheck = () => {
     debtData,
     isLoadingDebt,
     fetchDebtData,
+    ocrText,
+    isProcessingOCR,
   };
 };
