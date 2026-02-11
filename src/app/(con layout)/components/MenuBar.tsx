@@ -26,6 +26,12 @@ const cobranza: { title: string; href: string; description: string }[] = [
     href: "/cobranza/contactos",
     description:
       "Selecciona tu nombre y gestiona los primeros contactos que hiciste con los deudores",
+  },
+  {
+    title: "Subir Comprobante",
+    href: "/checks/upload",
+    description:
+      "Sube un comprobante de pago para procesar la información.",
   }
 ]
 
